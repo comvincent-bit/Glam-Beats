@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Glam & Beats | Edición Educativa</title>
+    <title>Glam & Beats | Ultimate Minimal Edition</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -24,6 +24,8 @@
             color: var(--text-light);
             min-height: 100vh;
             overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
             background-image: 
                 radial-gradient(circle at 10% 20%, rgba(255, 42, 133, 0.15) 0%, transparent 40%),
                 radial-gradient(circle at 90% 80%, rgba(0, 240, 255, 0.15) 0%, transparent 40%);
@@ -35,7 +37,7 @@
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.95) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
 
         /* --- PANTALLAS DE INICIO Y PROPÓSITO --- */
-        #intro-screen, #purpose-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
+        #intro-screen, #purpose-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; padding: 20px; }
         
         .main-title {
             font-size: clamp(2.5rem, 8vw, 4rem); font-weight: 900; text-transform: uppercase; letter-spacing: 5px;
@@ -73,7 +75,7 @@
         .btn-back:hover { background: #fff; color: #000; }
 
         /* --- LAYOUT GENERAL SECCIONES --- */
-        .app-layout { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: 40px; padding: 30px 5%; max-width: 1200px; margin: 0 auto; }
+        .app-layout { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: 40px; padding: 30px 5%; max-width: 1200px; margin: 0 auto; flex: 1; }
         
         /* --- ESTILOS: MAQUILLAJE --- */
         .tools-panel { background: var(--glass-bg); padding: 25px; border-radius: 30px; border: 1px solid var(--glass-border); width: 100%; max-width: 350px; display: flex; flex-direction: column; gap: 12px; }
@@ -106,7 +108,7 @@
         #mk-hair-front { transform-origin: 250px 150px; animation: hair-breeze 5.5s ease-in-out infinite; }
 
         /* --- ESTILOS: MÚSICA DJ --- */
-        .music-layout { padding: 30px 5%; text-align: center; max-width: 1000px; margin: 0 auto; }
+        .music-layout { padding: 30px 5%; text-align: center; max-width: 1000px; margin: 0 auto; flex: 1; width: 100%;}
         .launchpad { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; background: #111; padding: 25px; border-radius: 25px; border: 2px solid #222; width: 100%; box-shadow: 0 20px 40px rgba(0,0,0,0.8), inset 0 0 20px rgba(0,0,0,1); }
         .pad-card { background: #0a0a0a; border: 1px solid #222; border-radius: 15px; padding: 12px; display: flex; flex-direction: column; gap: 10px; align-items: center; }
         .pad-btn { width: 100%; aspect-ratio: 1; border-radius: 12px; border: none; background: #1a1a1a; color: #ccc; font-size: 0.85rem; font-weight: 900; cursor: pointer; box-shadow: inset 0 5px 10px rgba(255,255,255,0.05), inset 0 -5px 15px rgba(0,0,0,0.8), 0 5px 10px rgba(0,0,0,0.5); transition: 0.1s; position: relative; }
@@ -121,179 +123,200 @@
         .bpm-slider-container input[type="range"] { -webkit-appearance: none; width: 100%; height: 4px; background: #333; border-radius: 2px; outline: none; }
         .bpm-slider-container input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%; background: var(--pad-color); cursor: pointer; }
 
-        /* --- ESTILOS: JUEGOS DE CONCENTRACIÓN Y LÓGICA --- */
-        .games-layout { display: flex; flex-wrap: wrap; justify-content: center; gap: 40px; padding: 30px 5%; width: 100%; max-width: 1200px; margin: 0 auto; }
+        /* --- ESTILOS: JUEGOS DE CONCENTRACIÓN Y LÓGICA (ACTUALIZADO PARA 9x9) --- */
+        .games-layout { display: flex; flex-wrap: wrap; justify-content: center; gap: 40px; padding: 30px 5%; width: 100%; max-width: 1200px; margin: 0 auto; flex: 1; }
         
-        .game-panel { background: var(--glass-bg); padding: 30px; border-radius: 30px; border: 2px solid; width: 100%; max-width: 450px; display: flex; flex-direction: column; align-items: center; box-shadow: 0 15px 30px rgba(0,0,0,0.5); }
+        .game-panel { background: var(--glass-bg); padding: 30px; border-radius: 30px; border: 2px solid; width: 100%; max-width: 480px; display: flex; flex-direction: column; align-items: center; box-shadow: 0 15px 30px rgba(0,0,0,0.5); }
         
-        /* Sudoku */
-        .sudoku-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; background: #333; padding: 5px; border-radius: 10px; margin-top: 20px; }
-        .sudoku-cell { width: 60px; height: 60px; background: #111; color: var(--neon-blue); font-size: 1.5rem; font-weight: bold; text-align: center; border: none; border-radius: 5px; outline: none; transition: 0.2s; }
+        /* Sudoku 9x9 */
+        .sudoku-grid { display: grid; grid-template-columns: repeat(9, 1fr); gap: 2px; background: #333; padding: 4px; border-radius: 8px; margin-top: 20px; width: 100%; max-width: 400px; }
+        .sudoku-cell { width: 100%; aspect-ratio: 1; background: #111; color: var(--neon-blue); font-size: 1.2rem; font-weight: bold; text-align: center; border: none; outline: none; transition: 0.2s; }
         .sudoku-cell.fixed { background: #0a0a0a; color: #fff; cursor: not-allowed; }
         .sudoku-cell:focus { box-shadow: inset 0 0 10px var(--neon-blue); background: #222; }
-        /* Cuadrantes de Sudoku */
-        .sudoku-cell:nth-child(2), .sudoku-cell:nth-child(6), .sudoku-cell:nth-child(10), .sudoku-cell:nth-child(14) { border-right: 3px solid var(--neon-blue); }
-        .sudoku-cell:nth-child(5), .sudoku-cell:nth-child(6), .sudoku-cell:nth-child(7), .sudoku-cell:nth-child(8) { border-bottom: 3px solid var(--neon-blue); }
 
         /* Memoria */
-        .memory-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 20px; }
-        .memory-card { width: 70px; height: 70px; background: #111; border: 2px solid var(--neon-purple); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 2rem; cursor: pointer; transition: transform 0.3s, background 0.3s; transform-style: preserve-3d; }
+        .memory-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 20px; width: 100%; max-width: 350px;}
+        .memory-card { width: 100%; aspect-ratio: 1; background: #111; border: 2px solid var(--neon-purple); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 2rem; cursor: pointer; transition: transform 0.3s, background 0.3s; transform-style: preserve-3d; }
         .memory-card.flipped { background: var(--glass-bg); transform: rotateY(180deg); border-color: #fff; box-shadow: 0 0 15px var(--neon-purple); }
         .memory-card span { display: none; transform: rotateY(180deg); }
         .memory-card.flipped span { display: block; }
         .memory-card.matched { background: var(--neon-purple); border-color: #fff; cursor: default; }
 
+        /* --- CRÉDITOS DEL ALUMNO --- */
+        .student-credits {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9rem;
+            font-weight: bold;
+            width: 100%;
+            margin-top: auto;
+            letter-spacing: 1px;
+        }
+
         @media (max-width: 768px) { 
             .app-layout { flex-direction: column; align-items: center; }
-            .tools-panel, .game-panel { max-width: 100%; }
+            .tools-panel, .game-panel { max-width: 100%; padding: 20px; }
             .launchpad { grid-template-columns: repeat(2, 1fr); padding: 15px; }
-            .sudoku-cell { width: 50px; height: 50px; }
-            .memory-card { width: 60px; height: 60px; }
+            .sudoku-cell { font-size: 1rem; }
+            .memory-card { font-size: 1.5rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- MENÚ PRINCIPAL (3 CATEGORÍAS) -->
-    <div id="intro-screen" class="fade-in">
-        <h1 class="main-title">Glam & Beats</h1>
-        <div class="cards-container">
-            <div class="choice-card girl" onclick="showPurpose('makeup')" style="--card-color: var(--neon-pink); --card-glow: rgba(255, 42, 133, 0.4);">
-                <div class="card-emoji">👸💅</div>
-                <div class="card-title">Estudio Pro</div>
-                <p style="color:#aaa; font-size: 0.9rem;">Diseño de Modas y Maquillaje</p>
-            </div>
-            <div class="choice-card boy" onclick="showPurpose('music')" style="--card-color: var(--neon-blue); --card-glow: rgba(0, 240, 255, 0.4);">
-                <div class="card-emoji">🎧🎙️</div>
-                <div class="card-title">Loop Station</div>
-                <p style="color:#aaa; font-size: 0.9rem;">Beatbox y Polirritmia Vocal</p>
-            </div>
-            <div class="choice-card boy" onclick="showPurpose('games')" style="--card-color: var(--neon-purple); --card-glow: rgba(176, 38, 255, 0.4);">
-                <div class="card-emoji">🧠🧩</div>
-                <div class="card-title">Zona Lógica</div>
-                <p style="color:#aaa; font-size: 0.9rem;">Sudoku y Memoria visual</p>
+    <div id="main-wrapper" style="display: flex; flex-direction: column; min-height: 100vh;">
+        
+        <!-- MENÚ PRINCIPAL (3 CATEGORÍAS) -->
+        <div id="intro-screen" class="fade-in">
+            <h1 class="main-title">Glam & Beats</h1>
+            <div class="cards-container">
+                <div class="choice-card girl" onclick="showPurpose('makeup')" style="--card-color: var(--neon-pink); --card-glow: rgba(255, 42, 133, 0.4);">
+                    <div class="card-emoji">👸💅</div>
+                    <div class="card-title">Estudio Pro</div>
+                    <p style="color:#aaa; font-size: 0.9rem;">Diseño de Modas y Maquillaje</p>
+                </div>
+                <div class="choice-card boy" onclick="showPurpose('music')" style="--card-color: var(--neon-blue); --card-glow: rgba(0, 240, 255, 0.4);">
+                    <div class="card-emoji">🎧🎙️</div>
+                    <div class="card-title">Loop Station</div>
+                    <p style="color:#aaa; font-size: 0.9rem;">Beatbox y Polirritmia Vocal</p>
+                </div>
+                <div class="choice-card boy" onclick="showPurpose('games')" style="--card-color: var(--neon-purple); --card-glow: rgba(176, 38, 255, 0.4);">
+                    <div class="card-emoji">🧠🧩</div>
+                    <div class="card-title">Zona Lógica</div>
+                    <p style="color:#aaa; font-size: 0.9rem;">Sudoku y Memoria visual</p>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- PANTALLA INTERMEDIA: PROPÓSITO EDUCATIVO -->
-    <div id="purpose-screen" class="hidden">
-        <div class="purpose-box">
-            <h2 class="purpose-title" id="purpose-title">Propósito Educativo</h2>
-            <p class="purpose-text" id="purpose-text"></p>
-            <button class="btn-start" onclick="startGame()">¡Comenzar Actividad!</button>
+        <!-- PANTALLA INTERMEDIA: PROPÓSITO EDUCATIVO -->
+        <div id="purpose-screen" class="hidden">
+            <div class="purpose-box">
+                <h2 class="purpose-title" id="purpose-title">Propósito Educativo</h2>
+                <p class="purpose-text" id="purpose-text"></p>
+                <button class="btn-start" onclick="startGame()">¡Comenzar Actividad!</button>
+            </div>
         </div>
-    </div>
 
-    <!-- APP PRINCIPAL -->
-    <div id="main-app" class="hidden">
-        <header>
-            <h2 style="letter-spacing: 2px;">GLAM<span style="color:var(--neon-purple);">/</span>BEATS</h2>
-            <button class="btn-back" onclick="goBack()">Volver al Menú</button>
-        </header>
+        <!-- APLICACIÓN PRINCIPAL -->
+        <div id="main-app" class="hidden" style="display: flex; flex-direction: column; flex: 1;">
+            <header>
+                <h2 style="letter-spacing: 2px;">GLAM<span style="color:var(--neon-purple);">/</span>BEATS</h2>
+                <button class="btn-back" onclick="goBack()">Volver al Menú</button>
+            </header>
 
-        <!-- 1. SECCIÓN: MAQUILLAJE -->
-        <main id="makeup-section" class="hidden fade-in">
-            <div class="app-layout">
-                <div class="tools-panel">
-                    <h3 style="color: var(--neon-pink); text-align:center;">Herramientas</h3>
-                    <div class="tools-grid">
-                        <button class="category-btn active" data-target="lips">💄 Labial</button>
-                        <button class="category-btn" data-target="shadow">🖌️ Sombras</button>
-                        <button class="category-btn" data-target="blush">🌸 Rubor</button>
-                        <button class="category-btn" data-target="eyeliner">👁️ Delineado</button>
-                        <button class="category-btn" data-target="lashes">✨ Pestañas</button>
-                        <button class="category-btn" data-target="skin">👤 Piel</button>
-                        <button class="category-btn" data-target="hair">💇‍♀️ Cabello</button>
-                        <button class="category-btn" data-target="clothes">👗 Ropa</button>
-                        <button class="category-btn" data-target="acc">💎 Joyería</button>
-                        <button class="category-btn" data-target="bg">🎨 Fondo</button>
-                    </div>
-                    <h4 style="margin-top: 15px; text-align:center; color:#aaa;">Paleta de Color</h4>
-                    <div class="color-grid" id="palette-grid-makeup"></div>
-                </div>
-
-                <div class="model-container">
-                    <svg viewBox="0 0 500 550" xmlns="http://www.w3.org/2000/svg" style="overflow: visible;">
-                        <defs>
-                            <linearGradient id="skin" class="layer-skin" x1="0%" y1="0%" x2="0%" y2="100%">
-                                <stop offset="0%" stop-color="#ffdfc4" /><stop offset="100%" stop-color="#e3b692" />
-                            </linearGradient>
-                            <linearGradient id="skin-shadow" class="layer-skin-shadow" x1="0%" y1="0%" x2="0%" y2="100%">
-                                <stop offset="0%" stop-color="#e3b692" /><stop offset="100%" stop-color="#b8835e" />
-                            </linearGradient>
-                        </defs>
-                        <circle id="mk-bg" class="layer-bg" cx="250" cy="275" r="230" fill="transparent" />
-                        <path id="mk-hair-back" class="layer-hair" d="M 120 150 Q 50 250 80 450 L 150 550 L 350 550 L 420 450 Q 450 250 380 150 Z" fill="#2a1610"/>
-                        <path d="M 210 350 L 290 350 Q 300 450 400 500 L 100 500 Q 200 450 210 350" fill="url(#skin)"/>
-                        <path d="M 170 340 Q 200 370 230 340" fill="none" stroke="url(#skin-shadow)" stroke-width="2" stroke-linecap="round"/>
-                        <path id="mk-clothes" class="layer-cloth" d="M 170 420 Q 250 480 330 420 Q 370 450 400 500 L 100 500 Q 130 450 170 420 Z" fill="transparent" />
-                        <path id="mk-acc" class="layer-acc" d="M 210 400 Q 250 460 290 400" fill="none" stroke="transparent" stroke-width="6" stroke-linecap="round" stroke-dasharray="2 12"/>
-                        <path d="M 160 180 Q 150 300 200 370 Q 250 400 300 370 Q 350 300 340 180 Q 250 130 160 180 Z" fill="url(#skin)"/>
-                        <circle id="mk-blush-l" class="layer-blush" cx="190" cy="290" r="35" fill="transparent" />
-                        <circle id="mk-blush-r" class="layer-blush" cx="310" cy="290" r="35" fill="transparent" />
-                        <path id="mk-shadow-l" class="layer-shadow" d="M 175 240 Q 200 215 225 240 Q 200 230 175 240 Z" fill="transparent"/>
-                        <path id="mk-shadow-r" class="layer-shadow" d="M 275 240 Q 300 215 325 240 Q 300 230 275 240 Z" fill="transparent"/>
-                        <g class="eyes">
-                            <path d="M 175 240 Q 200 225 225 240 Q 200 250 175 240 Z" fill="#fff"/><path d="M 275 240 Q 300 225 325 240 Q 300 250 275 240 Z" fill="#fff"/>
-                            <circle cx="200" cy="238" r="9" fill="#4a2e1b"/><circle cx="300" cy="238" r="9" fill="#4a2e1b"/>
-                            <circle cx="200" cy="238" r="4" fill="#000"/><circle cx="197" cy="235" r="2" fill="#fff"/>
-                            <circle cx="300" cy="238" r="4" fill="#000"/><circle cx="297" cy="235" r="2" fill="#fff"/>
-                            <path id="mk-eyeliner-l" class="layer-eyeliner" d="M 170 240 Q 200 220 230 242" fill="none" stroke-width="4" stroke-linecap="round"/>
-                            <path id="mk-eyeliner-r" class="layer-eyeliner" d="M 270 242 Q 300 220 330 240" fill="none" stroke-width="4" stroke-linecap="round"/>
-                            <g id="mk-lashes-l" class="layer-lashes" stroke-width="3" stroke-linecap="round"><line x1="175" y1="237" x2="165" y2="225" /><line x1="185" y1="231" x2="180" y2="215" /><line x1="195" y1="228" x2="195" y2="212" /></g>
-                            <g id="mk-lashes-r" class="layer-lashes" stroke-width="3" stroke-linecap="round"><line x1="325" y1="237" x2="335" y2="225" /><line x1="315" y1="231" x2="320" y2="215" /><line x1="305" y1="228" x2="305" y2="212" /></g>
-                        </g>
-                        <path d="M 250 250 Q 255 285 245 290 Q 250 295 255 290" fill="none" stroke="#c49b7d" stroke-width="2" stroke-linecap="round"/>
-                        <path d="M 225 325 Q 250 315 275 325 Q 250 345 225 325 Z" fill="#d19a84"/><path d="M 225 325 Q 250 325 275 325" stroke="#b07d67" stroke-width="1.5"/>
-                        <path id="mk-lips" class="layer-lips" d="M 225 325 Q 250 315 275 325 Q 250 345 225 325 Z" fill="transparent"/>
-                        <path id="mk-hair-front" class="layer-hair" d="M 140 220 Q 150 150 250 150 Q 350 150 360 220 Q 320 180 250 180 Q 180 180 140 220 Z" fill="#2a1610"/>
-                    </svg>
-                </div>
-            </div>
-        </main>
-
-        <!-- 2. SECCIÓN: MÚSICA DJ -->
-        <main id="music-section" class="hidden fade-in">
-            <div class="music-layout" style="text-align: center; margin: 0 auto; padding-top: 30px;">
-                <div class="launchpad" id="dj-board">
-                    <!-- JS inyecta botones aquí -->
-                </div>
-            </div>
-        </main>
-
-        <!-- 3. SECCIÓN: JUEGOS DE LÓGICA Y CONCENTRACIÓN -->
-        <main id="games-section" class="hidden fade-in">
-            <div class="games-layout">
-                
-                <!-- SUDOKU 4x4 -->
-                <div class="game-panel" style="border-color: var(--neon-blue);">
-                    <h3 style="color: var(--neon-blue); font-size: 1.8rem;">Sudoku Neón</h3>
-                    <p style="color:#aaa; font-size:0.9rem; text-align:center; margin-top:5px;">Lógica Matemática: Llena la cuadrícula con números del 1 al 4 sin repetir en filas ni columnas.</p>
-                    
-                    <div class="sudoku-grid" id="sudoku-board">
-                        <!-- Generado por JS -->
-                    </div>
-                    
-                    <button class="btn-start" onclick="checkSudoku()" style="background: var(--neon-blue); color:#000; margin-top: 25px;">Verificar Solución</button>
-                    <p id="sudoku-msg" style="margin-top: 10px; font-weight: bold;"></p>
-                </div>
-
-                <!-- JUEGO DE MEMORIA -->
-                <div class="game-panel" style="border-color: var(--neon-purple);">
-                    <h3 style="color: var(--neon-purple); font-size: 1.8rem;">Memoria Visual</h3>
-                    <p style="color:#aaa; font-size:0.9rem; text-align:center; margin-top:5px;">Concentración: Encuentra los pares de cartas ocultas en el menor tiempo posible.</p>
-                    
-                    <div class="memory-grid" id="memory-board">
-                        <!-- Generado por JS -->
+            <!-- 1. SECCIÓN: MAQUILLAJE -->
+            <main id="makeup-section" class="hidden fade-in">
+                <div class="app-layout">
+                    <div class="tools-panel">
+                        <h3 style="color: var(--neon-pink); text-align:center;">Herramientas</h3>
+                        <div class="tools-grid">
+                            <button class="category-btn active" data-target="lips">💄 Labial</button>
+                            <button class="category-btn" data-target="shadow">🖌️ Sombras</button>
+                            <button class="category-btn" data-target="blush">🌸 Rubor</button>
+                            <button class="category-btn" data-target="eyeliner">👁️ Delineado</button>
+                            <button class="category-btn" data-target="lashes">✨ Pestañas</button>
+                            <button class="category-btn" data-target="skin">👤 Piel</button>
+                            <button class="category-btn" data-target="hair">💇‍♀️ Cabello</button>
+                            <button class="category-btn" data-target="clothes">👗 Ropa</button>
+                            <button class="category-btn" data-target="acc">💎 Joyería</button>
+                            <button class="category-btn" data-target="bg">🎨 Fondo</button>
+                        </div>
+                        <h4 style="margin-top: 15px; text-align:center; color:#aaa;">Paleta de Color</h4>
+                        <div class="color-grid" id="palette-grid-makeup"></div>
                     </div>
 
-                    <button class="btn-start" onclick="initMemoryGame()" style="background: var(--neon-purple); margin-top: 25px;">Reiniciar Juego</button>
-                    <p id="memory-msg" style="margin-top: 10px; font-weight: bold;"></p>
+                    <div class="model-container">
+                        <svg viewBox="0 0 500 550" xmlns="http://www.w3.org/2000/svg" style="overflow: visible;">
+                            <defs>
+                                <linearGradient id="skin" class="layer-skin" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" stop-color="#ffdfc4" /><stop offset="100%" stop-color="#e3b692" />
+                                </linearGradient>
+                                <linearGradient id="skin-shadow" class="layer-skin-shadow" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" stop-color="#e3b692" /><stop offset="100%" stop-color="#b8835e" />
+                                </linearGradient>
+                            </defs>
+                            <circle id="mk-bg" class="layer-bg" cx="250" cy="275" r="230" fill="transparent" />
+                            <path id="mk-hair-back" class="layer-hair" d="M 120 150 Q 50 250 80 450 L 150 550 L 350 550 L 420 450 Q 450 250 380 150 Z" fill="#2a1610"/>
+                            <path d="M 210 350 L 290 350 Q 300 450 400 500 L 100 500 Q 200 450 210 350" fill="url(#skin)"/>
+                            <path d="M 170 340 Q 200 370 230 340" fill="none" stroke="url(#skin-shadow)" stroke-width="2" stroke-linecap="round"/>
+                            <path id="mk-clothes" class="layer-cloth" d="M 170 420 Q 250 480 330 420 Q 370 450 400 500 L 100 500 Q 130 450 170 420 Z" fill="transparent" />
+                            <path id="mk-acc" class="layer-acc" d="M 210 400 Q 250 460 290 400" fill="none" stroke="transparent" stroke-width="6" stroke-linecap="round" stroke-dasharray="2 12"/>
+                            <path d="M 160 180 Q 150 300 200 370 Q 250 400 300 370 Q 350 300 340 180 Q 250 130 160 180 Z" fill="url(#skin)"/>
+                            
+                            <circle id="mk-blush-l" class="layer-blush" cx="190" cy="290" r="35" fill="transparent" />
+                            <circle id="mk-blush-r" class="layer-blush" cx="310" cy="290" r="35" fill="transparent" />
+                            <path id="mk-shadow-l" class="layer-shadow" d="M 175 240 Q 200 215 225 240 Q 200 230 175 240 Z" fill="transparent"/>
+                            <path id="mk-shadow-r" class="layer-shadow" d="M 275 240 Q 300 215 325 240 Q 300 230 275 240 Z" fill="transparent"/>
+                            <g class="eyes">
+                                <path d="M 175 240 Q 200 225 225 240 Q 200 250 175 240 Z" fill="#fff"/><path d="M 275 240 Q 300 225 325 240 Q 300 250 275 240 Z" fill="#fff"/>
+                                <circle cx="200" cy="238" r="9" fill="#4a2e1b"/><circle cx="300" cy="238" r="9" fill="#4a2e1b"/>
+                                <circle cx="200" cy="238" r="4" fill="#000"/><circle cx="197" cy="235" r="2" fill="#fff"/>
+                                <circle cx="300" cy="238" r="4" fill="#000"/><circle cx="297" cy="235" r="2" fill="#fff"/>
+                                <path id="mk-eyeliner-l" class="layer-eyeliner" d="M 170 240 Q 200 220 230 242" fill="none" stroke-width="4" stroke-linecap="round"/>
+                                <path id="mk-eyeliner-r" class="layer-eyeliner" d="M 270 242 Q 300 220 330 240" fill="none" stroke-width="4" stroke-linecap="round"/>
+                                <g id="mk-lashes-l" class="layer-lashes" stroke-width="3" stroke-linecap="round"><line x1="175" y1="237" x2="165" y2="225" /><line x1="185" y1="231" x2="180" y2="215" /><line x1="195" y1="228" x2="195" y2="212" /></g>
+                                <g id="mk-lashes-r" class="layer-lashes" stroke-width="3" stroke-linecap="round"><line x1="325" y1="237" x2="335" y2="225" /><line x1="315" y1="231" x2="320" y2="215" /><line x1="305" y1="228" x2="305" y2="212" /></g>
+                            </g>
+                            <path d="M 250 250 Q 255 285 245 290 Q 250 295 255 290" fill="none" stroke="#c49b7d" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M 225 325 Q 250 315 275 325 Q 250 345 225 325 Z" fill="#d19a84"/><path d="M 225 325 Q 250 325 275 325" stroke="#b07d67" stroke-width="1.5"/>
+                            <path id="mk-lips" class="layer-lips" d="M 225 325 Q 250 315 275 325 Q 250 345 225 325 Z" fill="transparent"/>
+                            <path id="mk-hair-front" class="layer-hair" d="M 140 220 Q 150 150 250 150 Q 350 150 360 220 Q 320 180 250 180 Q 180 180 140 220 Z" fill="url(#hair-grad)"/>
+                        </svg>
+                    </div>
                 </div>
+            </main>
 
-            </div>
-        </main>
+            <!-- 2. SECCIÓN: MÚSICA DJ -->
+            <main id="music-section" class="hidden fade-in">
+                <div class="music-layout">
+                    <h2 style="color: var(--neon-blue); font-size: clamp(1.5rem, 4vw, 2.5rem); margin-bottom: 10px;">DJ LOOP STATION</h2>
+                    <p style="margin-bottom: 30px; color: #888;">Toca los pads o activa los LOOPS individuales para crear ritmos combinados.</p>
+                    <div class="launchpad" id="dj-board">
+                        <!-- JS inyecta botones aquí -->
+                    </div>
+                </div>
+            </main>
+
+            <!-- 3. SECCIÓN: JUEGOS DE LÓGICA Y CONCENTRACIÓN -->
+            <main id="games-section" class="hidden fade-in">
+                <div class="games-layout">
+                    
+                    <!-- SUDOKU 9x9 -->
+                    <div class="game-panel" style="border-color: var(--neon-blue);">
+                        <h3 style="color: var(--neon-blue); font-size: 1.8rem;">Sudoku Neón</h3>
+                        <p style="color:#aaa; font-size:0.9rem; text-align:center; margin-top:5px;">Lógica Matemática: Llena la cuadrícula con números del 1 al 9 sin repetir en filas, columnas ni cuadrantes.</p>
+                        
+                        <div class="sudoku-grid" id="sudoku-board">
+                            <!-- Generado por JS -->
+                        </div>
+                        
+                        <button class="btn-start" onclick="checkSudoku()" style="background: var(--neon-blue); color:#000; margin-top: 25px;">Verificar Solución</button>
+                        <p id="sudoku-msg" style="margin-top: 10px; font-weight: bold;"></p>
+                    </div>
+
+                    <!-- JUEGO DE MEMORIA -->
+                    <div class="game-panel" style="border-color: var(--neon-purple);">
+                        <h3 style="color: var(--neon-purple); font-size: 1.8rem;">Memoria Visual</h3>
+                        <p style="color:#aaa; font-size:0.9rem; text-align:center; margin-top:5px;">Concentración: Encuentra los pares de cartas ocultas en el menor tiempo posible.</p>
+                        
+                        <div class="memory-grid" id="memory-board">
+                            <!-- Generado por JS -->
+                        </div>
+
+                        <button class="btn-start" onclick="initMemoryGame()" style="background: var(--neon-purple); margin-top: 25px;">Reiniciar Juego</button>
+                        <p id="memory-msg" style="margin-top: 10px; font-weight: bold;"></p>
+                    </div>
+
+                </div>
+            </main>
+
+        </div>
+
+        <!-- CRÉDITOS DEL ALUMNO HASTA ABAJO -->
+        <div class="student-credits">
+            Jennifer Torres Torres | 16 de julio del 2026
+        </div>
 
     </div>
 
@@ -462,7 +485,7 @@
         function stopMakeupMusic() { clearInterval(makeupMusicInterval); makeupMusicInterval = null; }
 
         /* =========================================
-           SISTEMA DJ (Solo Polirritmia y Beatbox)
+           SISTEMA DJ (Polirritmia y Beatbox)
            ========================================= */
         const padsData = [
             { id: 'kick', name: 'BOMBO ELEC', color: '#ff0055', type: 'drum' },
@@ -500,29 +523,82 @@
             djBoard.appendChild(card);
         });
 
+        // --- Generadores Sintéticos ---
         function playDrum(type) {
             if(!audioCtx) return;
-            const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
             osc.connect(gain); gain.connect(audioCtx.destination);
-            if(type === 'kick') { osc.frequency.setValueAtTime(150, audioCtx.currentTime); osc.frequency.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4); gain.gain.setValueAtTime(1, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4); } 
-            else if(type === 'snare') { const filter = audioCtx.createBiquadFilter(); filter.type = 'highpass'; filter.frequency.value = 1000; osc.type = 'square'; osc.disconnect(); osc.connect(filter); filter.connect(gain); osc.frequency.setValueAtTime(250, audioCtx.currentTime); gain.gain.setValueAtTime(0.5, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2); } 
-            else if(type === 'hihat') { const filter = audioCtx.createBiquadFilter(); filter.type = 'highpass'; filter.frequency.value = 7000; osc.type = 'square'; osc.disconnect(); osc.connect(filter); filter.connect(gain); gain.gain.setValueAtTime(0.3, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.05); }
+            
+            if(type === 'kick') {
+                osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+                gain.gain.setValueAtTime(1, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+            } else if(type === 'snare') {
+                const filter = audioCtx.createBiquadFilter(); filter.type = 'highpass'; filter.frequency.value = 1000;
+                osc.type = 'square'; osc.disconnect(); osc.connect(filter); filter.connect(gain);
+                osc.frequency.setValueAtTime(250, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.5, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+            } else if(type === 'hihat') {
+                const filter = audioCtx.createBiquadFilter(); filter.type = 'highpass'; filter.frequency.value = 7000;
+                osc.type = 'square'; osc.disconnect(); osc.connect(filter); filter.connect(gain);
+                gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.05);
+            }
             osc.start(); osc.stop(audioCtx.currentTime + 0.4);
         }
 
+        // --- MOTOR AVANZADO DE BEATBOX ---
         function playBeatbox(type) {
             if(!audioCtx) return;
             const t = audioCtx.currentTime;
-            const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
-            if(type === 'bx-kick') { osc.type = 'triangle'; osc.frequency.setValueAtTime(180, t); osc.frequency.exponentialRampToValueAtTime(40, t + 0.1); gain.gain.setValueAtTime(1, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.1); osc.connect(gain); gain.connect(audioCtx.destination); osc.start(t); osc.stop(t + 0.1); } 
-            else if (type === 'bx-snare') { const noiseSource = audioCtx.createBufferSource(); noiseSource.buffer = noiseBuffer; const filter = audioCtx.createBiquadFilter(); filter.type = 'bandpass'; filter.frequency.value = 2000; filter.Q.value = 1; gain.gain.setValueAtTime(1, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.15); noiseSource.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination); noiseSource.start(t); noiseSource.stop(t + 0.15); } 
-            else if (type === 'bx-hat') { const noiseSource = audioCtx.createBufferSource(); noiseSource.buffer = noiseBuffer; const filter = audioCtx.createBiquadFilter(); filter.type = 'highpass'; filter.frequency.value = 6000; gain.gain.setValueAtTime(0.8, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.04); noiseSource.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination); noiseSource.start(t); noiseSource.stop(t + 0.04); } 
-            else if (type === 'bx-bass') { osc.type = 'sawtooth'; osc.frequency.setValueAtTime(55, t); const filter = audioCtx.createBiquadFilter(); filter.type = 'lowpass'; filter.frequency.setValueAtTime(400, t); filter.frequency.exponentialRampToValueAtTime(100, t + 0.2); gain.gain.setValueAtTime(0.7, t); gain.gain.linearRampToValueAtTime(0, t + 0.3); osc.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination); osc.start(t); osc.stop(t + 0.3); } 
-            else if (type === 'bx-scratch') { osc.type = 'sine'; osc.frequency.setValueAtTime(600, t); osc.frequency.linearRampToValueAtTime(300, t + 0.1); osc.frequency.linearRampToValueAtTime(800, t + 0.2); gain.gain.setValueAtTime(0.6, t); gain.gain.linearRampToValueAtTime(0, t + 0.2); osc.connect(gain); gain.connect(audioCtx.destination); osc.start(t); osc.stop(t + 0.2); } 
-            else if (type === 'bx-click') { osc.type = 'sine'; osc.frequency.setValueAtTime(1200, t); osc.frequency.exponentialRampToValueAtTime(100, t + 0.03); gain.gain.setValueAtTime(1, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.03); osc.connect(gain); gain.connect(audioCtx.destination); osc.start(t); osc.stop(t + 0.03); } 
-            else if (type === 'bx-tom') { osc.type = 'sine'; osc.frequency.setValueAtTime(200, t); osc.frequency.exponentialRampToValueAtTime(80, t + 0.2); gain.gain.setValueAtTime(0.8, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.2); osc.connect(gain); gain.connect(audioCtx.destination); osc.start(t); osc.stop(t + 0.2); } 
-            else if (type === 'bx-bloop') { osc.type = 'sine'; osc.frequency.setValueAtTime(250, t); osc.frequency.exponentialRampToValueAtTime(1000, t + 0.1); gain.gain.setValueAtTime(0.8, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.1); osc.connect(gain); gain.connect(audioCtx.destination); osc.start(t); osc.stop(t + 0.1); } 
-            else if (type === 'bx-shaker') { const noiseSource = audioCtx.createBufferSource(); noiseSource.buffer = noiseBuffer; const filter = audioCtx.createBiquadFilter(); filter.type = 'bandpass'; filter.frequency.value = 4000; filter.Q.value = 0.5; gain.gain.setValueAtTime(0.3, t); gain.gain.linearRampToValueAtTime(0, t + 0.1); noiseSource.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination); noiseSource.start(t); noiseSource.stop(t + 0.1); }
+            const osc = audioCtx.createOscillator(); 
+            const gain = audioCtx.createGain();
+            
+            if(type === 'bx-kick') {
+                osc.type = 'triangle'; osc.frequency.setValueAtTime(180, t); osc.frequency.exponentialRampToValueAtTime(40, t + 0.1); 
+                gain.gain.setValueAtTime(1, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.1);
+                osc.connect(gain); gain.connect(audioCtx.destination); osc.start(t); osc.stop(t + 0.1);
+            } else if (type === 'bx-snare') {
+                const noiseSource = audioCtx.createBufferSource(); noiseSource.buffer = noiseBuffer;
+                const filter = audioCtx.createBiquadFilter(); filter.type = 'bandpass'; filter.frequency.value = 2000; filter.Q.value = 1;
+                gain.gain.setValueAtTime(1, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.15);
+                noiseSource.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination); noiseSource.start(t); noiseSource.stop(t + 0.15);
+            } else if (type === 'bx-hat') {
+                const noiseSource = audioCtx.createBufferSource(); noiseSource.buffer = noiseBuffer;
+                const filter = audioCtx.createBiquadFilter(); filter.type = 'highpass'; filter.frequency.value = 6000;
+                gain.gain.setValueAtTime(0.8, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.04);
+                noiseSource.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination); noiseSource.start(t); noiseSource.stop(t + 0.04);
+            } else if (type === 'bx-bass') {
+                osc.type = 'sawtooth'; osc.frequency.setValueAtTime(55, t); 
+                const filter = audioCtx.createBiquadFilter(); filter.type = 'lowpass'; filter.frequency.setValueAtTime(400, t); filter.frequency.exponentialRampToValueAtTime(100, t + 0.2); 
+                gain.gain.setValueAtTime(0.7, t); gain.gain.linearRampToValueAtTime(0, t + 0.3);
+                osc.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination); osc.start(t); osc.stop(t + 0.3);
+            } else if (type === 'bx-scratch') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(600, t); osc.frequency.linearRampToValueAtTime(300, t + 0.1); osc.frequency.linearRampToValueAtTime(800, t + 0.2);
+                gain.gain.setValueAtTime(0.6, t); gain.gain.linearRampToValueAtTime(0, t + 0.2);
+                osc.connect(gain); gain.connect(audioCtx.destination); osc.start(t); osc.stop(t + 0.2);
+            } else if (type === 'bx-click') {
+                osc.type = 'sine'; osc.frequency.setValueAtTime(1200, t); osc.frequency.exponentialRampToValueAtTime(100, t + 0.03);
+                gain.gain.setValueAtTime(1, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.03);
+                osc.connect(gain); gain.connect(audioCtx.destination); osc.start(t); osc.stop(t + 0.03);
+            } else if (type === 'bx-tom') {
+                osc.type = 'sine'; osc.frequency.setValueAtTime(200, t); osc.frequency.exponentialRampToValueAtTime(80, t + 0.2);
+                gain.gain.setValueAtTime(0.8, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.2);
+                osc.connect(gain); gain.connect(audioCtx.destination); osc.start(t); osc.stop(t + 0.2);
+            } else if (type === 'bx-bloop') {
+                osc.type = 'sine'; osc.frequency.setValueAtTime(250, t); osc.frequency.exponentialRampToValueAtTime(1000, t + 0.1);
+                gain.gain.setValueAtTime(0.8, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.1);
+                osc.connect(gain); gain.connect(audioCtx.destination); osc.start(t); osc.stop(t + 0.1);
+            } else if (type === 'bx-shaker') {
+                const noiseSource = audioCtx.createBufferSource(); noiseSource.buffer = noiseBuffer;
+                const filter = audioCtx.createBiquadFilter(); filter.type = 'bandpass'; filter.frequency.value = 4000; filter.Q.value = 0.5;
+                gain.gain.setValueAtTime(0.3, t); gain.gain.linearRampToValueAtTime(0, t + 0.1);
+                noiseSource.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination); noiseSource.start(t); noiseSource.stop(t + 0.1);
+            }
         }
 
         function triggerSound(padId) {
@@ -531,21 +607,27 @@
             else if(padInfo.type === 'beatbox') playBeatbox(padId);
             
             const btn = document.querySelector(`.pad-btn[data-sound="${padId}"]`);
-            if(btn) { btn.classList.add('active-hit'); setTimeout(() => btn.classList.remove('active-hit'), 100); }
+            if(btn) {
+                btn.classList.add('active-hit');
+                setTimeout(() => btn.classList.remove('active-hit'), 100);
+            }
         }
 
         function updatePadLoop(padId) {
             clearInterval(loopIntervals[padId]);
             if(loopStates[padId]) {
                 const bpm = document.getElementById(`bpm-${padId}`).value;
-                const ms = 60000 / bpm; 
-                triggerSound(padId); 
+                const ms = 60000 / bpm; // Calcula los milisegundos exactos por golpe según el BPM de ESTE pad
+                triggerSound(padId); // Toca inmediatamente al activarlo
                 loopIntervals[padId] = setInterval(() => triggerSound(padId), ms);
             }
         }
 
+        // Eventos de click/touch
         document.querySelectorAll('.pad-btn').forEach(btn => {
-            btn.addEventListener('pointerdown', (e) => { e.preventDefault(); triggerSound(btn.getAttribute('data-sound')); });
+            btn.addEventListener('pointerdown', (e) => {
+                e.preventDefault(); triggerSound(btn.getAttribute('data-sound'));
+            });
         });
 
         document.querySelectorAll('.loop-toggle').forEach(btn => {
@@ -561,7 +643,7 @@
             slider.addEventListener('input', (e) => {
                 const padId = e.target.getAttribute('data-target');
                 document.getElementById(`val-${padId}`).innerText = e.target.value;
-                if(loopStates[padId]) updatePadLoop(padId); 
+                if(loopStates[padId]) updatePadLoop(padId); // Actualiza si está sonando en tiempo real
             });
         });
 
@@ -569,21 +651,31 @@
            LÓGICA DE JUEGOS (SUDOKU Y MEMORIA)
            ========================================= */
 
-        // --- SUDOKU 4x4 ---
-        // Tablero válido de 4x4
+        // --- SUDOKU 9x9 ---
+        // Tablero válido de 9x9 resuelto
         const sudokuSolution = [
-            [1, 2, 3, 4],
-            [3, 4, 1, 2],
-            [2, 3, 4, 1],
-            [4, 1, 2, 3]
+            [5,3,4,6,7,8,9,1,2],
+            [6,7,2,1,9,5,3,4,8],
+            [1,9,8,3,4,2,5,6,7],
+            [8,5,9,7,6,1,4,2,3],
+            [4,2,6,8,5,3,7,9,1],
+            [7,1,3,9,2,4,8,5,6],
+            [9,6,1,5,3,7,2,8,4],
+            [2,8,7,4,1,9,6,3,5],
+            [3,4,5,2,8,6,1,7,9]
         ];
         
-        // Máscara (0 significa campo vacío)
+        // Máscara (0 significa campo vacío a rellenar)
         const sudokuMask = [
-            [1, 0, 3, 0],
-            [0, 4, 0, 2],
-            [2, 0, 4, 0],
-            [0, 1, 0, 3]
+            [5,3,0, 0,7,0, 0,0,0],
+            [6,0,0, 1,9,5, 0,0,0],
+            [0,9,8, 0,0,0, 0,6,0],
+            [8,0,0, 0,6,0, 0,0,3],
+            [4,0,0, 8,0,3, 0,0,1],
+            [7,0,0, 0,2,0, 0,0,6],
+            [0,6,0, 0,0,0, 2,8,0],
+            [0,0,0, 4,1,9, 0,0,5],
+            [0,0,0, 0,8,0, 0,7,9]
         ];
 
         function initSudoku() {
@@ -592,8 +684,8 @@
             document.getElementById('sudoku-msg').innerText = '';
             document.getElementById('sudoku-msg').style.color = '';
 
-            for (let r = 0; r < 4; r++) {
-                for (let c = 0; c < 4; c++) {
+            for (let r = 0; r < 9; r++) {
+                for (let c = 0; c < 9; c++) {
                     const val = sudokuMask[r][c];
                     const input = document.createElement('input');
                     input.type = 'number';
@@ -601,14 +693,17 @@
                     input.dataset.row = r;
                     input.dataset.col = c;
                     input.min = 1;
-                    input.max = 4;
+                    input.max = 9;
+
+                    // Bordes especiales para los cuadrantes 3x3
+                    if ((c + 1) % 3 === 0 && c !== 8) input.style.borderRight = "2px solid var(--neon-blue)";
+                    if ((r + 1) % 3 === 0 && r !== 8) input.style.borderBottom = "2px solid var(--neon-blue)";
 
                     if (val !== 0) {
                         input.value = val;
                         input.readOnly = true;
                         input.classList.add('fixed');
                     } else {
-                        // Reproduce un pequeño click al escribir
                         input.addEventListener('input', () => { 
                             if(audioCtx) {
                                 const osc = audioCtx.createOscillator();
@@ -653,7 +748,7 @@
             }
         }
 
-        // --- MEMORIA VISUAL ---
+        // --- MEMORIA VISUAL 100% ALEATORIA ---
         const memoryEmojis = ['💄', '🎧', '🧩', '💎', '🚀', '🎨'];
         let memoryCards = [];
         let flippedCards = [];
@@ -666,9 +761,14 @@
             flippedCards = [];
             matchedPairs = 0;
 
-            // Duplicar y mezclar
+            // Duplicar array
             memoryCards = [...memoryEmojis, ...memoryEmojis];
-            memoryCards.sort(() => Math.random() - 0.5);
+            
+            // Algoritmo Fisher-Yates para asegurar aleatoriedad matemática real en cada partida
+            for (let i = memoryCards.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [memoryCards[i], memoryCards[j]] = [memoryCards[j], memoryCards[i]];
+            }
 
             memoryCards.forEach((emoji, index) => {
                 const card = document.createElement('div');
