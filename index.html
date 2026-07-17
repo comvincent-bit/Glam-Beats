@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Glam & Beats | Ultimate Minimal Edition</title>
+    <!-- Bootstrap 5 CSS para estabilidad estructural -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -92,20 +94,32 @@
         .model-container { position: relative; width: 100%; max-width: 400px; filter: drop-shadow(0 20px 30px rgba(0,0,0,0.5)); overflow: visible; }
         
         @keyframes blink { 0%, 94%, 98%, 100% { transform: scaleY(1); } 96% { transform: scaleY(0.1); } }
-        .eyes { transform-origin: center 40%; animation: blink 5s infinite; }
+        .eyes { transform-origin: 250px 245px; animation: blink 5s infinite; }
         .layer-blush { mix-blend-mode: multiply; filter: blur(12px); opacity: 0; transition: 0.4s; }
         .layer-shadow { mix-blend-mode: multiply; filter: blur(4px); opacity: 0; transition: 0.4s; }
-        .layer-lips { mix-blend-mode: color-burn; opacity: 0; transition: 0.4s; }
+        .layer-lips { mix-blend-mode: multiply; opacity: 0; transition: 0.4s; }
         .layer-eyeliner, .layer-lashes { transition: stroke 0.4s, opacity 0.4s; opacity: 0; }
         .layer-cloth, .layer-bg, .layer-hair { transition: fill 0.4s; }
         .layer-skin stop { transition: stop-color 0.4s; }
 
         @keyframes aura-pulse { 0%, 100% { transform: scale(0.9); opacity: 0.4; filter: blur(30px); } 50% { transform: scale(1.1); opacity: 0.8; filter: blur(45px); } }
         #mk-bg { transform-origin: 250px 275px; animation: aura-pulse 6s ease-in-out infinite; }
+        
         @keyframes breathe-clothes { 0%, 100% { transform: scaleY(1) translateY(0); } 50% { transform: scaleY(1.02) translateY(-3px); } }
-        #mk-clothes { transform-origin: 250px 420px; animation: breathe-clothes 3.5s ease-in-out infinite; }
-        @keyframes hair-breeze { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-1.5deg); } }
-        #mk-hair-front { transform-origin: 250px 150px; animation: hair-breeze 5.5s ease-in-out infinite; }
+        #mk-clothes { transform-origin: 250px 450px; animation: breathe-clothes 3.5s ease-in-out infinite; }
+        
+        /* Animaciones avanzadas para la súper cabellera */
+        @keyframes hair-back-wind { 0%, 100% { transform: rotate(0deg) skewX(0deg); } 50% { transform: rotate(2.5deg) skewX(2deg); } }
+        @keyframes hair-front-wind { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-2px) rotate(-1.5deg); } }
+        @keyframes strand-left-move { 0%, 100% { transform: rotate(0deg) scaleX(1); } 50% { transform: rotate(-4deg) scaleX(1.05); } }
+        @keyframes strand-right-move { 0%, 100% { transform: rotate(0deg) scaleX(1); } 50% { transform: rotate(4deg) scaleX(1.05); } }
+        
+        #mk-hair-back { transform-origin: 250px 100px; animation: hair-back-wind 6s ease-in-out infinite; }
+        #mk-hair-front { transform-origin: 250px 90px; animation: hair-front-wind 4.5s ease-in-out infinite; }
+        .strand-l { transform-origin: 130px 180px; animation: strand-left-move 3.8s ease-in-out infinite; }
+        .strand-r { transform-origin: 370px 180px; animation: strand-right-move 4.2s ease-in-out infinite; }
+
+        #pupil-l, #pupil-r { transition: transform 0.08s ease-out; }
 
         /* --- ESTILOS: MÚSICA DJ --- */
         .music-layout { padding: 30px 5%; text-align: center; max-width: 1000px; margin: 0 auto; flex: 1; width: 100%;}
@@ -123,7 +137,7 @@
         .bpm-slider-container input[type="range"] { -webkit-appearance: none; width: 100%; height: 4px; background: #333; border-radius: 2px; outline: none; }
         .bpm-slider-container input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%; background: var(--pad-color); cursor: pointer; }
 
-        /* --- ESTILOS: JUEGOS DE CONCENTRACIÓN Y LÓGICA (ACTUALIZADO PARA 9x9) --- */
+        /* --- ESTILOS: JUEGOS DE CONCENTRACIÓN Y LÓGICA --- */
         .games-layout { display: flex; flex-wrap: wrap; justify-content: center; gap: 40px; padding: 30px 5%; width: 100%; max-width: 1200px; margin: 0 auto; flex: 1; }
         
         .game-panel { background: var(--glass-bg); padding: 30px; border-radius: 30px; border: 2px solid; width: 100%; max-width: 480px; display: flex; flex-direction: column; align-items: center; box-shadow: 0 15px 30px rgba(0,0,0,0.5); }
@@ -143,16 +157,7 @@
         .memory-card.matched { background: var(--neon-purple); border-color: #fff; cursor: default; }
 
         /* --- CRÉDITOS DEL ALUMNO --- */
-        .student-credits {
-            text-align: center;
-            padding: 20px;
-            color: #666;
-            font-size: 0.9rem;
-            font-weight: bold;
-            width: 100%;
-            margin-top: auto;
-            letter-spacing: 1px;
-        }
+        .student-credits { text-align: center; padding: 20px; color: #666; font-size: 0.9rem; font-weight: bold; width: 100%; margin-top: auto; letter-spacing: 1px; }
 
         @media (max-width: 768px) { 
             .app-layout { flex-direction: column; align-items: center; }
@@ -167,7 +172,7 @@
 
     <div id="main-wrapper" style="display: flex; flex-direction: column; min-height: 100vh;">
         
-        <!-- MENÚ PRINCIPAL (3 CATEGORÍAS) -->
+        <!-- MENÚ PRINCIPAL -->
         <div id="intro-screen" class="fade-in">
             <h1 class="main-title">Glam & Beats</h1>
             <div class="cards-container">
@@ -189,7 +194,7 @@
             </div>
         </div>
 
-        <!-- PANTALLA INTERMEDIA: PROPÓSITO EDUCATIVO -->
+        <!-- PANTALLA INTERMEDIA -->
         <div id="purpose-screen" class="hidden">
             <div class="purpose-box">
                 <h2 class="purpose-title" id="purpose-title">Propósito Educativo</h2>
@@ -235,33 +240,142 @@
                                 <linearGradient id="skin-shadow" class="layer-skin-shadow" x1="0%" y1="0%" x2="0%" y2="100%">
                                     <stop offset="0%" stop-color="#e3b692" /><stop offset="100%" stop-color="#b8835e" />
                                 </linearGradient>
+                                
+                                <!-- Brillo Sedoso 3D para el Cabello -->
+                                <linearGradient id="hair-gloss-back" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="rgba(255,255,255,0.15)" />
+                                    <stop offset="40%" stop-color="rgba(0,0,0,0.1)" />
+                                    <stop offset="100%" stop-color="rgba(0,0,0,0.4)" />
+                                </linearGradient>
+                                
+                                <linearGradient id="hair-gloss-front" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="5%" stop-color="rgba(255,255,255,0)" />
+                                    <stop offset="25%" stop-color="rgba(255,255,255,0.35)" />
+                                    <stop offset="45%" stop-color="rgba(255,255,255,0)" />
+                                    <stop offset="85%" stop-color="rgba(0,0,0,0.25)" />
+                                    <stop offset="100%" stop-color="rgba(0,0,0,0.5)" />
+                                </linearGradient>
+
+                                <!-- Textura de Tela -->
+                                <pattern id="cloth-pattern" width="3" height="3" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                                    <rect width="3" height="3" fill="transparent" />
+                                    <line x1="0" y1="0" x2="0" y2="3" stroke="rgba(0,0,0,0.15)" stroke-width="0.5" />
+                                    <line x1="0" y1="0" x2="3" y2="0" stroke="rgba(255,255,255,0.08)" stroke-width="0.3" />
+                                </pattern>
+
+                                <!-- ClipPaths Ojos -->
+                                <clipPath id="eye-clip-l">
+                                    <path d="M 185 245 C 195 235, 215 235, 225 245 C 215 255, 195 255, 185 245 Z" />
+                                </clipPath>
+                                <clipPath id="eye-clip-r">
+                                    <path d="M 275 245 C 285 235, 305 235, 315 245 C 305 255, 285 255, 275 245 Z" />
+                                </clipPath>
                             </defs>
-                            <circle id="mk-bg" class="layer-bg" cx="250" cy="275" r="230" fill="transparent" />
-                            <path id="mk-hair-back" class="layer-hair" d="M 120 150 Q 50 250 80 450 L 150 550 L 350 550 L 420 450 Q 450 250 380 150 Z" fill="#2a1610"/>
-                            <path d="M 210 350 L 290 350 Q 300 450 400 500 L 100 500 Q 200 450 210 350" fill="url(#skin)"/>
-                            <path d="M 170 340 Q 200 370 230 340" fill="none" stroke="url(#skin-shadow)" stroke-width="2" stroke-linecap="round"/>
-                            <path id="mk-clothes" class="layer-cloth" d="M 170 420 Q 250 480 330 420 Q 370 450 400 500 L 100 500 Q 130 450 170 420 Z" fill="transparent" />
-                            <path id="mk-acc" class="layer-acc" d="M 210 400 Q 250 460 290 400" fill="none" stroke="transparent" stroke-width="6" stroke-linecap="round" stroke-dasharray="2 12"/>
-                            <path d="M 160 180 Q 150 300 200 370 Q 250 400 300 370 Q 350 300 340 180 Q 250 130 160 180 Z" fill="url(#skin)"/>
-                            
-                            <circle id="mk-blush-l" class="layer-blush" cx="190" cy="290" r="35" fill="transparent" />
-                            <circle id="mk-blush-r" class="layer-blush" cx="310" cy="290" r="35" fill="transparent" />
-                            <path id="mk-shadow-l" class="layer-shadow" d="M 175 240 Q 200 215 225 240 Q 200 230 175 240 Z" fill="transparent"/>
-                            <path id="mk-shadow-r" class="layer-shadow" d="M 275 240 Q 300 215 325 240 Q 300 230 275 240 Z" fill="transparent"/>
-                            <g class="eyes">
-                                <path d="M 175 240 Q 200 225 225 240 Q 200 250 175 240 Z" fill="#fff"/><path d="M 275 240 Q 300 225 325 240 Q 300 250 275 240 Z" fill="#fff"/>
-                                <circle cx="200" cy="238" r="9" fill="#4a2e1b"/><circle cx="300" cy="238" r="9" fill="#4a2e1b"/>
-                                <circle cx="200" cy="238" r="4" fill="#000"/><circle cx="197" cy="235" r="2" fill="#fff"/>
-                                <circle cx="300" cy="238" r="4" fill="#000"/><circle cx="297" cy="235" r="2" fill="#fff"/>
-                                <path id="mk-eyeliner-l" class="layer-eyeliner" d="M 170 240 Q 200 220 230 242" fill="none" stroke-width="4" stroke-linecap="round"/>
-                                <path id="mk-eyeliner-r" class="layer-eyeliner" d="M 270 242 Q 300 220 330 240" fill="none" stroke-width="4" stroke-linecap="round"/>
-                                <g id="mk-lashes-l" class="layer-lashes" stroke-width="3" stroke-linecap="round"><line x1="175" y1="237" x2="165" y2="225" /><line x1="185" y1="231" x2="180" y2="215" /><line x1="195" y1="228" x2="195" y2="212" /></g>
-                                <g id="mk-lashes-r" class="layer-lashes" stroke-width="3" stroke-linecap="round"><line x1="325" y1="237" x2="335" y2="225" /><line x1="315" y1="231" x2="320" y2="215" /><line x1="305" y1="228" x2="305" y2="212" /></g>
+
+                            <!-- Fondo Aura -->
+                            <circle id="mk-bg" class="layer-bg" cx="250" cy="275" r="220" fill="transparent" />
+
+                            <!-- CABELLO TRASERO -->
+                            <g id="mk-hair-back" class="layer-hair" fill="#2a1610">
+                                <path d="M 130 140 C 40 180, 50 420, 80 550 L 420 550 C 450 420, 460 180, 370 140 C 340 90, 160 90, 130 140 Z" />
+                                <path d="M 130 140 C 40 180, 50 420, 80 550 L 420 550 C 450 420, 460 180, 370 140 C 340 90, 160 90, 130 140 Z" fill="url(#hair-gloss-back)" pointer-events="none" />
                             </g>
-                            <path d="M 250 250 Q 255 285 245 290 Q 250 295 255 290" fill="none" stroke="#c49b7d" stroke-width="2" stroke-linecap="round"/>
-                            <path d="M 225 325 Q 250 315 275 325 Q 250 345 225 325 Z" fill="#d19a84"/><path d="M 225 325 Q 250 325 275 325" stroke="#b07d67" stroke-width="1.5"/>
-                            <path id="mk-lips" class="layer-lips" d="M 225 325 Q 250 315 275 325 Q 250 345 225 325 Z" fill="transparent"/>
-                            <path id="mk-hair-front" class="layer-hair" d="M 140 220 Q 150 150 250 150 Q 350 150 360 220 Q 320 180 250 180 Q 180 180 140 220 Z" fill="url(#hair-grad)"/>
+
+                            <!-- Cuello y Hombros -->
+                            <path d="M 215 350 L 215 430 C 215 450, 285 450, 285 430 L 285 350 Z" fill="url(#skin-shadow)"/>
+                            <path d="M 215 420 C 140 430, 80 480, 80 550 L 420 550 C 420 480, 360 430, 285 420 Z" fill="url(#skin)"/>
+                            
+                            <!-- ROPA -->
+                            <g id="mk-clothes-group">
+                                <path id="mk-clothes" class="layer-cloth" d="M 215 440 C 145 460, 80 490, 80 550 L 420 550 C 420 490, 355 460, 285 440 C 265 470, 235 470, 215 440 Z" fill="transparent" />
+                                <path d="M 215 440 C 145 460, 80 490, 80 550 L 420 550 C 420 490, 355 460, 285 440 C 265 470, 235 470, 215 440 Z" fill="url(#cloth-pattern)" pointer-events="none" />
+                            </g>
+
+                            <!-- COLLAR JOYA Y GARGANTILLA -->
+                            <g id="mk-acc" class="layer-acc" stroke="transparent" fill="transparent">
+                                <path d="M 218 418 C 235 433, 265 433, 282 418" fill="none" stroke-width="5" stroke-linecap="round" />
+                                <path d="M 250 429 L 250 445" fill="none" stroke-width="2" />
+                                <polygon points="250,455 243,445 250,441 257,445" stroke-width="1" stroke-linejoin="round" />
+                                <polygon points="250,450 246,445 250,443 254,445" fill="rgba(255,255,255,0.6)" stroke="none" />
+                            </g>
+
+                            <!-- Rostro -->
+                            <path d="M 165 210 C 165 310, 195 380, 250 380 C 305 380, 335 310, 335 210 C 335 150, 300 120, 250 120 C 200 120, 165 150, 165 210 Z" fill="url(#skin)"/>
+
+                            <!-- Rubor Natural -->
+                            <ellipse id="mk-blush-l" class="layer-blush" cx="195" cy="285" rx="25" ry="15" fill="transparent" />
+                            <ellipse id="mk-blush-r" class="layer-blush" cx="305" cy="285" rx="25" ry="15" fill="transparent" />
+
+                            <!-- Ojos e Interactividad -->
+                            <g class="eyes">
+                                <path id="mk-shadow-l" class="layer-shadow" d="M 180 240 C 195 220, 215 220, 230 245 C 215 240, 195 240, 180 240 Z" fill="transparent"/>
+                                <path id="mk-shadow-r" class="layer-shadow" d="M 270 245 C 285 220, 305 220, 320 240 C 305 240, 285 240, 270 245 Z" fill="transparent"/>
+
+                                <path d="M 185 245 C 195 235, 215 235, 225 245 C 215 255, 195 255, 185 245 Z" fill="#fff"/>
+                                <path d="M 275 245 C 285 235, 305 235, 315 245 C 305 255, 285 255, 275 245 Z" fill="#fff"/>
+
+                                <g clip-path="url(#eye-clip-l)">
+                                    <g id="pupil-l">
+                                        <circle cx="205" cy="245" r="9" fill="#4a2e1b"/>
+                                        <circle cx="205" cy="245" r="4" fill="#000"/>
+                                        <circle cx="202" cy="242" r="2" fill="#fff"/>
+                                    </g>
+                                </g>
+                                <g clip-path="url(#eye-clip-r)">
+                                    <g id="pupil-r">
+                                        <circle cx="295" cy="245" r="9" fill="#4a2e1b"/>
+                                        <circle cx="295" cy="245" r="4" fill="#000"/>
+                                        <circle cx="292" cy="242" r="2" fill="#fff"/>
+                                    </g>
+                                </g>
+
+                                <path id="mk-eyeliner-l" class="layer-eyeliner" d="M 182 245 C 195 233, 215 233, 228 247" fill="none" stroke="transparent" stroke-width="3" stroke-linecap="round"/>
+                                <path id="mk-eyeliner-r" class="layer-eyeliner" d="M 272 247 C 285 233, 305 233, 318 245" fill="none" stroke="transparent" stroke-width="3" stroke-linecap="round"/>
+
+                                <g id="mk-lashes-l" class="layer-lashes" stroke="transparent" stroke-width="2.5" stroke-linecap="round">
+                                    <path d="M 185 245 C 175 235, 170 230, 165 225" />
+                                    <path d="M 192 240 C 185 230, 180 220, 178 215" />
+                                    <path d="M 200 237 C 195 225, 192 215, 192 210" />
+                                    <path d="M 210 236 C 208 225, 208 215, 208 210" />
+                                </g>
+                                <g id="mk-lashes-r" class="layer-lashes" stroke="transparent" stroke-width="2.5" stroke-linecap="round">
+                                    <path d="M 315 245 C 325 235, 330 230, 335 225" />
+                                    <path d="M 308 240 C 315 230, 320 220, 322 215" />
+                                    <path d="M 300 237 C 305 225, 308 215, 308 210" />
+                                    <path d="M 290 236 C 292 225, 292 215, 292 210" />
+                                </g>
+
+                                <path d="M 175 220 C 195 210, 215 210, 225 225" fill="none" stroke="#3a1e12" stroke-width="4" stroke-linecap="round"/>
+                                <path d="M 325 220 C 305 210, 285 210, 275 225" fill="none" stroke="#3a1e12" stroke-width="4" stroke-linecap="round"/>
+                            </g>
+
+                            <!-- Nariz -->
+                            <path d="M 250 250 C 255 270, 258 290, 250 300 C 245 295, 240 295, 240 295" fill="none" stroke="url(#skin-shadow)" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M 240 300 C 242 298, 245 298, 245 300" fill="none" stroke="#c49b7d" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M 260 300 C 258 298, 255 298, 255 300" fill="none" stroke="#c49b7d" stroke-width="2" stroke-linecap="round"/>
+
+                            <!-- LABIOS HD -->
+                            <path d="M 235 330 C 242 325, 250 332, 250 332 C 250 332, 258 325, 265 330 C 270 335, 265 342, 250 345 C 235 342, 230 335, 235 330 Z" fill="#d19a84"/>
+                            <path d="M 235 330 C 245 332, 255 332, 265 330" fill="none" stroke="#b07d67" stroke-width="1.5" stroke-linecap="round"/>
+                            <path id="mk-lips" class="layer-lips" d="M 235 330 C 242 325, 250 332, 250 332 C 250 332, 258 325, 265 330 C 270 335, 265 342, 250 345 C 235 342, 230 335, 235 330 Z" fill="transparent"/>
+                            <ellipse cx="242" cy="337" rx="3.5" ry="1.5" fill="rgba(255,255,255,0.4)" pointer-events="none" />
+                            <ellipse cx="258" cy="337" rx="3.5" ry="1.5" fill="rgba(255,255,255,0.4)" pointer-events="none" />
+
+                            <!-- CABELLO FRONTAL HD -->
+                            <g id="mk-hair-front" class="layer-hair" fill="#2a1610">
+                                <path d="M 150 160 C 130 90, 200 60, 250 60 C 300 60, 370 90, 350 160 C 370 240, 365 300, 360 330 C 340 260, 335 170, 250 170 C 165 170, 160 260, 140 330 C 135 300, 130 240, 150 160 Z" />
+                                <path d="M 152 155 C 180 175, 210 180, 250 180 C 290 180, 320 175, 348 155 C 340 140, 310 135, 250 135 C 190 135, 160 140, 152 155 Z" />
+                                <path d="M 150 160 C 130 90, 200 60, 250 60 C 300 60, 370 90, 350 160 C 370 240, 365 300, 360 330 C 340 260, 335 170, 250 170 C 165 170, 160 260, 140 330 C 135 300, 130 240, 150 160 Z" fill="url(#hair-gloss-front)" pointer-events="none" />
+                                <path d="M 152 155 C 180 175, 210 180, 250 180 C 290 180, 320 175, 348 155 C 340 140, 310 135, 250 135 C 190 135, 160 140, 152 155 Z" fill="url(#hair-gloss-front)" pointer-events="none" />
+                                <g class="strand-l">
+                                    <path d="M 155 160 C 120 220, 110 320, 125 430 C 135 350, 145 260, 165 190 Z" />
+                                    <path d="M 155 160 C 120 220, 110 320, 125 430 C 135 350, 145 260, 165 190 Z" fill="url(#hair-gloss-front)" pointer-events="none" />
+                                </g>
+                                <g class="strand-r">
+                                    <path d="M 345 160 C 380 220, 390 320, 375 430 C 365 350, 355 260, 335 190 Z" />
+                                    <path d="M 345 160 C 380 220, 390 320, 375 430 C 365 350, 355 260, 335 190 Z" fill="url(#hair-gloss-front)" pointer-events="none" />
+                                </g>
+                            </g>
                         </svg>
                     </div>
                 </div>
@@ -281,45 +395,36 @@
             <!-- 3. SECCIÓN: JUEGOS DE LÓGICA Y CONCENTRACIÓN -->
             <main id="games-section" class="hidden fade-in">
                 <div class="games-layout">
-                    
                     <!-- SUDOKU 9x9 -->
                     <div class="game-panel" style="border-color: var(--neon-blue);">
                         <h3 style="color: var(--neon-blue); font-size: 1.8rem;">Sudoku Neón</h3>
                         <p style="color:#aaa; font-size:0.9rem; text-align:center; margin-top:5px;">Lógica Matemática: Llena la cuadrícula con números del 1 al 9 sin repetir en filas, columnas ni cuadrantes.</p>
-                        
-                        <div class="sudoku-grid" id="sudoku-board">
-                            <!-- Generado por JS -->
-                        </div>
-                        
+                        <div class="sudoku-grid" id="sudoku-board"></div>
                         <button class="btn-start" onclick="checkSudoku()" style="background: var(--neon-blue); color:#000; margin-top: 25px;">Verificar Solución</button>
                         <p id="sudoku-msg" style="margin-top: 10px; font-weight: bold;"></p>
                     </div>
 
                     <!-- JUEGO DE MEMORIA -->
                     <div class="game-panel" style="border-color: var(--neon-purple);">
-                        <h3 style="color: var(--neon-purple); font-size: 1.8rem;">Memoria Visual</h3>
+                        <h3 style="color: var(--neon-purple); font-size: 1.8rem;">Memory Visual</h3>
                         <p style="color:#aaa; font-size:0.9rem; text-align:center; margin-top:5px;">Concentración: Encuentra los pares de cartas ocultas en el menor tiempo posible.</p>
-                        
-                        <div class="memory-grid" id="memory-board">
-                            <!-- Generado por JS -->
-                        </div>
-
+                        <div class="memory-grid" id="memory-board"></div>
                         <button class="btn-start" onclick="initMemoryGame()" style="background: var(--neon-purple); margin-top: 25px;">Reiniciar Juego</button>
                         <p id="memory-msg" style="margin-top: 10px; font-weight: bold;"></p>
                     </div>
-
                 </div>
             </main>
 
         </div>
 
-        <!-- CRÉDITOS DEL ALUMNO HASTA ABAJO -->
+        <!-- CRÉDITOS DEL ALUMNO -->
         <div class="student-credits">
             Jennifer Torres Torres | 16 de julio del 2026
         </div>
-
     </div>
 
+    <!-- Bootstrap 5 Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         /* =========================================
            CONTROL DE PANTALLAS Y TEXTOS
@@ -342,11 +447,11 @@
             if(type === 'makeup') {
                 titleEl.innerText = "Estudio Pro";
                 titleEl.style.color = "var(--neon-pink)";
-                textEl.innerHTML = "<span>Propósito Educativo:</span> Esta actividad fomenta la <span>creatividad estética</span> y la expresión personal. Experimentar con combinaciones visuales estimula el hemisferio derecho del cerebro y mejora la toma de decisiones basada en la teoría del color.";
+                textEl.innerHTML = "<span>Propósito Educativo:</span> Mediante la experimentación con colores, formas y estilos, los estudiantes fortalecen su creatividad, imaginación y sentido estético, aprendiendo a expresar ideas de forma visual y a explorar distintas posibilidades.";
             } else if(type === 'music') {
                 titleEl.innerText = "Loop Station";
                 titleEl.style.color = "var(--neon-blue)";
-                textEl.innerHTML = "<span>Propósito Educativo:</span> La creación de ritmos independientes estimula la <span>inteligencia musical y matemática</span>. Controlar velocidades diferentes (BPM) ayuda a entender conceptos de fracciones, polirritmia y disociación auditiva.";
+                textEl.innerHTML = "<span>Propósito Educativo:</span> La actividad favorece el aprendizaje activo mediante la experimentación. Los estudiantes exploran distintas combinaciones y velocidades, desarrollando la creatividad, la atención, la coordinación y la comprensión de la relación entre causa y efecto a través de la retroalimentación inmediata.";
             } else if(type === 'games') {
                 titleEl.innerText = "Zona Lógica";
                 titleEl.style.color = "var(--neon-purple)";
@@ -422,15 +527,49 @@
         function applyMakeup(category, color) {
             const isClear = color === 'transparent';
             const opacity = isClear ? '0' : (category === 'blush' ? '0.6' : '0.85');
-            if (category === 'lips') { document.getElementById('mk-lips').setAttribute('fill', color); document.getElementById('mk-lips').style.opacity = opacity; } 
-            else if (category === 'shadow') { document.getElementById('mk-shadow-l').setAttribute('fill', color); document.getElementById('mk-shadow-r').setAttribute('fill', color); document.getElementById('mk-shadow-l').style.opacity = opacity; document.getElementById('mk-shadow-r').style.opacity = opacity; } 
-            else if (category === 'blush') { document.getElementById('mk-blush-l').setAttribute('fill', color); document.getElementById('mk-blush-r').setAttribute('fill', color); document.getElementById('mk-blush-l').style.opacity = opacity; document.getElementById('mk-blush-r').style.opacity = opacity; } 
-            else if (category === 'eyeliner') { document.getElementById('mk-eyeliner-l').setAttribute('stroke', color); document.getElementById('mk-eyeliner-r').setAttribute('stroke', color); document.getElementById('mk-eyeliner-l').style.opacity = isClear?'0':'1'; document.getElementById('mk-eyeliner-r').style.opacity = isClear?'0':'1'; } 
-            else if (category === 'lashes') { document.getElementById('mk-lashes-l').setAttribute('stroke', color); document.getElementById('mk-lashes-r').setAttribute('stroke', color); document.getElementById('mk-lashes-l').style.opacity = isClear?'0':'1'; document.getElementById('mk-lashes-r').style.opacity = isClear?'0':'1'; } 
-            else if (category === 'clothes') { document.getElementById('mk-clothes').setAttribute('fill', color); } 
-            else if (category === 'acc') { document.getElementById('mk-acc').setAttribute('stroke', color); }
-            else if (category === 'hair') { document.getElementById('mk-hair-front').setAttribute('fill', color); document.getElementById('mk-hair-back').setAttribute('fill', color); }
-            else if (category === 'bg') { document.getElementById('mk-bg').setAttribute('fill', color); }
+            if (category === 'lips') { 
+                document.getElementById('mk-lips').setAttribute('fill', color); 
+                document.getElementById('mk-lips').style.opacity = opacity; 
+            } 
+            else if (category === 'shadow') { 
+                document.getElementById('mk-shadow-l').setAttribute('fill', color); 
+                document.getElementById('mk-shadow-r').setAttribute('fill', color); 
+                document.getElementById('mk-shadow-l').style.opacity = opacity; 
+                document.getElementById('mk-shadow-r').style.opacity = opacity; 
+            } 
+            else if (category === 'blush') { 
+                document.getElementById('mk-blush-l').setAttribute('fill', color); 
+                document.getElementById('mk-blush-r').setAttribute('fill', color); 
+                document.getElementById('mk-blush-l').style.opacity = opacity; 
+                document.getElementById('mk-blush-r').style.opacity = opacity; 
+            } 
+            else if (category === 'eyeliner') { 
+                document.getElementById('mk-eyeliner-l').setAttribute('stroke', color); 
+                document.getElementById('mk-eyeliner-r').setAttribute('stroke', color); 
+                document.getElementById('mk-eyeliner-l').style.opacity = isClear?'0':'1'; 
+                document.getElementById('mk-eyeliner-r').style.opacity = isClear?'0':'1'; 
+            } 
+            else if (category === 'lashes') { 
+                document.getElementById('mk-lashes-l').setAttribute('stroke', color); 
+                document.getElementById('mk-lashes-r').setAttribute('stroke', color); 
+                document.getElementById('mk-lashes-l').style.opacity = isClear?'0':'1'; 
+                document.getElementById('mk-lashes-r').style.opacity = isClear?'0':'1'; 
+            } 
+            else if (category === 'clothes') { 
+                document.getElementById('mk-clothes').setAttribute('fill', color); 
+            } 
+            else if (category === 'acc') { 
+                const accEl = document.getElementById('mk-acc');
+                accEl.setAttribute('stroke', color);
+                accEl.setAttribute('fill', color === 'transparent' ? 'transparent' : color);
+            }
+            else if (category === 'hair') { 
+                document.getElementById('mk-hair-front').setAttribute('fill', color); 
+                document.getElementById('mk-hair-back').setAttribute('fill', color); 
+            }
+            else if (category === 'bg') { 
+                document.getElementById('mk-bg').setAttribute('fill', color); 
+            }
             else if (category === 'skin') { 
                 document.querySelector('.layer-skin stop[offset="0%"]').setAttribute('stop-color', color);
                 document.querySelector('.layer-skin stop[offset="100%"]').setAttribute('stop-color', skinShadows[color]);
@@ -449,19 +588,45 @@
         renderPaletteMk(currentToolMk);
 
         /* =========================================
-           MOTOR DE AUDIO
+           NUEVO MOTOR DE AUDIO PRO (Estilo Incredibox)
            ========================================= */
         let audioCtx, noiseBuffer;
+        let masterGain, delayNode, feedbackNode, compressor;
         
         function initAudioEngine() {
             audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            
+            // Cadena de Masterización (Hace que todo suene profesional y "pegado")
+            compressor = audioCtx.createDynamicsCompressor();
+            compressor.threshold.value = -10;
+            compressor.knee.value = 30;
+            compressor.ratio.value = 12;
+            compressor.attack.value = 0.003;
+            compressor.release.value = 0.25;
+            compressor.connect(audioCtx.destination);
+
+            masterGain = audioCtx.createGain();
+            masterGain.gain.value = 0.8;
+            masterGain.connect(compressor);
+
+            // Efecto de Eco Sincronizado (Delay)
+            delayNode = audioCtx.createDelay();
+            delayNode.delayTime.value = 0.25; // Eco de corchea (para 120 BPM)
+            feedbackNode = audioCtx.createGain();
+            feedbackNode.gain.value = 0.25; // Cantidad de repetición
+            
+            delayNode.connect(feedbackNode);
+            feedbackNode.connect(delayNode);
+            delayNode.connect(masterGain);
+
+            // Generador de Ruido Blanco (Para las cajas/snares y hi-hats)
             const bufferSize = audioCtx.sampleRate * 2;
             noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
             const output = noiseBuffer.getChannelData(0);
             for (let i = 0; i < bufferSize; i++) output[i] = Math.random() * 2 - 1;
         }
 
-        // --- Música Fondo ---
+        // --- Música Fondo Maquillaje ---
         let makeupMusicInterval;
         const popMelody = [329.63, 392.00, 523.25, 659.25, 523.25, 392.00]; 
         let popStep = 0;
@@ -474,7 +639,7 @@
                 const osc = audioCtx.createOscillator();
                 const gain = audioCtx.createGain();
                 osc.type = 'triangle'; osc.frequency.value = freq;
-                osc.connect(gain); gain.connect(audioCtx.destination);
+                osc.connect(gain); gain.connect(masterGain);
                 gain.gain.setValueAtTime(0, audioCtx.currentTime);
                 gain.gain.linearRampToValueAtTime(0.04, audioCtx.currentTime + 0.05);
                 gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.25);
@@ -485,21 +650,21 @@
         function stopMakeupMusic() { clearInterval(makeupMusicInterval); makeupMusicInterval = null; }
 
         /* =========================================
-           SISTEMA DJ (Polirritmia y Beatbox)
+           SISTEMA DJ (Nuevos Pads Estilo Incredibox)
            ========================================= */
         const padsData = [
-            { id: 'kick', name: 'BOMBO ELEC', color: '#ff0055', type: 'drum' },
-            { id: 'snare', name: 'CAJA ELEC', color: '#00f0ff', type: 'drum' },
-            { id: 'hihat', name: 'HI-HAT', color: '#39ff14', type: 'drum' },
-            { id: 'bx-kick', name: 'VOCAL KICK', color: '#ff2a85', type: 'beatbox' },
-            { id: 'bx-snare', name: 'VOCAL SNARE', color: '#b026ff', type: 'beatbox' },
-            { id: 'bx-hat', name: 'VOCAL HAT', color: '#fffb00', type: 'beatbox' },
-            { id: 'bx-bass', name: 'BASS BOCA', color: '#ff5500', type: 'beatbox' },
-            { id: 'bx-scratch', name: 'SCRATCH', color: '#ff00dd', type: 'beatbox' },
-            { id: 'bx-click', name: 'CLIC LENGUA', color: '#00ffaa', type: 'beatbox' },
-            { id: 'bx-tom', name: 'VOCAL TOM', color: '#ff0000', type: 'beatbox' },
-            { id: 'bx-bloop', name: 'AGUA BLOOP', color: '#0066ff', type: 'beatbox' },
-            { id: 'bx-shaker', name: 'SHH SHH', color: '#eeeeee', type: 'beatbox' }
+            { id: 'kick', name: 'BEAT: KICK', color: '#ff0055', type: 'drum' },
+            { id: 'snare', name: 'BEAT: SNARE', color: '#00f0ff', type: 'drum' },
+            { id: 'hihat', name: 'BEAT: HI-HAT', color: '#39ff14', type: 'drum' },
+            { id: 'bx-kick', name: 'VOICE: PUM', color: '#ff2a85', type: 'beatbox' },
+            { id: 'bx-snare', name: 'VOICE: TSH', color: '#b026ff', type: 'beatbox' },
+            { id: 'bx-hat', name: 'VOICE: CHK', color: '#fffb00', type: 'beatbox' },
+            { id: 'bx-bass', name: 'BASS: WOBBLE', color: '#ff5500', type: 'beatbox' },
+            { id: 'bx-scratch', name: 'FX: SCRATCH', color: '#ff00dd', type: 'beatbox' },
+            { id: 'bx-click', name: 'MELODY: ARP', color: '#00ffaa', type: 'beatbox' }, // Nueva melodía
+            { id: 'bx-tom', name: 'CHORUS: OHH', color: '#ff0000', type: 'beatbox' },   // Nuevo coro vocal
+            { id: 'bx-bloop', name: 'FX: WATER', color: '#0066ff', type: 'beatbox' },
+            { id: 'bx-shaker', name: 'VOICE: SHH', color: '#eeeeee', type: 'beatbox' }
         ];
 
         const loopStates = {};
@@ -523,81 +688,114 @@
             djBoard.appendChild(card);
         });
 
-        // --- Generadores Sintéticos ---
+        // --- Generadores Sintéticos Profesionales ---
         function playDrum(type) {
             if(!audioCtx) return;
-            const osc = audioCtx.createOscillator();
+            const t = audioCtx.currentTime;
             const gain = audioCtx.createGain();
-            osc.connect(gain); gain.connect(audioCtx.destination);
-            
+            gain.connect(masterGain);
+
             if(type === 'kick') {
-                osc.frequency.setValueAtTime(150, audioCtx.currentTime);
-                osc.frequency.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
-                gain.gain.setValueAtTime(1, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+                const osc = audioCtx.createOscillator();
+                osc.frequency.setValueAtTime(150, t);
+                osc.frequency.exponentialRampToValueAtTime(0.001, t + 0.5);
+                gain.gain.setValueAtTime(1, t);
+                gain.gain.exponentialRampToValueAtTime(0.001, t + 0.5);
+                osc.connect(gain); osc.start(t); osc.stop(t + 0.5);
             } else if(type === 'snare') {
-                const filter = audioCtx.createBiquadFilter(); filter.type = 'highpass'; filter.frequency.value = 1000;
-                osc.type = 'square'; osc.disconnect(); osc.connect(filter); filter.connect(gain);
-                osc.frequency.setValueAtTime(250, audioCtx.currentTime);
-                gain.gain.setValueAtTime(0.5, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+                const osc = audioCtx.createOscillator(); osc.type = 'triangle';
+                osc.frequency.setValueAtTime(250, t); osc.frequency.exponentialRampToValueAtTime(50, t + 0.2);
+                const n = audioCtx.createBufferSource(); n.buffer = noiseBuffer;
+                const f = audioCtx.createBiquadFilter(); f.type = 'highpass'; f.frequency.value = 1500;
+                n.connect(f); f.connect(gain); osc.connect(gain);
+                gain.gain.setValueAtTime(0.8, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.25);
+                osc.start(t); osc.stop(t + 0.25); n.start(t); n.stop(t + 0.25);
             } else if(type === 'hihat') {
-                const filter = audioCtx.createBiquadFilter(); filter.type = 'highpass'; filter.frequency.value = 7000;
-                osc.type = 'square'; osc.disconnect(); osc.connect(filter); filter.connect(gain);
-                gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.05);
+                const n = audioCtx.createBufferSource(); n.buffer = noiseBuffer;
+                const f = audioCtx.createBiquadFilter(); f.type = 'highpass'; f.frequency.value = 6000;
+                n.connect(f); f.connect(gain); gain.connect(delayNode); // Hihat con sutil eco
+                gain.gain.setValueAtTime(0.5, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.1);
+                n.start(t); n.stop(t + 0.1);
             }
-            osc.start(); osc.stop(audioCtx.currentTime + 0.4);
         }
 
-        // --- MOTOR AVANZADO DE BEATBOX ---
+        // --- VOCES Y EFECTOS ESTILO INCREDIBOX ---
         function playBeatbox(type) {
             if(!audioCtx) return;
             const t = audioCtx.currentTime;
-            const osc = audioCtx.createOscillator(); 
             const gain = audioCtx.createGain();
-            
-            if(type === 'bx-kick') {
-                osc.type = 'triangle'; osc.frequency.setValueAtTime(180, t); osc.frequency.exponentialRampToValueAtTime(40, t + 0.1); 
-                gain.gain.setValueAtTime(1, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.1);
-                osc.connect(gain); gain.connect(audioCtx.destination); osc.start(t); osc.stop(t + 0.1);
+            gain.connect(masterGain);
+
+            if (type === 'bx-kick') {
+                // Golpe vocal "Bum" humano
+                const osc = audioCtx.createOscillator(); osc.type = 'sine';
+                osc.frequency.setValueAtTime(120, t); osc.frequency.exponentialRampToValueAtTime(30, t + 0.2);
+                gain.gain.setValueAtTime(1.2, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.2);
+                osc.connect(gain); osc.start(t); osc.stop(t + 0.2);
             } else if (type === 'bx-snare') {
-                const noiseSource = audioCtx.createBufferSource(); noiseSource.buffer = noiseBuffer;
-                const filter = audioCtx.createBiquadFilter(); filter.type = 'bandpass'; filter.frequency.value = 2000; filter.Q.value = 1;
-                gain.gain.setValueAtTime(1, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.15);
-                noiseSource.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination); noiseSource.start(t); noiseSource.stop(t + 0.15);
+                // Caja vocal "Kch" con eco
+                const n = audioCtx.createBufferSource(); n.buffer = noiseBuffer;
+                const f = audioCtx.createBiquadFilter(); f.type = 'bandpass'; f.frequency.value = 2500; f.Q.value = 1.5;
+                n.connect(f); f.connect(gain); gain.connect(delayNode);
+                gain.gain.setValueAtTime(1, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.2);
+                n.start(t); n.stop(t + 0.2);
             } else if (type === 'bx-hat') {
-                const noiseSource = audioCtx.createBufferSource(); noiseSource.buffer = noiseBuffer;
-                const filter = audioCtx.createBiquadFilter(); filter.type = 'highpass'; filter.frequency.value = 6000;
-                gain.gain.setValueAtTime(0.8, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.04);
-                noiseSource.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination); noiseSource.start(t); noiseSource.stop(t + 0.04);
+                // "Ts" humano
+                const n = audioCtx.createBufferSource(); n.buffer = noiseBuffer;
+                const f = audioCtx.createBiquadFilter(); f.type = 'highpass'; f.frequency.value = 4000;
+                n.connect(f); f.connect(gain);
+                gain.gain.setValueAtTime(0.6, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.05);
+                n.start(t); n.stop(t + 0.05);
             } else if (type === 'bx-bass') {
-                osc.type = 'sawtooth'; osc.frequency.setValueAtTime(55, t); 
-                const filter = audioCtx.createBiquadFilter(); filter.type = 'lowpass'; filter.frequency.setValueAtTime(400, t); filter.frequency.exponentialRampToValueAtTime(100, t + 0.2); 
-                gain.gain.setValueAtTime(0.7, t); gain.gain.linearRampToValueAtTime(0, t + 0.3);
-                osc.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination); osc.start(t); osc.stop(t + 0.3);
+                // Wobble Bass Vocal (Efecto Formante "Womp")
+                const osc = audioCtx.createOscillator(); osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(65.41, t); // C2
+                const f = audioCtx.createBiquadFilter(); f.type = 'lowpass';
+                f.frequency.setValueAtTime(200, t); f.frequency.linearRampToValueAtTime(800, t + 0.15); f.frequency.linearRampToValueAtTime(200, t + 0.3);
+                f.Q.value = 5; 
+                osc.connect(f); f.connect(gain);
+                gain.gain.setValueAtTime(0.8, t); gain.gain.linearRampToValueAtTime(0, t + 0.4);
+                osc.start(t); osc.stop(t + 0.4);
             } else if (type === 'bx-scratch') {
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(600, t); osc.frequency.linearRampToValueAtTime(300, t + 0.1); osc.frequency.linearRampToValueAtTime(800, t + 0.2);
-                gain.gain.setValueAtTime(0.6, t); gain.gain.linearRampToValueAtTime(0, t + 0.2);
-                osc.connect(gain); gain.connect(audioCtx.destination); osc.start(t); osc.stop(t + 0.2);
+                // Scratch "Waka waka"
+                const osc = audioCtx.createOscillator(); osc.type = 'sine';
+                osc.frequency.setValueAtTime(400, t); osc.frequency.exponentialRampToValueAtTime(1200, t + 0.05); osc.frequency.exponentialRampToValueAtTime(400, t + 0.1); osc.frequency.exponentialRampToValueAtTime(1000, t + 0.15); osc.frequency.exponentialRampToValueAtTime(300, t + 0.2);
+                gain.gain.setValueAtTime(0.6, t); gain.gain.linearRampToValueAtTime(0, t + 0.25);
+                osc.connect(gain); osc.start(t); osc.stop(t + 0.25);
             } else if (type === 'bx-click') {
-                osc.type = 'sine'; osc.frequency.setValueAtTime(1200, t); osc.frequency.exponentialRampToValueAtTime(100, t + 0.03);
-                gain.gain.setValueAtTime(1, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.03);
-                osc.connect(gain); gain.connect(audioCtx.destination); osc.start(t); osc.stop(t + 0.03);
+                // Melodía Arpegiada (Al tocar este pad suena una melodía rápida que alimenta el delay)
+                const freqs = [261.63, 311.13, 392.00, 523.25]; // C menor pentatónica
+                freqs.forEach((freq, i) => {
+                    const osc = audioCtx.createOscillator(); osc.type = 'sine'; osc.frequency.value = freq;
+                    const g = audioCtx.createGain(); const noteTime = t + (i * 0.1);
+                    g.gain.setValueAtTime(0, t); g.gain.setValueAtTime(0.4, noteTime); g.gain.exponentialRampToValueAtTime(0.01, noteTime + 0.1);
+                    osc.connect(g); g.connect(gain);
+                    osc.start(noteTime); osc.stop(noteTime + 0.15);
+                });
+                gain.connect(delayNode);
             } else if (type === 'bx-tom') {
-                osc.type = 'sine'; osc.frequency.setValueAtTime(200, t); osc.frequency.exponentialRampToValueAtTime(80, t + 0.2);
-                gain.gain.setValueAtTime(0.8, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.2);
-                osc.connect(gain); gain.connect(audioCtx.destination); osc.start(t); osc.stop(t + 0.2);
+                // CORO VOCAL "OHH" Acapella (Genera un acorde con filtro de vocal 'O')
+                const freqs = [130.81, 155.56, 196.00]; // Acorde C Menor (C3, Eb3, G3)
+                const f = audioCtx.createBiquadFilter(); f.type = 'bandpass'; f.frequency.value = 600; f.Q.value = 3;
+                freqs.forEach(freq => {
+                    const osc = audioCtx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = freq;
+                    osc.connect(f); osc.start(t); osc.stop(t + 0.5);
+                });
+                f.connect(gain); gain.connect(delayNode); 
+                gain.gain.setValueAtTime(0, t); gain.gain.linearRampToValueAtTime(0.6, t + 0.1); gain.gain.linearRampToValueAtTime(0, t + 0.5);
             } else if (type === 'bx-bloop') {
-                osc.type = 'sine'; osc.frequency.setValueAtTime(250, t); osc.frequency.exponentialRampToValueAtTime(1000, t + 0.1);
-                gain.gain.setValueAtTime(0.8, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.1);
-                osc.connect(gain); gain.connect(audioCtx.destination); osc.start(t); osc.stop(t + 0.1);
+                // Gota de agua
+                const osc = audioCtx.createOscillator(); osc.type = 'sine';
+                osc.frequency.setValueAtTime(300, t); osc.frequency.exponentialRampToValueAtTime(1200, t + 0.1);
+                gain.gain.setValueAtTime(0.8, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.15);
+                osc.connect(gain); gain.connect(delayNode); osc.start(t); osc.stop(t + 0.15);
             } else if (type === 'bx-shaker') {
-                const noiseSource = audioCtx.createBufferSource(); noiseSource.buffer = noiseBuffer;
-                const filter = audioCtx.createBiquadFilter(); filter.type = 'bandpass'; filter.frequency.value = 4000; filter.Q.value = 0.5;
-                gain.gain.setValueAtTime(0.3, t); gain.gain.linearRampToValueAtTime(0, t + 0.1);
-                noiseSource.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination); noiseSource.start(t); noiseSource.stop(t + 0.1);
+                // Shaker "Shh" 
+                const n = audioCtx.createBufferSource(); n.buffer = noiseBuffer;
+                const f = audioCtx.createBiquadFilter(); f.type = 'bandpass'; f.frequency.value = 5000; f.Q.value = 1;
+                n.connect(f); f.connect(gain);
+                gain.gain.setValueAtTime(0.3, t); gain.gain.linearRampToValueAtTime(0, t + 0.15);
+                n.start(t); n.stop(t + 0.15);
             }
         }
 
@@ -652,7 +850,6 @@
            ========================================= */
 
         // --- SUDOKU 9x9 ---
-        // Tablero válido de 9x9 resuelto
         const sudokuSolution = [
             [5,3,4,6,7,8,9,1,2],
             [6,7,2,1,9,5,3,4,8],
@@ -665,7 +862,6 @@
             [3,4,5,2,8,6,1,7,9]
         ];
         
-        // Máscara (0 significa campo vacío a rellenar)
         const sudokuMask = [
             [5,3,0, 0,7,0, 0,0,0],
             [6,0,0, 1,9,5, 0,0,0],
@@ -695,7 +891,6 @@
                     input.min = 1;
                     input.max = 9;
 
-                    // Bordes especiales para los cuadrantes 3x3
                     if ((c + 1) % 3 === 0 && c !== 8) input.style.borderRight = "2px solid var(--neon-blue)";
                     if ((r + 1) % 3 === 0 && r !== 8) input.style.borderBottom = "2px solid var(--neon-blue)";
 
@@ -708,7 +903,7 @@
                             if(audioCtx) {
                                 const osc = audioCtx.createOscillator();
                                 osc.frequency.value = 800;
-                                osc.connect(audioCtx.destination);
+                                osc.connect(masterGain);
                                 osc.start(); osc.stop(audioCtx.currentTime + 0.05);
                             }
                         });
@@ -761,10 +956,8 @@
             flippedCards = [];
             matchedPairs = 0;
 
-            // Duplicar array
             memoryCards = [...memoryEmojis, ...memoryEmojis];
             
-            // Algoritmo Fisher-Yates para asegurar aleatoriedad matemática real en cada partida
             for (let i = memoryCards.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [memoryCards[i], memoryCards[j]] = [memoryCards[j], memoryCards[i]];
@@ -786,16 +979,12 @@
         }
 
         function flipCard(card) {
-            // Ignorar si ya está volteada, resuelta, o si ya hay 2 cartas volteadas
-            if (card.classList.contains('flipped') || card.classList.contains('matched') || flippedCards.length >= 2) {
-                return;
-            }
+            if (card.classList.contains('flipped') || card.classList.contains('matched') || flippedCards.length >= 2) { return; }
 
-            // Sonido de carta
             if(audioCtx) {
                 const osc = audioCtx.createOscillator();
                 osc.frequency.value = 600;
-                osc.connect(audioCtx.destination);
+                osc.connect(masterGain);
                 osc.start(); osc.stop(audioCtx.currentTime + 0.05);
             }
 
@@ -811,16 +1000,14 @@
             const [card1, card2] = flippedCards;
 
             if (card1.dataset.emoji === card2.dataset.emoji) {
-                // Match correcto
                 card1.classList.add('matched');
                 card2.classList.add('matched');
                 matchedPairs++;
                 
-                // Sonido de acierto
                 if(audioCtx) {
                     const osc = audioCtx.createOscillator();
                     osc.frequency.value = 1200;
-                    osc.connect(audioCtx.destination);
+                    osc.connect(masterGain);
                     osc.start(); osc.stop(audioCtx.currentTime + 0.1);
                 }
 
@@ -829,13 +1016,30 @@
                     document.getElementById('memory-msg').style.color = "var(--neon-green)";
                 }
             } else {
-                // No hay match, voltear de nuevo
                 card1.classList.remove('flipped');
                 card2.classList.remove('flipped');
             }
 
-            flippedCards = []; // Reiniciar arreglo temporal
+            flippedCards = [];
         }
+
+        /* =========================================
+           Ojos que Siguen al Cursor
+           ========================================= */
+        document.addEventListener('mousemove', (e) => {
+            const pupilL = document.getElementById('pupil-l');
+            const pupilR = document.getElementById('pupil-r');
+            if (!pupilL || !pupilR) return;
+
+            const xRatio = (e.clientX / window.innerWidth) - 0.5;
+            const yRatio = (e.clientY / window.innerHeight) - 0.5;
+
+            const moveX = xRatio * 6; 
+            const moveY = yRatio * 4;
+
+            pupilL.style.transform = `translate(${moveX}px, ${moveY}px)`;
+            pupilR.style.transform = `translate(${moveX}px, ${moveY}px)`;
+        });
 
     </script>
 </body>
