@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Glam & Beats | Ultimate Minimal Edition</title>
+    <title>Glam & Beats | Edición Educativa</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -13,6 +13,7 @@
             --neon-pink: #ff2a85;
             --neon-blue: #00f0ff;
             --neon-purple: #b026ff;
+            --neon-green: #39ff14;
             --text-light: #f8fafc;
         }
 
@@ -33,206 +34,144 @@
         .fade-in { animation: fadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.95) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
 
-        /* --- PANTALLA DE INICIO --- */
-        #intro-screen, #purpose-screen {
-            display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; padding: 20px;
-        }
+        /* --- PANTALLAS DE INICIO Y PROPÓSITO --- */
+        #intro-screen, #purpose-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
         
         .main-title {
-            font-size: 4rem; font-weight: 900; text-transform: uppercase; letter-spacing: 5px;
+            font-size: clamp(2.5rem, 8vw, 4rem); font-weight: 900; text-transform: uppercase; letter-spacing: 5px;
             background: linear-gradient(45deg, var(--neon-pink), var(--neon-blue));
             -webkit-background-clip: text; color: transparent;
-            margin-bottom: 50px; animation: float 4s ease-in-out infinite;
-            text-align: center;
+            margin-bottom: 40px; animation: float 4s ease-in-out infinite; text-align: center;
         }
 
-        .cards-container { display: flex; gap: 40px; flex-wrap: wrap; justify-content: center; }
+        .cards-container { display: flex; gap: 30px; flex-wrap: wrap; justify-content: center; width: 100%; max-width: 1000px; }
 
         .choice-card {
             background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 30px;
-            padding: 50px 40px; width: 320px; text-align: center; cursor: pointer;
+            padding: 40px 30px; width: 100%; max-width: 300px; text-align: center; cursor: pointer;
             backdrop-filter: blur(20px); transition: 0.4s; position: relative; overflow: hidden;
         }
         
-        .choice-card::before {
-            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-            transition: 0.5s;
-        }
-
+        .choice-card::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent); transition: 0.5s; }
         .choice-card:hover::before { left: 100%; }
-        .choice-card:hover { transform: translateY(-15px); }
-        .choice-card.girl:hover { box-shadow: 0 20px 40px rgba(255, 42, 133, 0.3); border-color: var(--neon-pink); }
-        .choice-card.boy:hover { box-shadow: 0 20px 40px rgba(0, 240, 255, 0.3); border-color: var(--neon-blue); }
+        .choice-card:hover { transform: translateY(-10px); border-color: var(--card-color); box-shadow: 0 15px 30px var(--card-glow); }
 
-        .card-emoji { font-size: 6rem; margin-bottom: 20px; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5)); }
-        .card-title { font-size: 1.8rem; font-weight: 900; margin-bottom: 10px; }
-        .choice-card.girl .card-title { color: var(--neon-pink); }
-        .choice-card.boy .card-title { color: var(--neon-blue); }
+        .card-emoji { font-size: 5rem; margin-bottom: 15px; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5)); }
+        .card-title { font-size: 1.5rem; font-weight: 900; margin-bottom: 10px; color: var(--card-color); }
 
-        /* --- PANTALLA DE PROPÓSITO EDUCATIVO --- */
-        .purpose-box {
-            background: rgba(0,0,0,0.8); border: 1px solid var(--glass-border); border-radius: 20px;
-            padding: 40px; max-width: 600px; text-align: center; backdrop-filter: blur(15px);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-        }
-        .purpose-title { font-size: 2rem; margin-bottom: 20px; }
+        /* --- PROPÓSITO EDUCATIVO --- */
+        .purpose-box { background: rgba(0,0,0,0.8); border: 1px solid var(--glass-border); border-radius: 20px; padding: 40px; max-width: 600px; width: 90%; text-align: center; backdrop-filter: blur(15px); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        .purpose-title { font-size: clamp(1.5rem, 5vw, 2rem); margin-bottom: 20px; }
         .purpose-text { font-size: 1.1rem; line-height: 1.6; color: #ccc; margin-bottom: 30px; }
         .purpose-text span { font-weight: bold; }
-        .btn-start {
-            background: linear-gradient(45deg, var(--neon-pink), var(--neon-purple)); color: white;
-            border: none; padding: 15px 40px; font-size: 1.2rem; font-weight: bold; border-radius: 30px;
-            cursor: pointer; transition: 0.3s; box-shadow: 0 10px 20px rgba(255,42,133,0.3);
-        }
-        .btn-start:hover { transform: scale(1.05); box-shadow: 0 15px 25px rgba(255,42,133,0.5); }
+        .btn-start { background: linear-gradient(45deg, var(--neon-pink), var(--neon-blue)); color: white; border: none; padding: 15px 40px; font-size: 1.2rem; font-weight: bold; border-radius: 30px; cursor: pointer; transition: 0.3s; box-shadow: 0 10px 20px rgba(255,255,255,0.1); width: 100%; max-width: 250px; }
+        .btn-start:hover { transform: scale(1.05); }
 
         /* --- APP HEADER --- */
-        header {
-            display: flex; justify-content: space-between; align-items: center; padding: 20px 5%;
-            background: rgba(9, 9, 11, 0.8); backdrop-filter: blur(15px); border-bottom: 1px solid var(--glass-border);
-        }
-        
-        .btn-back {
-            background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.3);
-            padding: 10px 25px; border-radius: 30px; cursor: pointer; font-weight: bold; transition: 0.3s;
-        }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background: rgba(9, 9, 11, 0.8); backdrop-filter: blur(15px); border-bottom: 1px solid var(--glass-border); position: sticky; top: 0; z-index: 100; }
+        .btn-back { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.3); padding: 8px 20px; border-radius: 30px; cursor: pointer; font-weight: bold; transition: 0.3s; font-size: 0.9rem; }
         .btn-back:hover { background: #fff; color: #000; }
 
-        /* --- SECCIÓN MAQUILLAJE --- */
-        .makeup-layout { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: 50px; padding: 40px 5%; }
-        .tools-panel { background: var(--glass-bg); padding: 30px; border-radius: 30px; border: 1px solid var(--glass-border); width: 100%; max-width: 350px; display: flex; flex-direction: column; gap: 20px; }
-        .category-btn { background: rgba(0,0,0,0.5); color: #fff; border: 1px solid var(--glass-border); padding: 15px; border-radius: 15px; cursor: pointer; font-weight: bold; font-size: 1rem; transition: 0.3s; display: flex; justify-content: space-between; align-items: center; }
+        /* --- LAYOUT GENERAL SECCIONES --- */
+        .app-layout { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: 40px; padding: 30px 5%; max-width: 1200px; margin: 0 auto; }
+        
+        /* --- ESTILOS: MAQUILLAJE --- */
+        .tools-panel { background: var(--glass-bg); padding: 25px; border-radius: 30px; border: 1px solid var(--glass-border); width: 100%; max-width: 350px; display: flex; flex-direction: column; gap: 12px; }
+        .tools-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .category-btn { background: rgba(0,0,0,0.5); color: #fff; border: 1px solid var(--glass-border); padding: 10px; border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 0.85rem; transition: 0.3s; text-align: center; }
         .category-btn:hover { background: rgba(255, 42, 133, 0.2); }
-        .category-btn.active { background: var(--neon-pink); border-color: var(--neon-pink); box-shadow: 0 0 20px rgba(255,42,133,0.5); }
-        .color-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-top: 10px; }
-        .color-swatch { aspect-ratio: 1; border-radius: 50%; cursor: pointer; border: 3px solid transparent; transition: 0.3s; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); }
+        .category-btn.active { background: var(--neon-pink); border-color: var(--neon-pink); box-shadow: 0 0 15px rgba(255,42,133,0.5); }
+        
+        .color-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 10px; justify-items: center; }
+        .color-swatch { width: 40px; height: 40px; border-radius: 50%; cursor: pointer; border: 3px solid transparent; transition: 0.3s; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; font-size: 1.2rem;}
         .color-swatch:hover { transform: scale(1.15); }
         .color-swatch.active-color { border-color: #fff; transform: scale(1.15); box-shadow: 0 0 15px currentColor; }
-        
-        .model-container { position: relative; width: 400px; max-width: 100%; filter: drop-shadow(0 20px 30px rgba(0,0,0,0.5)); }
-        
-        /* === ANIMACIONES CSS DEL MODELO === */
-        
-        /* Animación del Fondo (Aura Mágica) */
-        @keyframes aura-pulse {
-            0% { transform: scale(0.9); opacity: 0.4; filter: blur(30px) hue-rotate(0deg); }
-            50% { transform: scale(1.1); opacity: 0.8; filter: blur(45px) hue-rotate(15deg); }
-            100% { transform: scale(0.9); opacity: 0.4; filter: blur(30px) hue-rotate(0deg); }
-        }
-        #mk-bg {
-            transform-origin: 250px 275px; /* Centro del círculo */
-            animation: aura-pulse 6s ease-in-out infinite;
-        }
 
-        /* Animación de la Respiración (Ropa) */
-        @keyframes breathe-clothes {
-            0%, 100% { transform: scaleY(1) translateY(0); }
-            50% { transform: scaleY(1.02) translateY(-3px); }
-        }
-        #mk-clothes {
-            transform-origin: 250px 420px; /* A la altura de los hombros */
-            animation: breathe-clothes 3.5s ease-in-out infinite;
-        }
-
-        /* Animación del Cabello */
-        @keyframes hair-breeze-back {
-            0%, 100% { transform: rotate(0deg) skewX(0deg); }
-            50% { transform: rotate(1.5deg) skewX(2deg); }
-        }
-        @keyframes hair-breeze-front {
-            0%, 100% { transform: rotate(0deg); }
-            50% { transform: rotate(-1.5deg); }
-        }
-        #mk-hair-back {
-            transform-origin: 250px 150px; /* Anclado a la coronilla */
-            animation: hair-breeze-back 5s ease-in-out infinite;
-        }
-        #mk-hair-front {
-            transform-origin: 250px 150px; /* Anclado a la coronilla */
-            animation: hair-breeze-front 5.5s ease-in-out infinite;
-        }
-
-        /* Animación de Pestañeo */
+        .model-container { position: relative; width: 100%; max-width: 400px; filter: drop-shadow(0 20px 30px rgba(0,0,0,0.5)); overflow: visible; }
+        
         @keyframes blink { 0%, 94%, 98%, 100% { transform: scaleY(1); } 96% { transform: scaleY(0.1); } }
         .eyes { transform-origin: center 40%; animation: blink 5s infinite; }
-
         .layer-blush { mix-blend-mode: multiply; filter: blur(12px); opacity: 0; transition: 0.4s; }
         .layer-shadow { mix-blend-mode: multiply; filter: blur(4px); opacity: 0; transition: 0.4s; }
         .layer-lips { mix-blend-mode: color-burn; opacity: 0; transition: 0.4s; }
         .layer-eyeliner, .layer-lashes { transition: stroke 0.4s, opacity 0.4s; opacity: 0; }
-        .layer-cloth { transition: fill 0.4s; }
-        .layer-acc { transition: stroke 0.4s; }
-        .layer-bg, .layer-hair { transition: fill 0.5s ease; }
+        .layer-cloth, .layer-bg, .layer-hair { transition: fill 0.4s; }
+        .layer-skin stop { transition: stop-color 0.4s; }
 
-        /* --- SECCIÓN MÚSICA (LOOP STATION) --- */
-        .music-layout { padding: 40px 5%; text-align: center; max-width: 1000px; margin: 0 auto; }
+        @keyframes aura-pulse { 0%, 100% { transform: scale(0.9); opacity: 0.4; filter: blur(30px); } 50% { transform: scale(1.1); opacity: 0.8; filter: blur(45px); } }
+        #mk-bg { transform-origin: 250px 275px; animation: aura-pulse 6s ease-in-out infinite; }
+        @keyframes breathe-clothes { 0%, 100% { transform: scaleY(1) translateY(0); } 50% { transform: scaleY(1.02) translateY(-3px); } }
+        #mk-clothes { transform-origin: 250px 420px; animation: breathe-clothes 3.5s ease-in-out infinite; }
+        @keyframes hair-breeze { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-1.5deg); } }
+        #mk-hair-front { transform-origin: 250px 150px; animation: hair-breeze 5.5s ease-in-out infinite; }
 
-        .launchpad { 
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; 
-            background: #111; padding: 30px; border-radius: 30px; border: 2px solid #222; 
-            box-shadow: 0 30px 60px rgba(0,0,0,0.8), inset 0 0 30px rgba(0,0,0,1); 
-        }
-
-        .pad-card {
-            background: #0a0a0a; border: 1px solid #222; border-radius: 20px; padding: 15px;
-            display: flex; flex-direction: column; gap: 12px; align-items: center;
-        }
-
-        .pad-btn {
-            width: 100%; aspect-ratio: 1; border-radius: 15px; border: none; background: #1a1a1a;
-            color: #555; font-size: 1rem; font-weight: 900; cursor: pointer;
-            box-shadow: inset 0 5px 10px rgba(255,255,255,0.05), inset 0 -5px 15px rgba(0,0,0,0.8), 0 10px 20px rgba(0,0,0,0.5);
-            transition: 0.1s; position: relative;
-        }
-        .pad-btn::after {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: 15px;
-            border: 3px solid var(--pad-color); opacity: 0.2; transition: 0.2s;
-        }
-
-        .pad-btn:active, .pad-btn.active-hit {
-            transform: translateY(4px); background: var(--pad-color); color: #fff; text-shadow: 0 0 5px rgba(0,0,0,0.5);
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.5), 0 0 30px var(--pad-color);
-        }
+        /* --- ESTILOS: MÚSICA DJ --- */
+        .music-layout { padding: 30px 5%; text-align: center; max-width: 1000px; margin: 0 auto; }
+        .launchpad { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; background: #111; padding: 25px; border-radius: 25px; border: 2px solid #222; width: 100%; box-shadow: 0 20px 40px rgba(0,0,0,0.8), inset 0 0 20px rgba(0,0,0,1); }
+        .pad-card { background: #0a0a0a; border: 1px solid #222; border-radius: 15px; padding: 12px; display: flex; flex-direction: column; gap: 10px; align-items: center; }
+        .pad-btn { width: 100%; aspect-ratio: 1; border-radius: 12px; border: none; background: #1a1a1a; color: #ccc; font-size: 0.85rem; font-weight: 900; cursor: pointer; box-shadow: inset 0 5px 10px rgba(255,255,255,0.05), inset 0 -5px 15px rgba(0,0,0,0.8), 0 5px 10px rgba(0,0,0,0.5); transition: 0.1s; position: relative; }
+        .pad-btn::after { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: 12px; border: 2px solid var(--pad-color); opacity: 0.2; transition: 0.2s; }
+        .pad-btn:active, .pad-btn.active-hit { transform: translateY(4px); background: var(--pad-color); color: #fff; box-shadow: inset 0 0 20px rgba(0,0,0,0.5), 0 0 20px var(--pad-color); }
         .pad-btn:active::after, .pad-btn.active-hit::after { opacity: 1; }
+        .controls-row { display: flex; flex-direction: column; width: 100%; gap: 8px; align-items: center; }
+        .loop-toggle { background: #222; color: #888; border: 1px solid #444; padding: 6px; border-radius: 6px; font-size: 0.7rem; font-weight: bold; cursor: pointer; width: 100%; transition: 0.3s; }
+        .loop-toggle.looping { background: var(--pad-color); color: #000; border-color: var(--pad-color); box-shadow: 0 0 10px var(--pad-color); }
+        .bpm-slider-container { display: flex; flex-direction: column; width: 100%; }
+        .bpm-slider-container label { font-size: 0.6rem; color: #888; margin-bottom: 4px; font-weight: bold; text-align: center; }
+        .bpm-slider-container input[type="range"] { -webkit-appearance: none; width: 100%; height: 4px; background: #333; border-radius: 2px; outline: none; }
+        .bpm-slider-container input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%; background: var(--pad-color); cursor: pointer; }
 
-        /* Controles específicos de cada Loop */
-        .controls-row { display: flex; width: 100%; gap: 10px; align-items: center; justify-content: space-between; }
-        .loop-toggle {
-            background: #222; color: #888; border: 1px solid #444; padding: 6px; border-radius: 8px;
-            font-size: 0.75rem; font-weight: bold; cursor: pointer; flex: 1; transition: 0.3s;
-        }
-        .loop-toggle.looping {
-            background: var(--pad-color); color: #000; border-color: var(--pad-color);
-            box-shadow: 0 0 15px var(--pad-color);
-        }
+        /* --- ESTILOS: JUEGOS DE CONCENTRACIÓN Y LÓGICA --- */
+        .games-layout { display: flex; flex-wrap: wrap; justify-content: center; gap: 40px; padding: 30px 5%; width: 100%; max-width: 1200px; margin: 0 auto; }
+        
+        .game-panel { background: var(--glass-bg); padding: 30px; border-radius: 30px; border: 2px solid; width: 100%; max-width: 450px; display: flex; flex-direction: column; align-items: center; box-shadow: 0 15px 30px rgba(0,0,0,0.5); }
+        
+        /* Sudoku */
+        .sudoku-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; background: #333; padding: 5px; border-radius: 10px; margin-top: 20px; }
+        .sudoku-cell { width: 60px; height: 60px; background: #111; color: var(--neon-blue); font-size: 1.5rem; font-weight: bold; text-align: center; border: none; border-radius: 5px; outline: none; transition: 0.2s; }
+        .sudoku-cell.fixed { background: #0a0a0a; color: #fff; cursor: not-allowed; }
+        .sudoku-cell:focus { box-shadow: inset 0 0 10px var(--neon-blue); background: #222; }
+        /* Cuadrantes de Sudoku */
+        .sudoku-cell:nth-child(2), .sudoku-cell:nth-child(6), .sudoku-cell:nth-child(10), .sudoku-cell:nth-child(14) { border-right: 3px solid var(--neon-blue); }
+        .sudoku-cell:nth-child(5), .sudoku-cell:nth-child(6), .sudoku-cell:nth-child(7), .sudoku-cell:nth-child(8) { border-bottom: 3px solid var(--neon-blue); }
 
-        .bpm-slider-container { display: flex; flex-direction: column; width: 55%; }
-        .bpm-slider-container label { font-size: 0.65rem; color: #888; margin-bottom: 4px; font-weight: bold; text-align: left; }
-        .bpm-slider-container input[type="range"] { -webkit-appearance: none; width: 100%; height: 5px; background: #333; border-radius: 3px; outline: none; }
-        .bpm-slider-container input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%; 
-            background: var(--pad-color); cursor: pointer; box-shadow: 0 0 5px var(--pad-color);
-        }
+        /* Memoria */
+        .memory-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 20px; }
+        .memory-card { width: 70px; height: 70px; background: #111; border: 2px solid var(--neon-purple); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 2rem; cursor: pointer; transition: transform 0.3s, background 0.3s; transform-style: preserve-3d; }
+        .memory-card.flipped { background: var(--glass-bg); transform: rotateY(180deg); border-color: #fff; box-shadow: 0 0 15px var(--neon-purple); }
+        .memory-card span { display: none; transform: rotateY(180deg); }
+        .memory-card.flipped span { display: block; }
+        .memory-card.matched { background: var(--neon-purple); border-color: #fff; cursor: default; }
 
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
-        @media (max-width: 768px) { .main-title { font-size: 2.5rem; } .launchpad { grid-template-columns: repeat(2, 1fr); padding: 15px; } .makeup-layout { flex-direction: column; align-items: center; } header { flex-direction: column; gap: 15px; } }
+        @media (max-width: 768px) { 
+            .app-layout { flex-direction: column; align-items: center; }
+            .tools-panel, .game-panel { max-width: 100%; }
+            .launchpad { grid-template-columns: repeat(2, 1fr); padding: 15px; }
+            .sudoku-cell { width: 50px; height: 50px; }
+            .memory-card { width: 60px; height: 60px; }
+        }
     </style>
 </head>
 <body>
 
-    <!-- PANTALLA INICIAL (MENÚ) -->
+    <!-- MENÚ PRINCIPAL (3 CATEGORÍAS) -->
     <div id="intro-screen" class="fade-in">
-        <h1 class="main-title">Glam & Beats<br><span style="font-size:2rem; color:#fff;">Ultimate Edition</span></h1>
+        <h1 class="main-title">Glam & Beats</h1>
         <div class="cards-container">
-            <div class="choice-card girl" onclick="showPurpose('makeup')">
+            <div class="choice-card girl" onclick="showPurpose('makeup')" style="--card-color: var(--neon-pink); --card-glow: rgba(255, 42, 133, 0.4);">
                 <div class="card-emoji">👸💅</div>
                 <div class="card-title">Estudio Pro</div>
-                <p>Maquillaje y Moda Premium</p>
+                <p style="color:#aaa; font-size: 0.9rem;">Diseño de Modas y Maquillaje</p>
             </div>
-            <div class="choice-card boy" onclick="showPurpose('music')">
-                <div class="card-emoji">🎧🎹</div>
+            <div class="choice-card boy" onclick="showPurpose('music')" style="--card-color: var(--neon-blue); --card-glow: rgba(0, 240, 255, 0.4);">
+                <div class="card-emoji">🎧🎙️</div>
                 <div class="card-title">Loop Station</div>
-                <p>Crea beats y ajusta la velocidad</p>
+                <p style="color:#aaa; font-size: 0.9rem;">Beatbox y Polirritmia Vocal</p>
+            </div>
+            <div class="choice-card boy" onclick="showPurpose('games')" style="--card-color: var(--neon-purple); --card-glow: rgba(176, 38, 255, 0.4);">
+                <div class="card-emoji">🧠🧩</div>
+                <div class="card-title">Zona Lógica</div>
+                <p style="color:#aaa; font-size: 0.9rem;">Sudoku y Memoria visual</p>
             </div>
         </div>
     </div>
@@ -246,68 +185,57 @@
         </div>
     </div>
 
-    <!-- APLICACIÓN PRINCIPAL -->
+    <!-- APP PRINCIPAL -->
     <div id="main-app" class="hidden">
         <header>
             <h2 style="letter-spacing: 2px;">GLAM<span style="color:var(--neon-purple);">/</span>BEATS</h2>
             <button class="btn-back" onclick="goBack()">Volver al Menú</button>
         </header>
 
-        <!-- SECCIÓN: MAQUILLAJE -->
+        <!-- 1. SECCIÓN: MAQUILLAJE -->
         <main id="makeup-section" class="hidden fade-in">
-            <div class="makeup-layout">
+            <div class="app-layout">
                 <div class="tools-panel">
                     <h3 style="color: var(--neon-pink); text-align:center;">Herramientas</h3>
-                    <button class="category-btn active" data-target="lips">💄 Labial <span>➔</span></button>
-                    <button class="category-btn" data-target="shadow">🖌️ Sombras <span>➔</span></button>
-                    <button class="category-btn" data-target="blush">🌸 Rubor <span>➔</span></button>
-                    <button class="category-btn" data-target="eyeliner">👁️ Delineador <span>➔</span></button>
-                    <button class="category-btn" data-target="lashes">✨ Pestañas <span>➔</span></button>
-                    <button class="category-btn" data-target="clothes">👗 Ropa <span>➔</span></button>
-                    <button class="category-btn" data-target="acc">💎 Joyería <span>➔</span></button>
-                    <button class="category-btn" data-target="hair">💇‍♀️ Cabello <span>➔</span></button>
-                    <button class="category-btn" data-target="bg">🎨 Fondo <span>➔</span></button>
-                    <h4 style="margin-top: 15px; text-align:center;">Paleta de Color</h4>
-                    <div class="color-grid" id="palette-grid"></div>
+                    <div class="tools-grid">
+                        <button class="category-btn active" data-target="lips">💄 Labial</button>
+                        <button class="category-btn" data-target="shadow">🖌️ Sombras</button>
+                        <button class="category-btn" data-target="blush">🌸 Rubor</button>
+                        <button class="category-btn" data-target="eyeliner">👁️ Delineado</button>
+                        <button class="category-btn" data-target="lashes">✨ Pestañas</button>
+                        <button class="category-btn" data-target="skin">👤 Piel</button>
+                        <button class="category-btn" data-target="hair">💇‍♀️ Cabello</button>
+                        <button class="category-btn" data-target="clothes">👗 Ropa</button>
+                        <button class="category-btn" data-target="acc">💎 Joyería</button>
+                        <button class="category-btn" data-target="bg">🎨 Fondo</button>
+                    </div>
+                    <h4 style="margin-top: 15px; text-align:center; color:#aaa;">Paleta de Color</h4>
+                    <div class="color-grid" id="palette-grid-makeup"></div>
                 </div>
 
                 <div class="model-container">
                     <svg viewBox="0 0 500 550" xmlns="http://www.w3.org/2000/svg" style="overflow: visible;">
                         <defs>
                             <linearGradient id="skin" class="layer-skin" x1="0%" y1="0%" x2="0%" y2="100%">
-                                <stop offset="0%" stop-color="#ffdfc4" />
-                                <stop offset="100%" stop-color="#e3b692" />
+                                <stop offset="0%" stop-color="#ffdfc4" /><stop offset="100%" stop-color="#e3b692" />
                             </linearGradient>
-                            <linearGradient id="hair-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stop-color="#1a1a2e" />
-                                <stop offset="100%" stop-color="#16213e" />
+                            <linearGradient id="skin-shadow" class="layer-skin-shadow" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stop-color="#e3b692" /><stop offset="100%" stop-color="#b8835e" />
                             </linearGradient>
                         </defs>
-
-                        <!-- Fondo Dinámico Animado -->
                         <circle id="mk-bg" class="layer-bg" cx="250" cy="275" r="230" fill="transparent" />
-
-                        <!-- Cabello Fondo Animado -->
-                        <path id="mk-hair-back" class="layer-hair" d="M 120 150 Q 50 250 80 450 L 150 550 L 350 550 L 420 450 Q 450 250 380 150 Z" fill="url(#hair-grad)"/>
-                        
-                        <!-- Cuello y Hombros -->
+                        <path id="mk-hair-back" class="layer-hair" d="M 120 150 Q 50 250 80 450 L 150 550 L 350 550 L 420 450 Q 450 250 380 150 Z" fill="#2a1610"/>
                         <path d="M 210 350 L 290 350 Q 300 450 400 500 L 100 500 Q 200 450 210 350" fill="url(#skin)"/>
-                        <!-- Ropa Animada (Respiración) -->
+                        <path d="M 170 340 Q 200 370 230 340" fill="none" stroke="url(#skin-shadow)" stroke-width="2" stroke-linecap="round"/>
                         <path id="mk-clothes" class="layer-cloth" d="M 170 420 Q 250 480 330 420 Q 370 450 400 500 L 100 500 Q 130 450 170 420 Z" fill="transparent" />
                         <path id="mk-acc" class="layer-acc" d="M 210 400 Q 250 460 290 400" fill="none" stroke="transparent" stroke-width="6" stroke-linecap="round" stroke-dasharray="2 12"/>
-                        
-                        <!-- Rostro -->
                         <path d="M 160 180 Q 150 300 200 370 Q 250 400 300 370 Q 350 300 340 180 Q 250 130 160 180 Z" fill="url(#skin)"/>
-                        
-                        <!-- Maquillaje -->
                         <circle id="mk-blush-l" class="layer-blush" cx="190" cy="290" r="35" fill="transparent" />
                         <circle id="mk-blush-r" class="layer-blush" cx="310" cy="290" r="35" fill="transparent" />
                         <path id="mk-shadow-l" class="layer-shadow" d="M 175 240 Q 200 215 225 240 Q 200 230 175 240 Z" fill="transparent"/>
                         <path id="mk-shadow-r" class="layer-shadow" d="M 275 240 Q 300 215 325 240 Q 300 230 275 240 Z" fill="transparent"/>
-                        
                         <g class="eyes">
-                            <path d="M 175 240 Q 200 225 225 240 Q 200 250 175 240 Z" fill="#fff"/>
-                            <path d="M 275 240 Q 300 225 325 240 Q 300 250 275 240 Z" fill="#fff"/>
+                            <path d="M 175 240 Q 200 225 225 240 Q 200 250 175 240 Z" fill="#fff"/><path d="M 275 240 Q 300 225 325 240 Q 300 250 275 240 Z" fill="#fff"/>
                             <circle cx="200" cy="238" r="9" fill="#4a2e1b"/><circle cx="300" cy="238" r="9" fill="#4a2e1b"/>
                             <circle cx="200" cy="238" r="4" fill="#000"/><circle cx="197" cy="235" r="2" fill="#fff"/>
                             <circle cx="300" cy="238" r="4" fill="#000"/><circle cx="297" cy="235" r="2" fill="#fff"/>
@@ -316,35 +244,62 @@
                             <g id="mk-lashes-l" class="layer-lashes" stroke-width="3" stroke-linecap="round"><line x1="175" y1="237" x2="165" y2="225" /><line x1="185" y1="231" x2="180" y2="215" /><line x1="195" y1="228" x2="195" y2="212" /></g>
                             <g id="mk-lashes-r" class="layer-lashes" stroke-width="3" stroke-linecap="round"><line x1="325" y1="237" x2="335" y2="225" /><line x1="315" y1="231" x2="320" y2="215" /><line x1="305" y1="228" x2="305" y2="212" /></g>
                         </g>
-                        
                         <path d="M 250 250 Q 255 285 245 290 Q 250 295 255 290" fill="none" stroke="#c49b7d" stroke-width="2" stroke-linecap="round"/>
                         <path d="M 225 325 Q 250 315 275 325 Q 250 345 225 325 Z" fill="#d19a84"/><path d="M 225 325 Q 250 325 275 325" stroke="#b07d67" stroke-width="1.5"/>
                         <path id="mk-lips" class="layer-lips" d="M 225 325 Q 250 315 275 325 Q 250 345 225 325 Z" fill="transparent"/>
-                        
-                        <!-- Cabello Frente Animado -->
-                        <path id="mk-hair-front" class="layer-hair" d="M 140 220 Q 150 150 250 150 Q 350 150 360 220 Q 320 180 250 180 Q 180 180 140 220 Z" fill="url(#hair-grad)"/>
+                        <path id="mk-hair-front" class="layer-hair" d="M 140 220 Q 150 150 250 150 Q 350 150 360 220 Q 320 180 250 180 Q 180 180 140 220 Z" fill="#2a1610"/>
                     </svg>
                 </div>
             </div>
         </main>
 
-        <!-- SECCIÓN: MÚSICA (LOOP STATION POLIRRÍTMICO) -->
+        <!-- 2. SECCIÓN: MÚSICA DJ -->
         <main id="music-section" class="hidden fade-in">
-            <div class="music-layout">
-                <h2 style="color: var(--neon-blue); font-size: clamp(1.5rem, 4vw, 2.5rem); margin-bottom: 10px;">DJ LOOP STATION</h2>
-                <p style="margin-bottom: 30px; color: #888;">Toca los pads o activa los LOOPS individuales para crear ritmos combinados.</p>
-                
-                <!-- Consola dinámica generada por JS -->
+            <div class="music-layout" style="text-align: center; margin: 0 auto; padding-top: 30px;">
                 <div class="launchpad" id="dj-board">
-                    <!-- Los botones con sus mini-sliders se inyectarán aquí -->
+                    <!-- JS inyecta botones aquí -->
                 </div>
             </div>
         </main>
+
+        <!-- 3. SECCIÓN: JUEGOS DE LÓGICA Y CONCENTRACIÓN -->
+        <main id="games-section" class="hidden fade-in">
+            <div class="games-layout">
+                
+                <!-- SUDOKU 4x4 -->
+                <div class="game-panel" style="border-color: var(--neon-blue);">
+                    <h3 style="color: var(--neon-blue); font-size: 1.8rem;">Sudoku Neón</h3>
+                    <p style="color:#aaa; font-size:0.9rem; text-align:center; margin-top:5px;">Lógica Matemática: Llena la cuadrícula con números del 1 al 4 sin repetir en filas ni columnas.</p>
+                    
+                    <div class="sudoku-grid" id="sudoku-board">
+                        <!-- Generado por JS -->
+                    </div>
+                    
+                    <button class="btn-start" onclick="checkSudoku()" style="background: var(--neon-blue); color:#000; margin-top: 25px;">Verificar Solución</button>
+                    <p id="sudoku-msg" style="margin-top: 10px; font-weight: bold;"></p>
+                </div>
+
+                <!-- JUEGO DE MEMORIA -->
+                <div class="game-panel" style="border-color: var(--neon-purple);">
+                    <h3 style="color: var(--neon-purple); font-size: 1.8rem;">Memoria Visual</h3>
+                    <p style="color:#aaa; font-size:0.9rem; text-align:center; margin-top:5px;">Concentración: Encuentra los pares de cartas ocultas en el menor tiempo posible.</p>
+                    
+                    <div class="memory-grid" id="memory-board">
+                        <!-- Generado por JS -->
+                    </div>
+
+                    <button class="btn-start" onclick="initMemoryGame()" style="background: var(--neon-purple); margin-top: 25px;">Reiniciar Juego</button>
+                    <p id="memory-msg" style="margin-top: 10px; font-weight: bold;"></p>
+                </div>
+
+            </div>
+        </main>
+
     </div>
 
     <script>
         /* =========================================
-           CONTROL DE PANTALLAS Y TEXTOS DE CREATIVIDAD
+           CONTROL DE PANTALLAS Y TEXTOS
            ========================================= */
         const introScreen = document.getElementById('intro-screen');
         const purposeScreen = document.getElementById('purpose-screen');
@@ -364,46 +319,49 @@
             if(type === 'makeup') {
                 titleEl.innerText = "Estudio Pro";
                 titleEl.style.color = "var(--neon-pink)";
-                textEl.innerHTML = "<span>Propósito Educativo:</span> Esta actividad está diseñada para estimular al máximo la <span>creatividad visual</span> y la imaginación. Los niños podrán expresarse libremente, combinando estilos y descubriendo su propio sentido estético mientras se divierten diseñando.";
-            } else {
+                textEl.innerHTML = "<span>Propósito Educativo:</span> Esta actividad fomenta la <span>creatividad estética</span> y la expresión personal. Experimentar con combinaciones visuales estimula el hemisferio derecho del cerebro y mejora la toma de decisiones basada en la teoría del color.";
+            } else if(type === 'music') {
                 titleEl.innerText = "Loop Station";
                 titleEl.style.color = "var(--neon-blue)";
-                textEl.innerHTML = "<span>Propósito Educativo:</span> Este laboratorio sonoro fomenta la <span>creatividad musical</span> y la exploración auditiva. Al poder cambiar la velocidad de cada sonido por separado, los niños crean combinaciones rítmicas únicas, desarrollando su oído y expresión artística de forma libre.";
+                textEl.innerHTML = "<span>Propósito Educativo:</span> La creación de ritmos independientes estimula la <span>inteligencia musical y matemática</span>. Controlar velocidades diferentes (BPM) ayuda a entender conceptos de fracciones, polirritmia y disociación auditiva.";
+            } else if(type === 'games') {
+                titleEl.innerText = "Zona Lógica";
+                titleEl.style.color = "var(--neon-purple)";
+                textEl.innerHTML = "<span>Propósito Educativo:</span> Estos juegos están diseñados para el desarrollo cognitivo directo. El <span>Sudoku</span> estimula el razonamiento deductivo y la resolución de problemas, mientras que el juego de <span>Memoria</span> fortalece la concentración y la retención espacial a corto plazo.";
             }
         }
 
         function startGame() {
-            if (!audioInitialized) { initAudioEngine(); audioInitialized = true; }
+            if (!audioInitialized && (pendingGameType === 'music' || pendingGameType === 'makeup' || pendingGameType === 'games')) { 
+                initAudioEngine(); 
+                audioInitialized = true; 
+            }
             purposeScreen.classList.add('hidden');
             mainApp.classList.remove('hidden');
             
             document.getElementById('makeup-section').classList.add('hidden');
             document.getElementById('music-section').classList.add('hidden');
+            document.getElementById('games-section').classList.add('hidden');
 
-            if (pendingGameType === 'makeup') {
-                document.getElementById('makeup-section').classList.remove('hidden');
-                startMakeupMusic(); 
-            } else if (pendingGameType === 'music') {
-                document.getElementById('music-section').classList.remove('hidden');
+            if (pendingGameType === 'makeup') { document.getElementById('makeup-section').classList.remove('hidden'); startMakeupMusic(); }
+            else if (pendingGameType === 'music') { document.getElementById('music-section').classList.remove('hidden'); }
+            else if (pendingGameType === 'games') { 
+                document.getElementById('games-section').classList.remove('hidden'); 
+                initSudoku(); 
+                initMemoryGame(); 
             }
         }
 
         function goBack() {
             mainApp.classList.add('hidden');
             introScreen.classList.remove('hidden');
-            
             stopMakeupMusic(); 
-            
-            // Detener todos los loops individuales al salir
-            for(let key in loopIntervals) { 
-                clearInterval(loopIntervals[key]); 
-                loopStates[key] = false; 
-            }
+            for(let key in loopIntervals) { clearInterval(loopIntervals[key]); loopStates[key] = false; }
             document.querySelectorAll('.loop-toggle').forEach(btn => btn.classList.remove('looping'));
         }
 
         /* =========================================
-           LÓGICA DEL MAQUILLAJE Y ESTILO
+           LÓGICA DEL MAQUILLAJE
            ========================================= */
         const makeupCategories = {
             lips: ['#e63946', '#ff007f', '#d90429', '#ffb5a7', '#8a2387', 'transparent'],
@@ -411,34 +369,36 @@
             blush: ['#ff99c8', '#ff5c8a', '#e5989b', '#fec5bb', '#d16a8c', 'transparent'],
             eyeliner: ['#000000', '#b026ff', '#00f0ff', '#ffffff', '#ff0055', 'transparent'],
             lashes: ['#000000', '#ffffff', '#00f0ff', '#ff007f', '#39ff14', 'transparent'],
+            skin: ['#ffdfc4', '#f1c27d', '#e0ac69', '#8d5524', '#3c200d'], 
+            hair: ['#2a1610', '#ffdd55', '#ff007f', '#5500ff', '#00f0ff', '#cccccc'],
             clothes: ['#ff2a85', '#00f0ff', '#1a1a2e', '#ffaa00', '#ffffff', 'transparent'],
             acc: ['#fffb00', '#cccccc', '#ff0055', '#00f0ff', 'transparent'],
-            hair: ['#2a1610', '#ffdd55', '#ff007f', '#5500ff', '#00f0ff', '#cccccc'],
-            bg: ['#ff007f', '#00f0ff', '#fffb00', '#b026ff', '#39ff14', 'transparent']
+            bg: ['#222', '#ff007f', '#00f0ff', '#fffb00', '#39ff14', 'transparent'] 
         };
 
-        let currentTool = 'lips';
-        const paletteGrid = document.getElementById('palette-grid');
+        const skinShadows = { '#ffdfc4': '#e3b692', '#f1c27d': '#cfa05d', '#e0ac69': '#be8a48', '#8d5524': '#633914', '#3c200d': '#1f0f04' };
 
-        function renderPalette(category) {
-            paletteGrid.innerHTML = '';
+        let currentToolMk = 'lips';
+        const paletteGridMk = document.getElementById('palette-grid-makeup');
+
+        function renderPaletteMk(category) {
+            paletteGridMk.innerHTML = '';
             makeupCategories[category].forEach(color => {
                 const swatch = document.createElement('div');
                 swatch.className = 'color-swatch';
                 swatch.style.background = color === 'transparent' ? 'repeating-linear-gradient(45deg, #fff, #fff 5px, #ffcccc 5px, #ffcccc 10px)' : color;
                 swatch.onclick = () => {
-                    document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active-color'));
+                    document.querySelectorAll('#palette-grid-makeup .color-swatch').forEach(s => s.classList.remove('active-color'));
                     swatch.classList.add('active-color');
                     applyMakeup(category, color);
                 };
-                paletteGrid.appendChild(swatch);
+                paletteGridMk.appendChild(swatch);
             });
         }
 
         function applyMakeup(category, color) {
             const isClear = color === 'transparent';
             const opacity = isClear ? '0' : (category === 'blush' ? '0.6' : '0.85');
-            
             if (category === 'lips') { document.getElementById('mk-lips').setAttribute('fill', color); document.getElementById('mk-lips').style.opacity = opacity; } 
             else if (category === 'shadow') { document.getElementById('mk-shadow-l').setAttribute('fill', color); document.getElementById('mk-shadow-r').setAttribute('fill', color); document.getElementById('mk-shadow-l').style.opacity = opacity; document.getElementById('mk-shadow-r').style.opacity = opacity; } 
             else if (category === 'blush') { document.getElementById('mk-blush-l').setAttribute('fill', color); document.getElementById('mk-blush-r').setAttribute('fill', color); document.getElementById('mk-blush-l').style.opacity = opacity; document.getElementById('mk-blush-r').style.opacity = opacity; } 
@@ -448,17 +408,22 @@
             else if (category === 'acc') { document.getElementById('mk-acc').setAttribute('stroke', color); }
             else if (category === 'hair') { document.getElementById('mk-hair-front').setAttribute('fill', color); document.getElementById('mk-hair-back').setAttribute('fill', color); }
             else if (category === 'bg') { document.getElementById('mk-bg').setAttribute('fill', color); }
+            else if (category === 'skin') { 
+                document.querySelector('.layer-skin stop[offset="0%"]').setAttribute('stop-color', color);
+                document.querySelector('.layer-skin stop[offset="100%"]').setAttribute('stop-color', skinShadows[color]);
+                document.querySelector('.layer-skin-shadow stop[offset="0%"]').setAttribute('stop-color', skinShadows[color]);
+            }
         }
 
-        document.querySelectorAll('.category-btn').forEach(btn => {
+        document.querySelectorAll('#makeup-section .category-btn').forEach(btn => {
             btn.onclick = () => {
-                document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('#makeup-section .category-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
-                currentTool = btn.getAttribute('data-target');
-                renderPalette(currentTool);
+                currentToolMk = btn.getAttribute('data-target');
+                renderPaletteMk(currentToolMk);
             };
         });
-        renderPalette(currentTool);
+        renderPaletteMk(currentToolMk);
 
         /* =========================================
            MOTOR DE AUDIO
@@ -473,7 +438,7 @@
             for (let i = 0; i < bufferSize; i++) output[i] = Math.random() * 2 - 1;
         }
 
-        // --- Música (Fondo de Maquillaje) ---
+        // --- Música Fondo ---
         let makeupMusicInterval;
         const popMelody = [329.63, 392.00, 523.25, 659.25, 523.25, 392.00]; 
         let popStep = 0;
@@ -485,15 +450,11 @@
                 const freq = popMelody[popStep % popMelody.length];
                 const osc = audioCtx.createOscillator();
                 const gain = audioCtx.createGain();
-                
-                osc.type = 'triangle'; 
-                osc.frequency.value = freq;
+                osc.type = 'triangle'; osc.frequency.value = freq;
                 osc.connect(gain); gain.connect(audioCtx.destination);
-                
                 gain.gain.setValueAtTime(0, audioCtx.currentTime);
                 gain.gain.linearRampToValueAtTime(0.04, audioCtx.currentTime + 0.05);
                 gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.25);
-                
                 osc.start(); osc.stop(audioCtx.currentTime + 0.25);
                 popStep++;
             }, 250); 
@@ -501,7 +462,7 @@
         function stopMakeupMusic() { clearInterval(makeupMusicInterval); makeupMusicInterval = null; }
 
         /* =========================================
-           SISTEMA DJ (Polirritmia y Beatbox)
+           SISTEMA DJ (Solo Polirritmia y Beatbox)
            ========================================= */
         const padsData = [
             { id: 'kick', name: 'BOMBO ELEC', color: '#ff0055', type: 'drum' },
@@ -539,82 +500,29 @@
             djBoard.appendChild(card);
         });
 
-        // --- Generadores Sintéticos ---
         function playDrum(type) {
             if(!audioCtx) return;
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
+            const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
             osc.connect(gain); gain.connect(audioCtx.destination);
-            
-            if(type === 'kick') {
-                osc.frequency.setValueAtTime(150, audioCtx.currentTime);
-                osc.frequency.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
-                gain.gain.setValueAtTime(1, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
-            } else if(type === 'snare') {
-                const filter = audioCtx.createBiquadFilter(); filter.type = 'highpass'; filter.frequency.value = 1000;
-                osc.type = 'square'; osc.disconnect(); osc.connect(filter); filter.connect(gain);
-                osc.frequency.setValueAtTime(250, audioCtx.currentTime);
-                gain.gain.setValueAtTime(0.5, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
-            } else if(type === 'hihat') {
-                const filter = audioCtx.createBiquadFilter(); filter.type = 'highpass'; filter.frequency.value = 7000;
-                osc.type = 'square'; osc.disconnect(); osc.connect(filter); filter.connect(gain);
-                gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.05);
-            }
+            if(type === 'kick') { osc.frequency.setValueAtTime(150, audioCtx.currentTime); osc.frequency.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4); gain.gain.setValueAtTime(1, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4); } 
+            else if(type === 'snare') { const filter = audioCtx.createBiquadFilter(); filter.type = 'highpass'; filter.frequency.value = 1000; osc.type = 'square'; osc.disconnect(); osc.connect(filter); filter.connect(gain); osc.frequency.setValueAtTime(250, audioCtx.currentTime); gain.gain.setValueAtTime(0.5, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2); } 
+            else if(type === 'hihat') { const filter = audioCtx.createBiquadFilter(); filter.type = 'highpass'; filter.frequency.value = 7000; osc.type = 'square'; osc.disconnect(); osc.connect(filter); filter.connect(gain); gain.gain.setValueAtTime(0.3, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.05); }
             osc.start(); osc.stop(audioCtx.currentTime + 0.4);
         }
 
-        // --- MOTOR AVANZADO DE BEATBOX ---
         function playBeatbox(type) {
             if(!audioCtx) return;
             const t = audioCtx.currentTime;
-            const osc = audioCtx.createOscillator(); 
-            const gain = audioCtx.createGain();
-            
-            if(type === 'bx-kick') {
-                osc.type = 'triangle'; osc.frequency.setValueAtTime(180, t); osc.frequency.exponentialRampToValueAtTime(40, t + 0.1); 
-                gain.gain.setValueAtTime(1, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.1);
-                osc.connect(gain); gain.connect(audioCtx.destination); osc.start(t); osc.stop(t + 0.1);
-            } else if (type === 'bx-snare') {
-                const noiseSource = audioCtx.createBufferSource(); noiseSource.buffer = noiseBuffer;
-                const filter = audioCtx.createBiquadFilter(); filter.type = 'bandpass'; filter.frequency.value = 2000; filter.Q.value = 1;
-                gain.gain.setValueAtTime(1, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.15);
-                noiseSource.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination); noiseSource.start(t); noiseSource.stop(t + 0.15);
-            } else if (type === 'bx-hat') {
-                const noiseSource = audioCtx.createBufferSource(); noiseSource.buffer = noiseBuffer;
-                const filter = audioCtx.createBiquadFilter(); filter.type = 'highpass'; filter.frequency.value = 6000;
-                gain.gain.setValueAtTime(0.8, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.04);
-                noiseSource.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination); noiseSource.start(t); noiseSource.stop(t + 0.04);
-            } else if (type === 'bx-bass') {
-                osc.type = 'sawtooth'; osc.frequency.setValueAtTime(55, t); 
-                const filter = audioCtx.createBiquadFilter(); filter.type = 'lowpass'; filter.frequency.setValueAtTime(400, t); filter.frequency.exponentialRampToValueAtTime(100, t + 0.2); 
-                gain.gain.setValueAtTime(0.7, t); gain.gain.linearRampToValueAtTime(0, t + 0.3);
-                osc.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination); osc.start(t); osc.stop(t + 0.3);
-            } else if (type === 'bx-scratch') {
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(600, t); osc.frequency.linearRampToValueAtTime(300, t + 0.1); osc.frequency.linearRampToValueAtTime(800, t + 0.2);
-                gain.gain.setValueAtTime(0.6, t); gain.gain.linearRampToValueAtTime(0, t + 0.2);
-                osc.connect(gain); gain.connect(audioCtx.destination); osc.start(t); osc.stop(t + 0.2);
-            } else if (type === 'bx-click') {
-                osc.type = 'sine'; osc.frequency.setValueAtTime(1200, t); osc.frequency.exponentialRampToValueAtTime(100, t + 0.03);
-                gain.gain.setValueAtTime(1, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.03);
-                osc.connect(gain); gain.connect(audioCtx.destination); osc.start(t); osc.stop(t + 0.03);
-            } else if (type === 'bx-tom') {
-                osc.type = 'sine'; osc.frequency.setValueAtTime(200, t); osc.frequency.exponentialRampToValueAtTime(80, t + 0.2);
-                gain.gain.setValueAtTime(0.8, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.2);
-                osc.connect(gain); gain.connect(audioCtx.destination); osc.start(t); osc.stop(t + 0.2);
-            } else if (type === 'bx-bloop') {
-                osc.type = 'sine'; osc.frequency.setValueAtTime(250, t); osc.frequency.exponentialRampToValueAtTime(1000, t + 0.1);
-                gain.gain.setValueAtTime(0.8, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.1);
-                osc.connect(gain); gain.connect(audioCtx.destination); osc.start(t); osc.stop(t + 0.1);
-            } else if (type === 'bx-shaker') {
-                const noiseSource = audioCtx.createBufferSource(); noiseSource.buffer = noiseBuffer;
-                const filter = audioCtx.createBiquadFilter(); filter.type = 'bandpass'; filter.frequency.value = 4000; filter.Q.value = 0.5;
-                gain.gain.setValueAtTime(0.3, t); gain.gain.linearRampToValueAtTime(0, t + 0.1);
-                noiseSource.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination); noiseSource.start(t); noiseSource.stop(t + 0.1);
-            }
+            const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
+            if(type === 'bx-kick') { osc.type = 'triangle'; osc.frequency.setValueAtTime(180, t); osc.frequency.exponentialRampToValueAtTime(40, t + 0.1); gain.gain.setValueAtTime(1, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.1); osc.connect(gain); gain.connect(audioCtx.destination); osc.start(t); osc.stop(t + 0.1); } 
+            else if (type === 'bx-snare') { const noiseSource = audioCtx.createBufferSource(); noiseSource.buffer = noiseBuffer; const filter = audioCtx.createBiquadFilter(); filter.type = 'bandpass'; filter.frequency.value = 2000; filter.Q.value = 1; gain.gain.setValueAtTime(1, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.15); noiseSource.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination); noiseSource.start(t); noiseSource.stop(t + 0.15); } 
+            else if (type === 'bx-hat') { const noiseSource = audioCtx.createBufferSource(); noiseSource.buffer = noiseBuffer; const filter = audioCtx.createBiquadFilter(); filter.type = 'highpass'; filter.frequency.value = 6000; gain.gain.setValueAtTime(0.8, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.04); noiseSource.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination); noiseSource.start(t); noiseSource.stop(t + 0.04); } 
+            else if (type === 'bx-bass') { osc.type = 'sawtooth'; osc.frequency.setValueAtTime(55, t); const filter = audioCtx.createBiquadFilter(); filter.type = 'lowpass'; filter.frequency.setValueAtTime(400, t); filter.frequency.exponentialRampToValueAtTime(100, t + 0.2); gain.gain.setValueAtTime(0.7, t); gain.gain.linearRampToValueAtTime(0, t + 0.3); osc.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination); osc.start(t); osc.stop(t + 0.3); } 
+            else if (type === 'bx-scratch') { osc.type = 'sine'; osc.frequency.setValueAtTime(600, t); osc.frequency.linearRampToValueAtTime(300, t + 0.1); osc.frequency.linearRampToValueAtTime(800, t + 0.2); gain.gain.setValueAtTime(0.6, t); gain.gain.linearRampToValueAtTime(0, t + 0.2); osc.connect(gain); gain.connect(audioCtx.destination); osc.start(t); osc.stop(t + 0.2); } 
+            else if (type === 'bx-click') { osc.type = 'sine'; osc.frequency.setValueAtTime(1200, t); osc.frequency.exponentialRampToValueAtTime(100, t + 0.03); gain.gain.setValueAtTime(1, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.03); osc.connect(gain); gain.connect(audioCtx.destination); osc.start(t); osc.stop(t + 0.03); } 
+            else if (type === 'bx-tom') { osc.type = 'sine'; osc.frequency.setValueAtTime(200, t); osc.frequency.exponentialRampToValueAtTime(80, t + 0.2); gain.gain.setValueAtTime(0.8, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.2); osc.connect(gain); gain.connect(audioCtx.destination); osc.start(t); osc.stop(t + 0.2); } 
+            else if (type === 'bx-bloop') { osc.type = 'sine'; osc.frequency.setValueAtTime(250, t); osc.frequency.exponentialRampToValueAtTime(1000, t + 0.1); gain.gain.setValueAtTime(0.8, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.1); osc.connect(gain); gain.connect(audioCtx.destination); osc.start(t); osc.stop(t + 0.1); } 
+            else if (type === 'bx-shaker') { const noiseSource = audioCtx.createBufferSource(); noiseSource.buffer = noiseBuffer; const filter = audioCtx.createBiquadFilter(); filter.type = 'bandpass'; filter.frequency.value = 4000; filter.Q.value = 0.5; gain.gain.setValueAtTime(0.3, t); gain.gain.linearRampToValueAtTime(0, t + 0.1); noiseSource.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination); noiseSource.start(t); noiseSource.stop(t + 0.1); }
         }
 
         function triggerSound(padId) {
@@ -623,27 +531,21 @@
             else if(padInfo.type === 'beatbox') playBeatbox(padId);
             
             const btn = document.querySelector(`.pad-btn[data-sound="${padId}"]`);
-            if(btn) {
-                btn.classList.add('active-hit');
-                setTimeout(() => btn.classList.remove('active-hit'), 100);
-            }
+            if(btn) { btn.classList.add('active-hit'); setTimeout(() => btn.classList.remove('active-hit'), 100); }
         }
 
         function updatePadLoop(padId) {
             clearInterval(loopIntervals[padId]);
             if(loopStates[padId]) {
                 const bpm = document.getElementById(`bpm-${padId}`).value;
-                const ms = 60000 / bpm; // Calcula los milisegundos exactos por golpe según el BPM de ESTE pad
-                triggerSound(padId); // Toca inmediatamente al activarlo
+                const ms = 60000 / bpm; 
+                triggerSound(padId); 
                 loopIntervals[padId] = setInterval(() => triggerSound(padId), ms);
             }
         }
 
-        // Eventos de click/touch
         document.querySelectorAll('.pad-btn').forEach(btn => {
-            btn.addEventListener('pointerdown', (e) => {
-                e.preventDefault(); triggerSound(btn.getAttribute('data-sound'));
-            });
+            btn.addEventListener('pointerdown', (e) => { e.preventDefault(); triggerSound(btn.getAttribute('data-sound')); });
         });
 
         document.querySelectorAll('.loop-toggle').forEach(btn => {
@@ -659,9 +561,181 @@
             slider.addEventListener('input', (e) => {
                 const padId = e.target.getAttribute('data-target');
                 document.getElementById(`val-${padId}`).innerText = e.target.value;
-                if(loopStates[padId]) updatePadLoop(padId); // Actualiza si está sonando en tiempo real
+                if(loopStates[padId]) updatePadLoop(padId); 
             });
         });
+
+        /* =========================================
+           LÓGICA DE JUEGOS (SUDOKU Y MEMORIA)
+           ========================================= */
+
+        // --- SUDOKU 4x4 ---
+        // Tablero válido de 4x4
+        const sudokuSolution = [
+            [1, 2, 3, 4],
+            [3, 4, 1, 2],
+            [2, 3, 4, 1],
+            [4, 1, 2, 3]
+        ];
+        
+        // Máscara (0 significa campo vacío)
+        const sudokuMask = [
+            [1, 0, 3, 0],
+            [0, 4, 0, 2],
+            [2, 0, 4, 0],
+            [0, 1, 0, 3]
+        ];
+
+        function initSudoku() {
+            const board = document.getElementById('sudoku-board');
+            board.innerHTML = '';
+            document.getElementById('sudoku-msg').innerText = '';
+            document.getElementById('sudoku-msg').style.color = '';
+
+            for (let r = 0; r < 4; r++) {
+                for (let c = 0; c < 4; c++) {
+                    const val = sudokuMask[r][c];
+                    const input = document.createElement('input');
+                    input.type = 'number';
+                    input.className = 'sudoku-cell';
+                    input.dataset.row = r;
+                    input.dataset.col = c;
+                    input.min = 1;
+                    input.max = 4;
+
+                    if (val !== 0) {
+                        input.value = val;
+                        input.readOnly = true;
+                        input.classList.add('fixed');
+                    } else {
+                        // Reproduce un pequeño click al escribir
+                        input.addEventListener('input', () => { 
+                            if(audioCtx) {
+                                const osc = audioCtx.createOscillator();
+                                osc.frequency.value = 800;
+                                osc.connect(audioCtx.destination);
+                                osc.start(); osc.stop(audioCtx.currentTime + 0.05);
+                            }
+                        });
+                    }
+                    board.appendChild(input);
+                }
+            }
+        }
+
+        function checkSudoku() {
+            const inputs = document.querySelectorAll('.sudoku-cell');
+            let isCorrect = true;
+            let isComplete = true;
+
+            inputs.forEach(input => {
+                const r = input.dataset.row;
+                const c = input.dataset.col;
+                const val = parseInt(input.value);
+
+                if (!val || isNaN(val)) {
+                    isComplete = false;
+                } else if (val !== sudokuSolution[r][c]) {
+                    isCorrect = false;
+                }
+            });
+
+            const msgEl = document.getElementById('sudoku-msg');
+            if (!isComplete) {
+                msgEl.innerText = "¡Aún faltan números por llenar!";
+                msgEl.style.color = "#ffaa00";
+            } else if (isCorrect) {
+                msgEl.innerText = "¡Felicidades! Sudoku resuelto correctamente. 🎉";
+                msgEl.style.color = "var(--neon-green)";
+            } else {
+                msgEl.innerText = "Hay algunos errores. ¡Inténtalo de nuevo!";
+                msgEl.style.color = "var(--neon-pink)";
+            }
+        }
+
+        // --- MEMORIA VISUAL ---
+        const memoryEmojis = ['💄', '🎧', '🧩', '💎', '🚀', '🎨'];
+        let memoryCards = [];
+        let flippedCards = [];
+        let matchedPairs = 0;
+
+        function initMemoryGame() {
+            const board = document.getElementById('memory-board');
+            board.innerHTML = '';
+            document.getElementById('memory-msg').innerText = '';
+            flippedCards = [];
+            matchedPairs = 0;
+
+            // Duplicar y mezclar
+            memoryCards = [...memoryEmojis, ...memoryEmojis];
+            memoryCards.sort(() => Math.random() - 0.5);
+
+            memoryCards.forEach((emoji, index) => {
+                const card = document.createElement('div');
+                card.className = 'memory-card';
+                card.dataset.index = index;
+                card.dataset.emoji = emoji;
+                
+                const span = document.createElement('span');
+                span.innerText = emoji;
+                card.appendChild(span);
+
+                card.addEventListener('click', () => flipCard(card));
+                board.appendChild(card);
+            });
+        }
+
+        function flipCard(card) {
+            // Ignorar si ya está volteada, resuelta, o si ya hay 2 cartas volteadas
+            if (card.classList.contains('flipped') || card.classList.contains('matched') || flippedCards.length >= 2) {
+                return;
+            }
+
+            // Sonido de carta
+            if(audioCtx) {
+                const osc = audioCtx.createOscillator();
+                osc.frequency.value = 600;
+                osc.connect(audioCtx.destination);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.05);
+            }
+
+            card.classList.add('flipped');
+            flippedCards.push(card);
+
+            if (flippedCards.length === 2) {
+                setTimeout(checkMemoryMatch, 800);
+            }
+        }
+
+        function checkMemoryMatch() {
+            const [card1, card2] = flippedCards;
+
+            if (card1.dataset.emoji === card2.dataset.emoji) {
+                // Match correcto
+                card1.classList.add('matched');
+                card2.classList.add('matched');
+                matchedPairs++;
+                
+                // Sonido de acierto
+                if(audioCtx) {
+                    const osc = audioCtx.createOscillator();
+                    osc.frequency.value = 1200;
+                    osc.connect(audioCtx.destination);
+                    osc.start(); osc.stop(audioCtx.currentTime + 0.1);
+                }
+
+                if (matchedPairs === memoryEmojis.length) {
+                    document.getElementById('memory-msg').innerText = "¡Excelente memoria! Has ganado. 🏆";
+                    document.getElementById('memory-msg').style.color = "var(--neon-green)";
+                }
+            } else {
+                // No hay match, voltear de nuevo
+                card1.classList.remove('flipped');
+                card2.classList.remove('flipped');
+            }
+
+            flippedCards = []; // Reiniciar arreglo temporal
+        }
 
     </script>
 </body>
