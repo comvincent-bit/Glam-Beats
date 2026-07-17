@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glam & Beats | Ultimate Minimal Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #09090b;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --neon-pink: #ff2a85;
+            --neon-blue: #00f0ff;
+            --neon-purple: #b026ff;
+            --text-light: #f8fafc;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; font-family: 'Montserrat', sans-serif; }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255, 42, 133, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(0, 240, 255, 0.15) 0%, transparent 40%);
+        }
+
+        /* --- UTILIDADES --- */
+        .hidden { display: none !important; }
+        .fade-in { animation: fadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+
+        /* --- PANTALLA DE INICIO --- */
+        #intro-screen, #purpose-screen {
+            display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; padding: 20px;
+        }
+        
+        .main-title {
+            font-size: 4rem; font-weight: 900; text-transform: uppercase; letter-spacing: 5px;
+            background: linear-gradient(45deg, var(--neon-pink), var(--neon-blue));
+            -webkit-background-clip: text; color: transparent;
+            margin-bottom: 50px; animation: float 4s ease-in-out infinite;
+            text-align: center;
+        }
+
+        .cards-container { display: flex; gap: 40px; flex-wrap: wrap; justify-content: center; }
+
+        .choice-card {
+            background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 30px;
+            padding: 50px 40px; width: 320px; text-align: center; cursor: pointer;
+            backdrop-filter: blur(20px); transition: 0.4s; position: relative; overflow: hidden;
+        }
+        
+        .choice-card::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: 0.5s;
+        }
+
+        .choice-card:hover::before { left: 100%; }
+        .choice-card:hover { transform: translateY(-15px); }
+        .choice-card.girl:hover { box-shadow: 0 20px 40px rgba(255, 42, 133, 0.3); border-color: var(--neon-pink); }
+        .choice-card.boy:hover { box-shadow: 0 20px 40px rgba(0, 240, 255, 0.3); border-color: var(--neon-blue); }
+
+        .card-emoji { font-size: 6rem; margin-bottom: 20px; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5)); }
+        .card-title { font-size: 1.8rem; font-weight: 900; margin-bottom: 10px; }
+        .choice-card.girl .card-title { color: var(--neon-pink); }
+        .choice-card.boy .card-title { color: var(--neon-blue); }
+
+        /* --- PANTALLA DE PROPÓSITO EDUCATIVO --- */
+        .purpose-box {
+            background: rgba(0,0,0,0.8); border: 1px solid var(--glass-border); border-radius: 20px;
+            padding: 40px; max-width: 600px; text-align: center; backdrop-filter: blur(15px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        .purpose-title { font-size: 2rem; margin-bottom: 20px; }
+        .purpose-text { font-size: 1.1rem; line-height: 1.6; color: #ccc; margin-bottom: 30px; }
+        .purpose-text span { font-weight: bold; }
+        .btn-start {
+            background: linear-gradient(45deg, var(--neon-pink), var(--neon-purple)); color: white;
+            border: none; padding: 15px 40px; font-size: 1.2rem; font-weight: bold; border-radius: 30px;
+            cursor: pointer; transition: 0.3s; box-shadow: 0 10px 20px rgba(255,42,133,0.3);
+        }
+        .btn-start:hover { transform: scale(1.05); box-shadow: 0 15px 25px rgba(255,42,133,0.5); }
+
+        /* --- APP HEADER --- */
+        header {
+            display: flex; justify-content: space-between; align-items: center; padding: 20px 5%;
+            background: rgba(9, 9, 11, 0.8); backdrop-filter: blur(15px); border-bottom: 1px solid var(--glass-border);
+        }
+        
+        .btn-back {
+            background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.3);
+            padding: 10px 25px; border-radius: 30px; cursor: pointer; font-weight: bold; transition: 0.3s;
+        }
+        .btn-back:hover { background: #fff; color: #000; }
+
+        /* --- SECCIÓN MAQUILLAJE --- */
+        .makeup-layout { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: 50px; padding: 40px 5%; }
+        .tools-panel { background: var(--glass-bg); padding: 30px; border-radius: 30px; border: 1px solid var(--glass-border); width: 100%; max-width: 350px; display: flex; flex-direction: column; gap: 20px; }
+        .category-btn { background: rgba(0,0,0,0.5); color: #fff; border: 1px solid var(--glass-border); padding: 15px; border-radius: 15px; cursor: pointer; font-weight: bold; font-size: 1rem; transition: 0.3s; display: flex; justify-content: space-between; align-items: center; }
+        .category-btn:hover { background: rgba(255, 42, 133, 0.2); }
+        .category-btn.active { background: var(--neon-pink); border-color: var(--neon-pink); box-shadow: 0 0 20px rgba(255,42,133,0.5); }
+        .color-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-top: 10px; }
+        .color-swatch { aspect-ratio: 1; border-radius: 50%; cursor: pointer; border: 3px solid transparent; transition: 0.3s; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); }
+        .color-swatch:hover { transform: scale(1.15); }
+        .color-swatch.active-color { border-color: #fff; transform: scale(1.15); box-shadow: 0 0 15px currentColor; }
+        
+        .model-container { position: relative; width: 400px; max-width: 100%; filter: drop-shadow(0 20px 30px rgba(0,0,0,0.5)); }
+        @keyframes blink { 0%, 94%, 98%, 100% { transform: scaleY(1); } 96% { transform: scaleY(0.1); } }
+        .eyes { transform-origin: center 40%; animation: blink 5s infinite; }
+        .layer-blush { mix-blend-mode: multiply; filter: blur(12px); opacity: 0; transition: 0.4s; }
+        .layer-shadow { mix-blend-mode: multiply; filter: blur(4px); opacity: 0; transition: 0.4s; }
+        .layer-lips { mix-blend-mode: color-burn; opacity: 0; transition: 0.4s; }
+        .layer-eyeliner, .layer-lashes { transition: stroke 0.4s, opacity 0.4s; opacity: 0; }
+        .layer-cloth { transition: fill 0.4s; }
+        .layer-acc { transition: stroke 0.4s; }
+
+        /* --- SECCIÓN MÚSICA (NUEVO DISEÑO PARA LOOPS INDIVIDUALES) --- */
+        .music-layout { padding: 40px 5%; text-align: center; max-width: 1000px; margin: 0 auto; }
+
+        .launchpad { 
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; 
+            background: #111; padding: 30px; border-radius: 30px; border: 2px solid #222; 
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8), inset 0 0 30px rgba(0,0,0,1); 
+        }
+
+        .pad-card {
+            background: #0a0a0a; border: 1px solid #222; border-radius: 20px; padding: 15px;
+            display: flex; flex-direction: column; gap: 12px; align-items: center;
+        }
+
+        .pad-btn {
+            width: 100%; aspect-ratio: 1; border-radius: 15px; border: none; background: #1a1a1a;
+            color: #555; font-size: 1rem; font-weight: 900; cursor: pointer;
+            box-shadow: inset 0 5px 10px rgba(255,255,255,0.05), inset 0 -5px 15px rgba(0,0,0,0.8), 0 10px 20px rgba(0,0,0,0.5);
+            transition: 0.1s; position: relative;
+        }
+        .pad-btn::after {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: 15px;
+            border: 3px solid var(--pad-color); opacity: 0.2; transition: 0.2s;
+        }
+
+        .pad-btn:active, .pad-btn.active-hit {
+            transform: translateY(4px); background: var(--pad-color); color: #fff; text-shadow: 0 0 5px rgba(0,0,0,0.5);
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5), 0 0 30px var(--pad-color);
+        }
+        .pad-btn:active::after, .pad-btn.active-hit::after { opacity: 1; }
+
+        /* Controles específicos de cada Loop */
+        .controls-row { display: flex; width: 100%; gap: 10px; align-items: center; justify-content: space-between; }
+        .loop-toggle {
+            background: #222; color: #888; border: 1px solid #444; padding: 6px; border-radius: 8px;
+            font-size: 0.75rem; font-weight: bold; cursor: pointer; flex: 1; transition: 0.3s;
+        }
+        .loop-toggle.looping {
+            background: var(--pad-color); color: #000; border-color: var(--pad-color);
+            box-shadow: 0 0 15px var(--pad-color);
+        }
+
+        .bpm-slider-container { display: flex; flex-direction: column; width: 55%; }
+        .bpm-slider-container label { font-size: 0.65rem; color: #888; margin-bottom: 4px; font-weight: bold; text-align: left; }
+        .bpm-slider-container input[type="range"] { -webkit-appearance: none; width: 100%; height: 5px; background: #333; border-radius: 3px; outline: none; }
+        .bpm-slider-container input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%; 
+            background: var(--pad-color); cursor: pointer; box-shadow: 0 0 5px var(--pad-color);
+        }
+
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        @media (max-width: 768px) { .main-title { font-size: 2.5rem; } .launchpad { grid-template-columns: repeat(2, 1fr); padding: 15px; } .makeup-layout { flex-direction: column; align-items: center; } header { flex-direction: column; gap: 15px; } }
+    </style>
+</head>
+<body>
+
+    <!-- PANTALLA INICIAL (MENÚ) -->
+    <div id="intro-screen" class="fade-in">
+        <h1 class="main-title">Glam & Beats<br><span style="font-size:2rem; color:#fff;">Ultimate Edition</span></h1>
+        <div class="cards-container">
+            <div class="choice-card girl" onclick="showPurpose('makeup')">
+                <div class="card-emoji">👸💅</div>
+                <div class="card-title">Estudio Pro</div>
+                <p>Maquillaje y Moda Premium</p>
+            </div>
+            <div class="choice-card boy" onclick="showPurpose('music')">
+                <div class="card-emoji">🎧🎹</div>
+                <div class="card-title">Loop Station</div>
+                <p>Crea beats y ajusta la velocidad</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PANTALLA INTERMEDIA: PROPÓSITO EDUCATIVO -->
+    <div id="purpose-screen" class="hidden">
+        <div class="purpose-box">
+            <h2 class="purpose-title" id="purpose-title">Propósito Educativo</h2>
+            <p class="purpose-text" id="purpose-text"></p>
+            <button class="btn-start" onclick="startGame()">¡Comenzar Actividad!</button>
+        </div>
+    </div>
+
+    <!-- APLICACIÓN PRINCIPAL -->
+    <div id="main-app" class="hidden">
+        <header>
+            <h2 style="letter-spacing: 2px;">GLAM<span style="color:var(--neon-purple);">/</span>BEATS</h2>
+            <button class="btn-back" onclick="goBack()">Volver al Menú</button>
+        </header>
+
+        <!-- SECCIÓN: MAQUILLAJE -->
+        <main id="makeup-section" class="hidden fade-in">
+            <div class="makeup-layout">
+                <div class="tools-panel">
+                    <h3 style="color: var(--neon-pink); text-align:center;">Herramientas</h3>
+                    <button class="category-btn active" data-target="lips">💄 Labial <span>➔</span></button>
+                    <button class="category-btn" data-target="shadow">🖌️ Sombras <span>➔</span></button>
+                    <button class="category-btn" data-target="blush">🌸 Rubor <span>➔</span></button>
+                    <button class="category-btn" data-target="eyeliner">👁️ Delineador <span>➔</span></button>
+                    <button class="category-btn" data-target="lashes">✨ Pestañas <span>➔</span></button>
+                    <button class="category-btn" data-target="clothes">👗 Ropa <span>➔</span></button>
+                    <button class="category-btn" data-target="acc">💎 Joyería <span>➔</span></button>
+                    <h4 style="margin-top: 15px; text-align:center;">Paleta de Color</h4>
+                    <div class="color-grid" id="palette-grid"></div>
+                </div>
+
+                <div class="model-container">
+                    <svg viewBox="0 0 500 550" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="skin" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#ffdfc4" /><stop offset="100%" stop-color="#e3b692" /></linearGradient>
+                            <linearGradient id="hair-grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1a1a2e" /><stop offset="100%" stop-color="#16213e" /></linearGradient>
+                        </defs>
+                        <path d="M 120 150 Q 50 250 80 450 L 150 550 L 350 550 L 420 450 Q 450 250 380 150 Z" fill="url(#hair-grad)"/>
+                        <path d="M 210 350 L 290 350 Q 300 450 400 500 L 100 500 Q 200 450 210 350" fill="url(#skin)"/>
+                        <path id="mk-clothes" class="layer-cloth" d="M 170 420 Q 250 480 330 420 Q 370 450 400 500 L 100 500 Q 130 450 170 420 Z" fill="transparent" />
+                        <path id="mk-acc" class="layer-acc" d="M 210 400 Q 250 460 290 400" fill="none" stroke="transparent" stroke-width="6" stroke-linecap="round" stroke-dasharray="2 12"/>
+                        <path d="M 160 180 Q 150 300 200 370 Q 250 400 300 370 Q 350 300 340 180 Q 250 130 160 180 Z" fill="url(#skin)"/>
+                        
+                        <circle id="mk-blush-l" class="layer-blush" cx="190" cy="290" r="35" fill="transparent" />
+                        <circle id="mk-blush-r" class="layer-blush" cx="310" cy="290" r="35" fill="transparent" />
+                        <path id="mk-shadow-l" class="layer-shadow" d="M 175 240 Q 200 215 225 240 Q 200 230 175 240 Z" fill="transparent"/>
+                        <path id="mk-shadow-r" class="layer-shadow" d="M 275 240 Q 300 215 325 240 Q 300 230 275 240 Z" fill="transparent"/>
+                        <g class="eyes">
+                            <path d="M 175 240 Q 200 225 225 240 Q 200 250 175 240 Z" fill="#fff"/><path d="M 275 240 Q 300 225 325 240 Q 300 250 275 240 Z" fill="#fff"/>
+                            <circle cx="200" cy="238" r="9" fill="#4a2e1b"/><circle cx="300" cy="238" r="9" fill="#4a2e1b"/>
+                            <circle cx="200" cy="238" r="4" fill="#000"/><circle cx="197" cy="235" r="2" fill="#fff"/>
+                            <circle cx="300" cy="238" r="4" fill="#000"/><circle cx="297" cy="235" r="2" fill="#fff"/>
+                            <path id="mk-eyeliner-l" class="layer-eyeliner" d="M 170 240 Q 200 220 230 242" fill="none" stroke-width="4" stroke-linecap="round"/>
+                            <path id="mk-eyeliner-r" class="layer-eyeliner" d="M 270 242 Q 300 220 330 240" fill="none" stroke-width="4" stroke-linecap="round"/>
+                            <g id="mk-lashes-l" class="layer-lashes" stroke-width="3" stroke-linecap="round"><line x1="175" y1="237" x2="165" y2="225" /><line x1="185" y1="231" x2="180" y2="215" /><line x1="195" y1="228" x2="195" y2="212" /></g>
+                            <g id="mk-lashes-r" class="layer-lashes" stroke-width="3" stroke-linecap="round"><line x1="325" y1="237" x2="335" y2="225" /><line x1="315" y1="231" x2="320" y2="215" /><line x1="305" y1="228" x2="305" y2="212" /></g>
+                        </g>
+                        <path d="M 250 250 Q 255 285 245 290 Q 250 295 255 290" fill="none" stroke="#c49b7d" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M 225 325 Q 250 315 275 325 Q 250 345 225 325 Z" fill="#d19a84"/><path d="M 225 325 Q 250 325 275 325" stroke="#b07d67" stroke-width="1.5"/>
+                        <path id="mk-lips" class="layer-lips" d="M 225 325 Q 250 315 275 325 Q 250 345 225 325 Z" fill="transparent"/>
+                        <path d="M 140 220 Q 150 150 250 150 Q 350 150 360 220 Q 320 180 250 180 Q 180 180 140 220 Z" fill="url(#hair-grad)"/>
+                    </svg>
+                </div>
+            </div>
+        </main>
+
+        <!-- SECCIÓN: MÚSICA (LOOP STATION POLIRRÍTMICO) -->
+        <main id="music-section" class="hidden fade-in">
+            <div class="music-layout">
+                <h2 style="color: var(--neon-blue); font-size: 2.5rem; margin-bottom: 10px;">DJ LOOP STATION</h2>
+                <p style="margin-bottom: 30px; color: #888;">Toca los pads o activa los LOOPS individuales para crear ritmos combinados.</p>
+                
+                <!-- Consola dinámica generada por JS -->
+                <div class="launchpad" id="dj-board">
+                    <!-- Los botones con sus mini-sliders se inyectarán aquí -->
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        /* =========================================
+           CONTROL DE PANTALLAS Y TEXTOS DE CREATIVIDAD
+           ========================================= */
+        const introScreen = document.getElementById('intro-screen');
+        const purposeScreen = document.getElementById('purpose-screen');
+        const mainApp = document.getElementById('main-app');
+        
+        let pendingGameType = '';
+        let audioInitialized = false;
+
+        function showPurpose(type) {
+            pendingGameType = type;
+            introScreen.classList.add('hidden');
+            purposeScreen.classList.remove('hidden');
+            
+            const titleEl = document.getElementById('purpose-title');
+            const textEl = document.getElementById('purpose-text');
+
+            if(type === 'makeup') {
+                titleEl.innerText = "Estudio Pro";
+                titleEl.style.color = "var(--neon-pink)";
+                // Texto enfocado en creatividad
+                textEl.innerHTML = "<span>Propósito Educativo:</span> Esta actividad está diseñada para estimular al máximo la <span>creatividad visual</span> y la imaginación. Los niños podrán expresarse libremente, combinando estilos y descubriendo su propio sentido estético mientras se divierten diseñando.";
+            } else {
+                titleEl.innerText = "Loop Station";
+                titleEl.style.color = "var(--neon-blue)";
+                // Texto enfocado en creatividad musical
+                textEl.innerHTML = "<span>Propósito Educativo:</span> Este laboratorio sonoro fomenta la <span>creatividad musical</span> y la exploración auditiva. Al poder cambiar la velocidad de cada sonido por separado, los niños crean combinaciones rítmicas únicas, desarrollando su oído y expresión artística de forma libre.";
+            }
+        }
+
+        function startGame() {
+            if (!audioInitialized) { initAudioEngine(); audioInitialized = true; }
+            purposeScreen.classList.add('hidden');
+            mainApp.classList.remove('hidden');
+            
+            document.getElementById('makeup-section').classList.add('hidden');
+            document.getElementById('music-section').classList.add('hidden');
+
+            if (pendingGameType === 'makeup') {
+                document.getElementById('makeup-section').classList.remove('hidden');
+                startMakeupMusic(); 
+            } else if (pendingGameType === 'music') {
+                document.getElementById('music-section').classList.remove('hidden');
+            }
+        }
+
+        function goBack() {
+            mainApp.classList.add('hidden');
+            introScreen.classList.remove('hidden');
+            
+            stopMakeupMusic(); 
+            
+            // Detener todos los loops individuales al salir
+            for(let key in loopIntervals) { 
+                clearInterval(loopIntervals[key]); 
+                loopStates[key] = false; 
+            }
+            document.querySelectorAll('.loop-toggle').forEach(btn => btn.classList.remove('looping'));
+        }
+
+        /* =========================================
+           LÓGICA DEL MAQUILLAJE
+           ========================================= */
+        const makeupCategories = {
+            lips: ['#e63946', '#ff007f', '#d90429', '#ffb5a7', '#8a2387', 'transparent'],
+            shadow: ['#00f0ff', '#b026ff', '#39ff14', '#ffaa00', '#ff0055', 'transparent'],
+            blush: ['#ff99c8', '#ff5c8a', '#e5989b', '#fec5bb', '#d16a8c', 'transparent'],
+            eyeliner: ['#000000', '#b026ff', '#00f0ff', '#ffffff', '#ff0055', 'transparent'],
+            lashes: ['#000000', '#ffffff', '#00f0ff', '#ff007f', '#39ff14', 'transparent'],
+            clothes: ['#ff2a85', '#00f0ff', '#1a1a2e', '#ffaa00', '#ffffff', 'transparent'],
+            acc: ['#fffb00', '#cccccc', '#ff0055', '#00f0ff', 'transparent']
+        };
+
+        let currentTool = 'lips';
+        const paletteGrid = document.getElementById('palette-grid');
+
+        function renderPalette(category) {
+            paletteGrid.innerHTML = '';
+            makeupCategories[category].forEach(color => {
+                const swatch = document.createElement('div');
+                swatch.className = 'color-swatch';
+                swatch.style.background = color === 'transparent' ? 'repeating-linear-gradient(45deg, #fff, #fff 5px, #ffcccc 5px, #ffcccc 10px)' : color;
+                swatch.onclick = () => {
+                    document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active-color'));
+                    swatch.classList.add('active-color');
+                    applyMakeup(category, color);
+                };
+                paletteGrid.appendChild(swatch);
+            });
+        }
+
+        function applyMakeup(category, color) {
+            const isClear = color === 'transparent';
+            const opacity = isClear ? '0' : (category === 'blush' ? '0.6' : '0.85');
+            if (category === 'lips') { document.getElementById('mk-lips').setAttribute('fill', color); document.getElementById('mk-lips').style.opacity = opacity; } 
+            else if (category === 'shadow') { document.getElementById('mk-shadow-l').setAttribute('fill', color); document.getElementById('mk-shadow-r').setAttribute('fill', color); document.getElementById('mk-shadow-l').style.opacity = opacity; document.getElementById('mk-shadow-r').style.opacity = opacity; } 
+            else if (category === 'blush') { document.getElementById('mk-blush-l').setAttribute('fill', color); document.getElementById('mk-blush-r').setAttribute('fill', color); document.getElementById('mk-blush-l').style.opacity = opacity; document.getElementById('mk-blush-r').style.opacity = opacity; } 
+            else if (category === 'eyeliner') { document.getElementById('mk-eyeliner-l').setAttribute('stroke', color); document.getElementById('mk-eyeliner-r').setAttribute('stroke', color); document.getElementById('mk-eyeliner-l').style.opacity = isClear?'0':'1'; document.getElementById('mk-eyeliner-r').style.opacity = isClear?'0':'1'; } 
+            else if (category === 'lashes') { document.getElementById('mk-lashes-l').setAttribute('stroke', color); document.getElementById('mk-lashes-r').setAttribute('stroke', color); document.getElementById('mk-lashes-l').style.opacity = isClear?'0':'1'; document.getElementById('mk-lashes-r').style.opacity = isClear?'0':'1'; } 
+            else if (category === 'clothes') { document.getElementById('mk-clothes').setAttribute('fill', color); } 
+            else if (category === 'acc') { document.getElementById('mk-acc').setAttribute('stroke', color); }
+        }
+
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.onclick = () => {
+                document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentTool = btn.getAttribute('data-target');
+                renderPalette(currentTool);
+            };
+        });
+        renderPalette(currentTool);
+
+        /* =========================================
+           MOTOR DE AUDIO
+           ========================================= */
+        let audioCtx, noiseBuffer;
+        
+        function initAudioEngine() {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const bufferSize = audioCtx.sampleRate * 2;
+            noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const output = noiseBuffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) output[i] = Math.random() * 2 - 1;
+        }
+
+        // --- Música (Fondo de Maquillaje) ---
+        let makeupMusicInterval;
+        const magicScale = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25]; 
+        function startMakeupMusic() {
+            if(makeupMusicInterval) return;
+            makeupMusicInterval = setInterval(() => {
+                if(!audioCtx) return;
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.value = magicScale[Math.floor(Math.random() * magicScale.length)];
+                osc.connect(gain); gain.connect(audioCtx.destination);
+                gain.gain.setValueAtTime(0, audioCtx.currentTime);
+                gain.gain.linearRampToValueAtTime(0.015, audioCtx.currentTime + 0.2);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 3);
+                osc.start(); osc.stop(audioCtx.currentTime + 3);
+            }, 800);
+        }
+        function stopMakeupMusic() { clearInterval(makeupMusicInterval); makeupMusicInterval = null; }
+
+        /* =========================================
+           SISTEMA DJ DE LOOPS INDIVIDUALES
+           ========================================= */
+        
+        // Base de datos de los botones
+        const padsData = [
+            { id: 'kick', name: 'BOMBO', color: '#ff0055', type: 'drum' },
+            { id: 'snare', name: 'CAJA', color: '#00f0ff', type: 'drum' },
+            { id: 'hihat', name: 'HI-HAT', color: '#39ff14', type: 'drum' },
+            { id: 'bx-kick', name: 'BX KICK', color: '#ff2a85', type: 'beatbox' },
+            { id: 'bx-snare', name: 'BX SNARE', color: '#b026ff', type: 'beatbox' },
+            { id: 'bx-hat', name: 'BX HAT', color: '#fffb00', type: 'beatbox' },
+            { id: 'synthC', name: 'NOTA C', color: '#b026ff', type: 'synth', freq: 261.63 },
+            { id: 'synthE', name: 'NOTA E', color: '#ff26e0', type: 'synth', freq: 329.63 },
+            { id: 'synthG', name: 'NOTA G', color: '#2655ff', type: 'synth', freq: 392.00 },
+            { id: 'synthB', name: 'NOTA B', color: '#00f0ff', type: 'synth', freq: 493.88 }
+        ];
+
+        const loopStates = {};
+        const loopIntervals = {};
+
+        // Inyectar HTML Dinámicamente para incluir los sliders individuales
+        const djBoard = document.getElementById('dj-board');
+        padsData.forEach(pad => {
+            loopStates[pad.id] = false;
+            const card = document.createElement('div');
+            card.className = 'pad-card';
+            card.innerHTML = `
+                <button class="pad-btn" data-sound="${pad.id}" style="--pad-color: ${pad.color};">${pad.name}</button>
+                <div class="controls-row">
+                    <button class="loop-toggle" data-loop="${pad.id}" style="--pad-color: ${pad.color};">⟳ LOOP</button>
+                    <div class="bpm-slider-container">
+                        <label>BPM: <span id="val-${pad.id}">120</span></label>
+                        <input type="range" id="bpm-${pad.id}" min="60" max="300" value="120" data-target="${pad.id}" style="--pad-color: ${pad.color};">
+                    </div>
+                </div>
+            `;
+            djBoard.appendChild(card);
+        });
+
+        // Funciones de Generación de Sonido
+        function playDrum(type) {
+            if(!audioCtx) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            
+            if(type === 'kick') {
+                osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+                gain.gain.setValueAtTime(1, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.4);
+            } else if(type === 'snare') {
+                const filter = audioCtx.createBiquadFilter(); filter.type = 'highpass'; filter.frequency.value = 1000;
+                osc.type = 'square'; osc.disconnect(); osc.connect(filter); filter.connect(gain);
+                osc.frequency.setValueAtTime(250, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.5, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.2);
+            } else if(type === 'hihat') {
+                const filter = audioCtx.createBiquadFilter(); filter.type = 'highpass'; filter.frequency.value = 7000;
+                osc.type = 'square'; osc.disconnect(); osc.connect(filter); filter.connect(gain);
+                gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.05);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.05);
+            }
+        }
+
+        function playBeatbox(type) {
+            if(!audioCtx) return;
+            const t = audioCtx.currentTime;
+            
+            if(type === 'bx-kick') {
+                const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
+                osc.type = 'triangle'; osc.frequency.setValueAtTime(200, t); osc.frequency.exponentialRampToValueAtTime(30, t + 0.15); 
+                gain.gain.setValueAtTime(1, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.15);
+                osc.connect(gain); gain.connect(audioCtx.destination); osc.start(t); osc.stop(t + 0.15);
+            } else if (type === 'bx-snare') {
+                const noiseSource = audioCtx.createBufferSource(); noiseSource.buffer = noiseBuffer;
+                const filter = audioCtx.createBiquadFilter(); filter.type = 'bandpass'; filter.frequency.value = 1500; filter.Q.value = 1.5;
+                const gain = audioCtx.createGain(); gain.gain.setValueAtTime(1, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.2);
+                noiseSource.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination); noiseSource.start(t); noiseSource.stop(t + 0.2);
+            } else if (type === 'bx-hat') {
+                const noiseSource = audioCtx.createBufferSource(); noiseSource.buffer = noiseBuffer;
+                const filter = audioCtx.createBiquadFilter(); filter.type = 'highpass'; filter.frequency.value = 5000;
+                const gain = audioCtx.createGain(); gain.gain.setValueAtTime(0.8, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.05);
+                noiseSource.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination); noiseSource.start(t); noiseSource.stop(t + 0.05);
+            }
+        }
+
+        function playSynth(freq) {
+            if(!audioCtx) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'sawtooth';
+            osc.frequency.value = freq;
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+            osc.start(); osc.stop(audioCtx.currentTime + 0.4);
+        }
+
+        // Reproducir sonido e iluminar el botón
+        function triggerSound(padId) {
+            const padInfo = padsData.find(p => p.id === padId);
+            if(padInfo.type === 'drum') playDrum(padId);
+            else if(padInfo.type === 'beatbox') playBeatbox(padId);
+            else if(padInfo.type === 'synth') playSynth(padInfo.freq);
+            
+            const btn = document.querySelector(`.pad-btn[data-sound="${padId}"]`);
+            if(btn) {
+                btn.classList.add('active-hit');
+                setTimeout(() => btn.classList.remove('active-hit'), 100);
+            }
+        }
+
+        // Actualizar el intervalo del loop de un pad específico (Polirritmia)
+        function updatePadLoop(padId) {
+            clearInterval(loopIntervals[padId]);
+            if(loopStates[padId]) {
+                const bpm = document.getElementById(`bpm-${padId}`).value;
+                const ms = 60000 / bpm; // Calcula los milisegundos exactos por golpe según el BPM de ESTE pad
+                triggerSound(padId); // Toca inmediatamente al activarlo
+                loopIntervals[padId] = setInterval(() => triggerSound(padId), ms);
+            }
+        }
+
+        // Asignar eventos de click y touch a los botones
+        document.querySelectorAll('.pad-btn').forEach(btn => {
+            btn.addEventListener('pointerdown', (e) => {
+                e.preventDefault(); triggerSound(btn.getAttribute('data-sound'));
+            });
+        });
+
+        // Asignar evento al botón de LOOP
+        document.querySelectorAll('.loop-toggle').forEach(btn => {
+            btn.onclick = () => {
+                const padId = btn.getAttribute('data-loop');
+                loopStates[padId] = !loopStates[padId];
+                btn.classList.toggle('looping');
+                updatePadLoop(padId);
+            };
+        });
+
+        // Asignar evento al slider de velocidad (BPM)
+        document.querySelectorAll('input[type="range"]').forEach(slider => {
+            slider.addEventListener('input', (e) => {
+                const padId = e.target.getAttribute('data-target');
+                document.getElementById(`val-${padId}`).innerText = e.target.value;
+                // Si el loop está activo, se actualiza la velocidad en tiempo real
+                if(loopStates[padId]) updatePadLoop(padId);
+            });
+        });
+
+    </script>
+</body>
+</html>
