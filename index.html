@@ -68,12 +68,12 @@
         .purpose-title { font-size: clamp(1.5rem, 5vw, 2rem); margin-bottom: 20px; }
         .purpose-text { font-size: 1.1rem; line-height: 1.6; color: #ccc; margin-bottom: 30px; }
         .purpose-text span { font-weight: bold; }
-        .btn-start { background: linear-gradient(45deg, var(--neon-pink), var(--neon-blue)); color: white; border: none; padding: 15px 40px; font-size: 1.2rem; font-weight: bold; border-radius: 30px; cursor: pointer; transition: 0.3s; box-shadow: 0 10px 20px rgba(255,255,255,0.1); width: 100%; max-width: 250px; }
+        .btn-start { background: linear-gradient(45deg, var(--neon-pink), var(--neon-blue)); color: white; border: none; padding: 15px 40px; font-size: 1.2rem; font-weight: bold; border-radius: 30px; cursor: pointer; transition: 0.3s; box-shadow: 0 10px 20px rgba(255,255,255,0.1); width: 100%; max-width: 250px; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
         .btn-start:hover { transform: scale(1.05); }
 
         /* --- APP HEADER --- */
         header { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background: rgba(9, 9, 11, 0.8); backdrop-filter: blur(15px); border-bottom: 1px solid var(--glass-border); position: sticky; top: 0; z-index: 100; }
-        .btn-back { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.3); padding: 8px 20px; border-radius: 30px; cursor: pointer; font-weight: bold; transition: 0.3s; font-size: 0.9rem; }
+        .btn-back { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.3); padding: 8px 20px; border-radius: 30px; cursor: pointer; font-weight: bold; transition: 0.3s; font-size: 0.9rem; touch-action: manipulation; }
         .btn-back:hover { background: #fff; color: #000; }
 
         /* --- LAYOUT GENERAL SECCIONES --- */
@@ -82,12 +82,12 @@
         /* --- ESTILOS: MAQUILLAJE --- */
         .tools-panel { background: var(--glass-bg); padding: 25px; border-radius: 30px; border: 1px solid var(--glass-border); width: 100%; max-width: 350px; display: flex; flex-direction: column; gap: 12px; }
         .tools-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .category-btn { background: rgba(0,0,0,0.5); color: #fff; border: 1px solid var(--glass-border); padding: 10px; border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 0.85rem; transition: 0.3s; text-align: center; }
+        .category-btn { background: rgba(0,0,0,0.5); color: #fff; border: 1px solid var(--glass-border); padding: 10px; border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 0.85rem; transition: 0.3s; text-align: center; touch-action: manipulation; }
         .category-btn:hover { background: rgba(255, 42, 133, 0.2); }
         .category-btn.active { background: var(--neon-pink); border-color: var(--neon-pink); box-shadow: 0 0 15px rgba(255,42,133,0.5); }
         
         .color-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 10px; justify-items: center; }
-        .color-swatch { width: 40px; height: 40px; border-radius: 50%; cursor: pointer; border: 3px solid transparent; transition: 0.3s; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; font-size: 1.2rem;}
+        .color-swatch { width: 40px; height: 40px; border-radius: 50%; cursor: pointer; border: 3px solid transparent; transition: 0.3s; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; touch-action: manipulation; }
         .color-swatch:hover { transform: scale(1.15); }
         .color-swatch.active-color { border-color: #fff; transform: scale(1.15); box-shadow: 0 0 15px currentColor; }
 
@@ -108,7 +108,6 @@
         @keyframes breathe-clothes { 0%, 100% { transform: scaleY(1) translateY(0); } 50% { transform: scaleY(1.02) translateY(-3px); } }
         #mk-clothes { transform-origin: 250px 450px; animation: breathe-clothes 3.5s ease-in-out infinite; }
         
-        /* Animaciones avanzadas para la súper cabellera */
         @keyframes hair-back-wind { 0%, 100% { transform: rotate(0deg) skewX(0deg); } 50% { transform: rotate(2.5deg) skewX(2deg); } }
         @keyframes hair-front-wind { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-2px) rotate(-1.5deg); } }
         @keyframes strand-left-move { 0%, 100% { transform: rotate(0deg) scaleX(1); } 50% { transform: rotate(-4deg) scaleX(1.05); } }
@@ -125,32 +124,34 @@
         .music-layout { padding: 30px 5%; text-align: center; max-width: 1200px; margin: 0 auto; flex: 1; width: 100%;}
         .launchpad { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 15px; background: #111; padding: 25px; border-radius: 25px; border: 2px solid #222; width: 100%; box-shadow: 0 20px 40px rgba(0,0,0,0.8), inset 0 0 20px rgba(0,0,0,1); }
         .pad-card { background: #0a0a0a; border: 1px solid #222; border-radius: 15px; padding: 12px; display: flex; flex-direction: column; gap: 10px; align-items: center; }
-        .pad-btn { width: 100%; aspect-ratio: 1; border-radius: 12px; border: none; background: #1a1a1a; color: #ccc; font-size: 0.8rem; font-weight: 900; cursor: pointer; box-shadow: inset 0 5px 10px rgba(255,255,255,0.05), inset 0 -5px 15px rgba(0,0,0,0.8), 0 5px 10px rgba(0,0,0,0.5); transition: 0.1s; position: relative; }
+        
+        /* PARCHE MÓVIL: Previene zoom por doble toque y mejora respuesta táctil */
+        .pad-btn { width: 100%; aspect-ratio: 1; border-radius: 12px; border: none; background: #1a1a1a; color: #ccc; font-size: 0.8rem; font-weight: 900; cursor: pointer; box-shadow: inset 0 5px 10px rgba(255,255,255,0.05), inset 0 -5px 15px rgba(0,0,0,0.8), 0 5px 10px rgba(0,0,0,0.5); transition: 0.1s; position: relative; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+        
         .pad-btn::after { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: 12px; border: 2px solid var(--pad-color); opacity: 0.2; transition: 0.2s; }
         .pad-btn:active, .pad-btn.active-hit { transform: translateY(4px); background: var(--pad-color); color: #fff; box-shadow: inset 0 0 20px rgba(0,0,0,0.5), 0 0 20px var(--pad-color); }
         .pad-btn:active::after, .pad-btn.active-hit::after { opacity: 1; }
         .controls-row { display: flex; flex-direction: column; width: 100%; gap: 8px; align-items: center; }
-        .loop-toggle { background: #222; color: #888; border: 1px solid #444; padding: 6px; border-radius: 6px; font-size: 0.7rem; font-weight: bold; cursor: pointer; width: 100%; transition: 0.3s; }
+        .loop-toggle { background: #222; color: #888; border: 1px solid #444; padding: 6px; border-radius: 6px; font-size: 0.7rem; font-weight: bold; cursor: pointer; width: 100%; transition: 0.3s; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
         .loop-toggle.looping { background: var(--pad-color); color: #000; border-color: var(--pad-color); box-shadow: 0 0 10px var(--pad-color); }
         .bpm-slider-container { display: flex; flex-direction: column; width: 100%; }
         .bpm-slider-container label { font-size: 0.55rem; color: #888; margin-bottom: 4px; font-weight: bold; text-align: center; }
-        .bpm-slider-container input[type="range"] { -webkit-appearance: none; width: 100%; height: 4px; background: #333; border-radius: 2px; outline: none; }
+        .bpm-slider-container input[type="range"] { -webkit-appearance: none; width: 100%; height: 4px; background: #333; border-radius: 2px; outline: none; touch-action: manipulation; }
         .bpm-slider-container input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%; background: var(--pad-color); cursor: pointer; }
 
         /* --- ESTILOS: JUEGOS DE CONCENTRACIÓN Y LÓGICA --- */
         .games-layout { display: flex; flex-wrap: wrap; justify-content: center; gap: 40px; padding: 30px 5%; width: 100%; max-width: 1200px; margin: 0 auto; flex: 1; }
-        
         .game-panel { background: var(--glass-bg); padding: 30px; border-radius: 30px; border: 2px solid; width: 100%; max-width: 480px; display: flex; flex-direction: column; align-items: center; box-shadow: 0 15px 30px rgba(0,0,0,0.5); }
         
         /* Sudoku 9x9 */
         .sudoku-grid { display: grid; grid-template-columns: repeat(9, 1fr); gap: 2px; background: #333; padding: 4px; border-radius: 8px; margin-top: 20px; width: 100%; max-width: 400px; }
-        .sudoku-cell { width: 100%; aspect-ratio: 1; background: #111; color: var(--neon-blue); font-size: 1.2rem; font-weight: bold; text-align: center; border: none; outline: none; transition: 0.2s; }
+        .sudoku-cell { width: 100%; aspect-ratio: 1; background: #111; color: var(--neon-blue); font-size: 1.2rem; font-weight: bold; text-align: center; border: none; outline: none; transition: 0.2s; touch-action: manipulation; }
         .sudoku-cell.fixed { background: #0a0a0a; color: #fff; cursor: not-allowed; }
         .sudoku-cell:focus { box-shadow: inset 0 0 10px var(--neon-blue); background: #222; }
 
         /* Memoria */
         .memory-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 20px; width: 100%; max-width: 350px;}
-        .memory-card { width: 100%; aspect-ratio: 1; background: #111; border: 2px solid var(--neon-purple); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 2rem; cursor: pointer; transition: transform 0.3s, background 0.3s; transform-style: preserve-3d; }
+        .memory-card { width: 100%; aspect-ratio: 1; background: #111; border: 2px solid var(--neon-purple); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 2rem; cursor: pointer; transition: transform 0.3s, background 0.3s; transform-style: preserve-3d; touch-action: manipulation; -webkit-tap-highlight-color: transparent;}
         .memory-card.flipped { background: var(--glass-bg); transform: rotateY(180deg); border-color: #fff; box-shadow: 0 0 15px var(--neon-purple); }
         .memory-card span { display: none; transform: rotateY(180deg); }
         .memory-card.flipped span { display: block; }
@@ -433,11 +434,11 @@
             if(type === 'makeup') {
                 titleEl.innerText = "Estudio Pro";
                 titleEl.style.color = "var(--neon-pink)";
-                textEl.innerHTML = "<span>Propósito Educativo:</span> Mediante la experimentación con colores, formas y estilos, los estudiantes fortalecen su creatividad, imaginación y sentido estético, aprendiendo a expresar ideas de forma visual y a explorar distintas posibilidades.";
+                textEl.innerHTML = "<span>Propósito Educativo:</span> Esta actividad fomenta la <span>creatividad estética</span> y la expresión personal. Experimentar con combinaciones visuales estimula el hemisferio derecho del cerebro y mejora la toma de decisiones basada en la teoría del color.";
             } else if(type === 'music') {
                 titleEl.innerText = "Loop Station";
                 titleEl.style.color = "var(--neon-blue)";
-                textEl.innerHTML = "<span>Propósito Educativo:</span> La actividad favorece el aprendizaje activo mediante la experimentación. Los estudiantes exploran distintas combinaciones y velocidades, desarrollando la creatividad, la atención, la coordinación y la comprensión de la relación entre causa y efecto a través de la retroalimentación inmediata.";
+                textEl.innerHTML = "<span>Propósito Educativo:</span> La creación de ritmos independientes estimula la <span>inteligencia musical y matemática</span>. Controlar velocidades diferentes (BPM) ayuda a entender conceptos de fracciones, polirritmia y disociación auditiva.";
             } else if(type === 'games') {
                 titleEl.innerText = "Zona Lógica";
                 titleEl.style.color = "var(--neon-purple)";
@@ -449,7 +450,11 @@
             if (!audioInitialized && (pendingGameType === 'music' || pendingGameType === 'makeup' || pendingGameType === 'games')) { 
                 initAudioEngine(); 
                 audioInitialized = true; 
+            } else if (audioCtx && audioCtx.state === 'suspended') {
+                // Forzar reanudación en móviles si ya estaba inicializado
+                audioCtx.resume();
             }
+
             purposeScreen.classList.add('hidden');
             mainApp.classList.remove('hidden');
             
@@ -574,14 +579,33 @@
         renderPaletteMk(currentToolMk);
 
         /* =========================================
-           NUEVO MOTOR DE AUDIO PRO (Estilo Incredibox)
+           NUEVO MOTOR DE AUDIO PRO (CON PARCHE MÓVIL)
            ========================================= */
         let audioCtx, noiseBuffer;
         let masterGain, delayNode, feedbackNode, compressor;
         
         function initAudioEngine() {
-            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            window.AudioContext = window.AudioContext || window.webkitAudioContext;
+            audioCtx = new AudioContext();
             
+            // --- PARCHE PARA MÓVILES (iOS / Android) ---
+            // Los navegadores móviles bloquean el audio hasta que el usuario interactúa.
+            // Esto reproduce un sonido vacío de 1ms para "despertar" permanentemente el motor.
+            const unlockBuffer = audioCtx.createBuffer(1, 1, 22050);
+            const unlockSource = audioCtx.createBufferSource();
+            unlockSource.buffer = unlockBuffer;
+            unlockSource.connect(audioCtx.destination);
+            if (unlockSource.start) {
+                unlockSource.start(0);
+            } else {
+                unlockSource.noteOn(0);
+            }
+
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            // ------------------------------------------
+
             compressor = audioCtx.createDynamicsCompressor();
             compressor.threshold.value = -10;
             compressor.knee.value = 30;
@@ -615,6 +639,8 @@
         
         function startMakeupMusic() {
             if(makeupMusicInterval) return;
+            if(audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+
             makeupMusicInterval = setInterval(() => {
                 if(!audioCtx) return;
                 const freq = popMelody[popStep % popMelody.length];
@@ -851,6 +877,8 @@
         }
 
         function triggerSound(padId) {
+            if(audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+            
             const padInfo = padsData.find(p => p.id === padId);
             if(padInfo.type === 'drum') playDrum(padId);
             else if(padInfo.type === 'beatbox') playBeatbox(padId);
@@ -866,21 +894,32 @@
             clearInterval(loopIntervals[padId]);
             if(loopStates[padId]) {
                 const bpm = document.getElementById(`bpm-${padId}`).value;
-                const ms = 60000 / bpm; // Calcula los milisegundos exactos por golpe según el BPM de ESTE pad
-                triggerSound(padId); // Toca inmediatamente al activarlo
+                const ms = 60000 / bpm; 
+                triggerSound(padId); 
                 loopIntervals[padId] = setInterval(() => triggerSound(padId), ms);
             }
         }
 
-        // Eventos de click/touch
+        // --- MANEJO DE EVENTOS TÁCTILES MEJORADO ---
         document.querySelectorAll('.pad-btn').forEach(btn => {
-            btn.addEventListener('pointerdown', (e) => {
-                e.preventDefault(); triggerSound(btn.getAttribute('data-sound'));
+            // Usamos touchstart para móviles, así la respuesta es instantánea
+            btn.addEventListener('touchstart', (e) => {
+                e.preventDefault(); 
+                if(audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+                triggerSound(btn.getAttribute('data-sound'));
+            }, {passive: false});
+
+            // Mousedown para PC
+            btn.addEventListener('mousedown', (e) => {
+                e.preventDefault();
+                if(audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+                triggerSound(btn.getAttribute('data-sound'));
             });
         });
 
         document.querySelectorAll('.loop-toggle').forEach(btn => {
             btn.onclick = () => {
+                if(audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
                 const padId = btn.getAttribute('data-loop');
                 loopStates[padId] = !loopStates[padId];
                 btn.classList.toggle('looping');
@@ -892,7 +931,7 @@
             slider.addEventListener('input', (e) => {
                 const padId = e.target.getAttribute('data-target');
                 document.getElementById(`val-${padId}`).innerText = e.target.value;
-                if(loopStates[padId]) updatePadLoop(padId); // Actualiza si está sonando en tiempo real
+                if(loopStates[padId]) updatePadLoop(padId);
             });
         });
 
@@ -951,6 +990,7 @@
                     } else {
                         input.addEventListener('input', () => { 
                             if(audioCtx) {
+                                if(audioCtx.state === 'suspended') audioCtx.resume();
                                 const osc = audioCtx.createOscillator();
                                 osc.frequency.value = 800;
                                 osc.connect(masterGain);
@@ -1032,6 +1072,7 @@
             if (card.classList.contains('flipped') || card.classList.contains('matched') || flippedCards.length >= 2) { return; }
 
             if(audioCtx) {
+                if(audioCtx.state === 'suspended') audioCtx.resume();
                 const osc = audioCtx.createOscillator();
                 osc.frequency.value = 600;
                 osc.connect(masterGain);
@@ -1055,6 +1096,7 @@
                 matchedPairs++;
                 
                 if(audioCtx) {
+                    if(audioCtx.state === 'suspended') audioCtx.resume();
                     const osc = audioCtx.createOscillator();
                     osc.frequency.value = 1200;
                     osc.connect(masterGain);
