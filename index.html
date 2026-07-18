@@ -101,7 +101,6 @@
         
         /* --- ESTILOS: MAQUILLAJE --- */
         .tools-panel { background: rgba(255,255,255,0.8); backdrop-filter: blur(20px); padding: 25px; border-radius: 30px; border: 1px solid #fff; border-top: 2px solid #fff; width: 100%; max-width: 380px; display: flex; flex-direction: column; gap: 12px; box-shadow: var(--shadow-soft); }
-        /* Grid de 3 columnas para que quepan lentes y piercings */
         .tools-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
         .category-btn { background: #fff; color: var(--text-light); border: 1px solid #eee; padding: 8px 5px; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 0.8rem; transition: 0.3s; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
         .category-btn:hover { background: #fdf4f6; color: var(--pastel-pink); border-color: var(--pastel-pink); transform: translateY(-2px); }
@@ -141,7 +140,7 @@
         .launchpad { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 15px; background: rgba(255,255,255,0.7); backdrop-filter: blur(20px); padding: 25px; border-radius: 25px; box-shadow: var(--shadow-soft); border-top: 2px solid #fff; border-left: 2px solid #fff; width: 100%; }
         .pad-card { background: #fff; border: 1px solid #f0f0f0; border-radius: 15px; padding: 12px; display: flex; flex-direction: column; gap: 10px; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
         .pad-btn { width: 100%; aspect-ratio: 1; border-radius: 12px; border: none; background: #fafafa; color: var(--text-dark); font-size: 0.8rem; font-weight: 700; cursor: pointer; box-shadow: inset 0 2px 5px rgba(255,255,255,1), 0 4px 10px rgba(0,0,0,0.05); transition: 0.15s; border: 2px solid transparent; }
-        .pad-btn:active, .pad-btn.active-hit { transform: translateY(4px); background: var(--pad-color); color: #fff; box-shadow: inset 0 4px 10px rgba(0,0,0,0.1), 0 4px 15px var(--pad-color); border-color: var(--pad-color); }
+        .pad-btn:active, .pad-btn.active-hit { transform: translateY(4px); background: var(--pad-color); color: #fff; box-shadow: inset 0 4px 10px rgba(0,0,0,0.1), 0 4px 15px var(--pad-color); border-color: var(--pad-color); text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
         .controls-row { display: flex; flex-direction: column; width: 100%; gap: 8px; align-items: center; }
         .loop-toggle { background: #fff; color: var(--text-light); border: 1px solid #ddd; padding: 6px; border-radius: 6px; font-size: 0.7rem; font-weight: 600; cursor: pointer; width: 100%; transition: 0.3s; }
         .loop-toggle.looping { background: var(--pad-color); color: #fff; border-color: var(--pad-color); box-shadow: 0 4px 10px var(--pad-color); }
@@ -439,7 +438,7 @@
                 <div class="music-layout">
                     <h2 style="color: var(--pastel-blue); font-size: clamp(1.5rem, 4vw, 2.5rem); margin-bottom: 10px; font-weight:800;">DJ LOOP STATION</h2>
                     <div id="visualizer" style="display: flex; gap: 5px; justify-content: center; align-items: flex-end; height: 30px; margin-bottom: 20px;"></div>
-                    <p style="margin-bottom: 30px; color: var(--text-light);">Toca los pads o activa los LOOPS individuales para crear ritmos combinados.</p>
+                    <p style="margin-bottom: 30px; color: var(--text-light);">Crea música estilo Incredibox: Combina ritmos, melodías y voces en loops perfectos.</p>
                     <div class="launchpad" id="dj-board">
                         <!-- JS inyecta botones aquí -->
                     </div>
@@ -723,11 +722,17 @@
         
         function initAudioEngine() {
             audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            compressor = audioCtx.createDynamicsCompressor(); compressor.threshold.value = -10; compressor.knee.value = 30; compressor.ratio.value = 12; compressor.attack.value = 0.003; compressor.release.value = 0.25; compressor.connect(audioCtx.destination);
-            masterGain = audioCtx.createGain(); masterGain.gain.value = 0.8; masterGain.connect(compressor);
-            delayNode = audioCtx.createDelay(); delayNode.delayTime.value = 0.25; feedbackNode = audioCtx.createGain(); feedbackNode.gain.value = 0.25; 
+            compressor = audioCtx.createDynamicsCompressor(); 
+            compressor.threshold.value = -15; compressor.knee.value = 30; compressor.ratio.value = 12; compressor.attack.value = 0.003; compressor.release.value = 0.25; 
+            compressor.connect(audioCtx.destination);
+            masterGain = audioCtx.createGain(); masterGain.gain.value = 0.9; masterGain.connect(compressor);
+            delayNode = audioCtx.createDelay(); delayNode.delayTime.value = 0.33; // Echo effect
+            feedbackNode = audioCtx.createGain(); feedbackNode.gain.value = 0.3; 
             delayNode.connect(feedbackNode); feedbackNode.connect(delayNode); delayNode.connect(masterGain);
-            const bufferSize = audioCtx.sampleRate * 2; noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate); const output = noiseBuffer.getChannelData(0); for (let i = 0; i < bufferSize; i++) output[i] = Math.random() * 2 - 1;
+            
+            const bufferSize = audioCtx.sampleRate * 2; noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate); 
+            const output = noiseBuffer.getChannelData(0); 
+            for (let i = 0; i < bufferSize; i++) output[i] = Math.random() * 2 - 1;
         }
 
         let makeupMusicInterval; const popMelody = [329.63, 392.00, 523.25, 659.25, 523.25, 392.00]; let popStep = 0;
@@ -743,16 +748,36 @@
         function stopMakeupMusic() { clearInterval(makeupMusicInterval); makeupMusicInterval = null; }
 
         /* =========================================
-           SISTEMA DJ
+           SISTEMA DJ (ESTILO INCREDIBOX)
            ========================================= */
         const padsData = [
-            { id: 'kick', name: 'DRUM: KICK', color: '#F4B3C2', type: 'drum' }, { id: 'snare', name: 'DRUM: SNARE', color: '#B5D8F7', type: 'drum' }, { id: 'hihat', name: 'DRUM: HAT', color: '#B5F7D1', type: 'drum' },
-            { id: 'bx-kick', name: 'VOICE: PUM', color: '#F8C8DC', type: 'beatbox' }, { id: 'bx-snare', name: 'VOICE: TSH', color: '#D2B3F7', type: 'beatbox' }, { id: 'bx-hat', name: 'VOICE: CHK', color: '#FDFD96', type: 'beatbox' },
-            { id: 'bx-liproll', name: 'VOICE: PRRR', color: '#FCD7A1', type: 'beatbox' }, { id: 'bx-bass', name: 'BASS: WOBBLE', color: '#F4A5AE', type: 'beatbox' }, { id: 'bx-bwa', name: 'BASS: BWAA', color: '#C5A3F5', type: 'beatbox' },
-            { id: 'bx-tom', name: 'CHORUS: OHH', color: '#E29598', type: 'beatbox' }, { id: 'bx-ah', name: 'CHORUS: AHH', color: '#F4B3C2', type: 'beatbox' }, { id: 'bx-doo', name: 'VOICE: DOO', color: '#B5F7D1', type: 'beatbox' },
-            { id: 'bx-breath', name: 'VOICE: HAAA', color: '#D4F0B0', type: 'beatbox' }, { id: 'bx-robot', name: 'ROBOT: YEAH', color: '#B5D8F7', type: 'beatbox' }, { id: 'bx-click', name: 'MELODY: ARP', color: '#C8E6C9', type: 'beatbox' },
-            { id: 'bx-scratch', name: 'FX: SCRATCH', color: '#F8C8DC', type: 'beatbox' }, { id: 'bx-whistle', name: 'FX: WEEE', color: '#B5D8F7', type: 'beatbox' }, { id: 'bx-bloop', name: 'FX: WATER', color: '#A9C4F5', type: 'beatbox' },
-            { id: 'bx-pop', name: 'FX: POP', color: '#F4A5AE', type: 'beatbox' }, { id: 'bx-shaker', name: 'VOICE: SHH', color: '#DCDCDC', type: 'beatbox' }
+            // BEATS (Rítmica Fuerte) - Rosa Pastel
+            { id: 'beat-kick', name: 'BEAT: KICK', color: '#F4B3C2' },
+            { id: 'beat-snare', name: 'BEAT: SNARE', color: '#F4B3C2' },
+            { id: 'beat-hat', name: 'BEAT: HIHAT', color: '#F4B3C2' },
+            { id: 'beat-liproll', name: 'BEAT: SUB', color: '#F4B3C2' },
+            { id: 'beat-shaker', name: 'BEAT: SHAKER', color: '#F4B3C2' },
+            
+            // EFFECTS (Sintéticos/Efectos) - Azul Pastel
+            { id: 'fx-scratch', name: 'FX: SCRATCH', color: '#B5D8F7' },
+            { id: 'fx-bloop', name: 'FX: BLOOP', color: '#B5D8F7' },
+            { id: 'fx-robot', name: 'FX: ROBOT', color: '#B5D8F7' },
+            { id: 'fx-wind', name: 'FX: SWOOSH', color: '#B5D8F7' },
+            { id: 'fx-zap', name: 'FX: ZAP', color: '#B5D8F7' },
+
+            // MELODIES (Sintetizadores Tonales C Menor) - Verde Pastel
+            { id: 'mel-bass', name: 'MEL: BASS', color: '#B5F7D1' },
+            { id: 'mel-chords', name: 'MEL: CHORDS', color: '#B5F7D1' },
+            { id: 'mel-arp', name: 'MEL: ARP', color: '#B5F7D1' },
+            { id: 'mel-pluck', name: 'MEL: PLUCK', color: '#B5F7D1' },
+            { id: 'mel-wood', name: 'MEL: MARIMBA', color: '#B5F7D1' },
+
+            // VOICES (Coros y Vocales Simuladas) - Morado Pastel
+            { id: 'voc-hum', name: 'VOC: HUMMM', color: '#D2B3F7' },
+            { id: 'voc-ahh', name: 'VOC: AHHH', color: '#D2B3F7' },
+            { id: 'voc-ooo', name: 'VOC: OOOOH', color: '#D2B3F7' },
+            { id: 'voc-yeah', name: 'VOC: YEAH!', color: '#D2B3F7' },
+            { id: 'voc-doo', name: 'VOC: DOO-DOO', color: '#D2B3F7' }
         ];
 
         const loopStates = {}; const loopIntervals = {}; const djBoard = document.getElementById('dj-board');
@@ -760,7 +785,7 @@
             loopStates[pad.id] = false; const card = document.createElement('div'); card.className = 'pad-card';
             card.innerHTML = `
                 <button class="pad-btn" data-sound="${pad.id}" style="--pad-color: ${pad.color};">${pad.name}</button>
-                <div class="controls-row"><button class="loop-toggle" data-loop="${pad.id}" style="--pad-color: ${pad.color};">⟳ LOOP</button><div class="bpm-slider-container"><label>BPM: <span id="val-${pad.id}">120</span></label><input type="range" id="bpm-${pad.id}" min="40" max="300" value="120" data-target="${pad.id}" style="--pad-color: ${pad.color};"></div></div>
+                <div class="controls-row"><button class="loop-toggle" data-loop="${pad.id}" style="--pad-color: ${pad.color};">⟳ LOOP</button><div class="bpm-slider-container"><label>BPM: <span id="val-${pad.id}">120</span></label><input type="range" id="bpm-${pad.id}" min="60" max="180" value="120" data-target="${pad.id}" style="--pad-color: ${pad.color};"></div></div>
             `; djBoard.appendChild(card);
         });
 
@@ -769,75 +794,302 @@
             const bar = document.createElement('div'); bar.style.width = '10px'; bar.style.height = '5px'; bar.style.background = 'var(--pastel-blue)'; bar.style.borderRadius = '5px'; bar.style.transition = 'height 0.1s ease, background 0.2s'; visualizer.appendChild(bar);
         }
 
-        function playDrum(type) {
-            if(!audioCtx) return; const t = audioCtx.currentTime; const gain = audioCtx.createGain(); gain.connect(masterGain);
-            if(type === 'kick') {
-                const osc = audioCtx.createOscillator(); osc.frequency.setValueAtTime(150, t); osc.frequency.exponentialRampToValueAtTime(0.001, t + 0.5); gain.gain.setValueAtTime(1, t); gain.gain.exponentialRampToValueAtTime(0.001, t + 0.5); osc.connect(gain); osc.start(t); osc.stop(t + 0.5);
-            } else if(type === 'snare') {
-                const osc = audioCtx.createOscillator(); osc.type = 'triangle'; osc.frequency.setValueAtTime(250, t); osc.frequency.exponentialRampToValueAtTime(50, t + 0.2); const n = audioCtx.createBufferSource(); n.buffer = noiseBuffer; const f = audioCtx.createBiquadFilter(); f.type = 'highpass'; f.frequency.value = 1500;
-                n.connect(f); f.connect(gain); osc.connect(gain); gain.gain.setValueAtTime(0.8, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.25); osc.start(t); osc.stop(t + 0.25); n.start(t); n.stop(t + 0.25);
-            } else if(type === 'hihat') {
-                const n = audioCtx.createBufferSource(); n.buffer = noiseBuffer; const f = audioCtx.createBiquadFilter(); f.type = 'highpass'; f.frequency.value = 6000; n.connect(f); f.connect(gain); gain.connect(delayNode); gain.gain.setValueAtTime(0.5, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.1); n.start(t); n.stop(t + 0.1);
-            }
-        }
+        // Sintetizador Complejo para estilo Incredibox (Melodías, Formantes Vocales y Ritmos)
+        function playComplexSound(type, t, beat, gainNode) {
+            if(!audioCtx) return;
+            
+            // Frecuencias Pentatónicas de Do Menor (C, Eb, F, G, Bb)
+            const nC2 = 65.41, nEb2 = 77.78, nG2 = 98.00;
+            const nC3 = 130.81, nEb3 = 155.56, nG3 = 196.00;
+            const nC4 = 261.63, nEb4 = 311.13, nF4 = 349.23, nG4 = 392.00, nBb4 = 466.16;
+            const nC5 = 523.25;
 
-        function playBeatbox(type) {
-            if(!audioCtx) return; const t = audioCtx.currentTime; const gain = audioCtx.createGain(); gain.connect(masterGain);
-            if (type === 'bx-kick') {
-                const osc = audioCtx.createOscillator(); osc.type = 'sine'; osc.frequency.setValueAtTime(120, t); osc.frequency.exponentialRampToValueAtTime(30, t + 0.2); gain.gain.setValueAtTime(1.2, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.2); osc.connect(gain); osc.start(t); osc.stop(t + 0.2);
-            } else if (type === 'bx-snare') {
-                const n = audioCtx.createBufferSource(); n.buffer = noiseBuffer; const f = audioCtx.createBiquadFilter(); f.type = 'bandpass'; f.frequency.value = 2500; f.Q.value = 1.5; n.connect(f); f.connect(gain); gain.connect(delayNode); gain.gain.setValueAtTime(1, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.2); n.start(t); n.stop(t + 0.2);
-            } else if (type === 'bx-hat') {
-                const n = audioCtx.createBufferSource(); n.buffer = noiseBuffer; const f = audioCtx.createBiquadFilter(); f.type = 'highpass'; f.frequency.value = 4000; n.connect(f); f.connect(gain); gain.gain.setValueAtTime(0.6, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.05); n.start(t); n.stop(t + 0.05);
-            } else if (type === 'bx-liproll') {
-                const osc = audioCtx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.setValueAtTime(80, t); const lfo = audioCtx.createOscillator(); lfo.type = 'sine'; lfo.frequency.value = 25; const lfoGain = audioCtx.createGain(); lfoGain.gain.value = 50; lfo.connect(lfoGain); lfoGain.connect(osc.frequency); const f = audioCtx.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = 400; osc.connect(f); f.connect(gain); gain.gain.setValueAtTime(0.8, t); gain.gain.linearRampToValueAtTime(0, t + 0.3); osc.start(t); osc.stop(t+0.3); lfo.start(t); lfo.stop(t+0.3);
-            } else if (type === 'bx-bass') {
-                const osc = audioCtx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.setValueAtTime(65.41, t); const f = audioCtx.createBiquadFilter(); f.type = 'lowpass'; f.frequency.setValueAtTime(200, t); f.frequency.linearRampToValueAtTime(800, t + 0.15); f.frequency.linearRampToValueAtTime(200, t + 0.3); f.Q.value = 5; osc.connect(f); f.connect(gain); gain.gain.setValueAtTime(0.8, t); gain.gain.linearRampToValueAtTime(0, t + 0.4); osc.start(t); osc.stop(t + 0.4);
-            } else if (type === 'bx-bwa') {
-                const osc = audioCtx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.setValueAtTime(55, t); const f = audioCtx.createBiquadFilter(); f.type = 'lowpass'; f.frequency.setValueAtTime(2000, t); f.frequency.exponentialRampToValueAtTime(100, t + 0.3); f.Q.value = 8; osc.connect(f); f.connect(gain); gain.gain.setValueAtTime(1, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.4); osc.start(t); osc.stop(t + 0.4);
-            } else if (type === 'bx-tom') {
-                const freqs = [130.81, 155.56, 196.00]; const f = audioCtx.createBiquadFilter(); f.type = 'bandpass'; f.frequency.value = 600; f.Q.value = 3; freqs.forEach(freq => { const osc = audioCtx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = freq; osc.connect(f); osc.start(t); osc.stop(t + 0.5); }); f.connect(gain); gain.connect(delayNode); gain.gain.setValueAtTime(0, t); gain.gain.linearRampToValueAtTime(0.6, t + 0.1); gain.gain.linearRampToValueAtTime(0, t + 0.5);
-            } else if (type === 'bx-ah') {
-                const freqs = [174.61, 207.65, 261.63]; const f = audioCtx.createBiquadFilter(); f.type = 'bandpass'; f.frequency.value = 900; f.Q.value = 2; freqs.forEach(freq => { const osc = audioCtx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.value = freq; osc.connect(f); osc.start(t); osc.stop(t + 0.5); }); f.connect(gain); gain.connect(delayNode); gain.gain.setValueAtTime(0, t); gain.gain.linearRampToValueAtTime(0.5, t + 0.1); gain.gain.linearRampToValueAtTime(0, t + 0.5);
-            } else if (type === 'bx-doo') {
-                const osc = audioCtx.createOscillator(); osc.type = 'triangle'; osc.frequency.setValueAtTime(400, t); osc.frequency.exponentialRampToValueAtTime(261.63, t + 0.05); const f = audioCtx.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = 800; osc.connect(f); f.connect(gain); gain.connect(delayNode); gain.gain.setValueAtTime(0, t); gain.gain.linearRampToValueAtTime(0.8, t + 0.02); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.3); osc.start(t); osc.stop(t + 0.3);
-            } else if (type === 'bx-breath') {
-                const n = audioCtx.createBufferSource(); n.buffer = noiseBuffer; const f = audioCtx.createBiquadFilter(); f.type = 'bandpass'; f.frequency.value = 1200; f.Q.value = 1.2; n.connect(f); f.connect(gain); gain.connect(delayNode); gain.gain.setValueAtTime(0, t); gain.gain.linearRampToValueAtTime(0.8, t + 0.2); gain.gain.linearRampToValueAtTime(0, t + 0.6); n.start(t); n.stop(t + 0.6);
-            } else if (type === 'bx-robot') {
-                const osc = audioCtx.createOscillator(); osc.type = 'sawtooth'; osc.frequency.setValueAtTime(110, t); const osc2 = audioCtx.createOscillator(); osc2.type = 'square'; osc2.frequency.setValueAtTime(110, t); const f = audioCtx.createBiquadFilter(); f.type = 'bandpass'; f.frequency.setValueAtTime(500, t); f.frequency.linearRampToValueAtTime(1500, t+0.1); f.frequency.linearRampToValueAtTime(800, t+0.2); f.Q.value = 4; osc.connect(f); osc2.connect(f); f.connect(gain); gain.connect(delayNode); gain.gain.setValueAtTime(0, t); gain.gain.linearRampToValueAtTime(0.5, t + 0.05); gain.gain.linearRampToValueAtTime(0, t + 0.25); osc.start(t); osc.stop(t + 0.25); osc2.start(t); osc2.stop(t + 0.25);
-            } else if (type === 'bx-click') {
-                const freqs = [261.63, 311.13, 392.00, 523.25]; freqs.forEach((freq, i) => { const osc = audioCtx.createOscillator(); osc.type = 'sine'; osc.frequency.value = freq; const g = audioCtx.createGain(); const noteTime = t + (i * 0.1); g.gain.setValueAtTime(0, t); g.gain.setValueAtTime(0.4, noteTime); g.gain.exponentialRampToValueAtTime(0.01, noteTime + 0.1); osc.connect(g); g.connect(gain); osc.start(noteTime); osc.stop(noteTime + 0.15); }); gain.connect(delayNode);
-            } else if (type === 'bx-scratch') {
-                const osc = audioCtx.createOscillator(); osc.type = 'sine'; osc.frequency.setValueAtTime(400, t); osc.frequency.exponentialRampToValueAtTime(1200, t + 0.05); osc.frequency.exponentialRampToValueAtTime(400, t + 0.1); osc.frequency.exponentialRampToValueAtTime(1000, t + 0.15); osc.frequency.exponentialRampToValueAtTime(300, t + 0.2); gain.gain.setValueAtTime(0.6, t); gain.gain.linearRampToValueAtTime(0, t + 0.25); osc.connect(gain); osc.start(t); osc.stop(t + 0.25);
-            } else if (type === 'bx-whistle') {
-                const osc = audioCtx.createOscillator(); osc.type = 'sine'; osc.frequency.setValueAtTime(1046.50, t); osc.frequency.exponentialRampToValueAtTime(1567.98, t + 0.3); osc.connect(gain); gain.connect(delayNode); gain.gain.setValueAtTime(0, t); gain.gain.linearRampToValueAtTime(0.4, t + 0.1); gain.gain.linearRampToValueAtTime(0, t + 0.4); osc.start(t); osc.stop(t + 0.4);
-            } else if (type === 'bx-bloop') {
-                const osc = audioCtx.createOscillator(); osc.type = 'sine'; osc.frequency.setValueAtTime(300, t); osc.frequency.exponentialRampToValueAtTime(1200, t + 0.1); gain.gain.setValueAtTime(0.8, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.15); osc.connect(gain); gain.connect(delayNode); osc.start(t); osc.stop(t + 0.15);
-            } else if (type === 'bx-pop') {
-                const osc = audioCtx.createOscillator(); osc.type = 'sine'; osc.frequency.setValueAtTime(800, t); osc.frequency.exponentialRampToValueAtTime(100, t + 0.05); osc.connect(gain); gain.gain.setValueAtTime(1, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.05); osc.start(t); osc.stop(t + 0.05);
-            } else if (type === 'bx-shaker') {
-                const n = audioCtx.createBufferSource(); n.buffer = noiseBuffer; const f = audioCtx.createBiquadFilter(); f.type = 'bandpass'; f.frequency.value = 5000; f.Q.value = 1; n.connect(f); f.connect(gain); gain.gain.setValueAtTime(0.3, t); gain.gain.linearRampToValueAtTime(0, t + 0.15); n.start(t); n.stop(t + 0.15);
+            // Helper para envolventes rápidas
+            const rampGain = (g, start, peak, end, tOn, tPeak, tOff) => {
+                g.gain.setValueAtTime(start, tOn);
+                g.gain.linearRampToValueAtTime(peak, tPeak);
+                g.gain.exponentialRampToValueAtTime(end > 0 ? end : 0.001, tOff);
+            };
+
+            switch(type) {
+                // === GRUPO 1: BEATS ===
+                case 'beat-kick':
+                    const oscK = audioCtx.createOscillator(); oscK.type = 'sine';
+                    oscK.frequency.setValueAtTime(150, t); oscK.frequency.exponentialRampToValueAtTime(40, t + 0.1);
+                    rampGain(gainNode, 0, 1, 0.001, t, t + 0.01, t + 0.5);
+                    oscK.connect(gainNode); oscK.start(t); oscK.stop(t + 0.5);
+                    break;
+
+                case 'beat-snare':
+                    const oscS = audioCtx.createOscillator(); oscS.type = 'triangle';
+                    oscS.frequency.setValueAtTime(250, t); oscS.frequency.exponentialRampToValueAtTime(100, t + 0.1);
+                    const nS = audioCtx.createBufferSource(); nS.buffer = noiseBuffer;
+                    const fS = audioCtx.createBiquadFilter(); fS.type = 'highpass'; fS.frequency.value = 1500;
+                    rampGain(gainNode, 0, 0.8, 0.001, t, t + 0.01, t + 0.3);
+                    oscS.connect(gainNode); nS.connect(fS); fS.connect(gainNode);
+                    oscS.start(t); oscS.stop(t + 0.3); nS.start(t); nS.stop(t + 0.3);
+                    break;
+
+                case 'beat-hat':
+                    // Loop de 8 notas cortas (Corcheas) a lo largo de 4 beats
+                    for(let i=0; i<8; i++) {
+                        const hT = t + (i * (beat / 2));
+                        const nH = audioCtx.createBufferSource(); nH.buffer = noiseBuffer;
+                        const fH = audioCtx.createBiquadFilter(); fH.type = 'highpass'; fH.frequency.value = 7000;
+                        const gH = audioCtx.createGain();
+                        rampGain(gH, 0, (i%4===0?0.5:0.2), 0.001, hT, hT + 0.01, hT + 0.05);
+                        nH.connect(fH); fH.connect(gH); gH.connect(gainNode);
+                        nH.start(hT); nH.stop(hT + 0.1);
+                    }
+                    break;
+
+                case 'beat-liproll':
+                    // Bass profundo y sucio
+                    const oscL = audioCtx.createOscillator(); oscL.type = 'sawtooth'; oscL.frequency.value = 45;
+                    const fL = audioCtx.createBiquadFilter(); fL.type = 'lowpass'; fL.frequency.value = 200;
+                    const lfoL = audioCtx.createOscillator(); lfoL.type = 'sine'; lfoL.frequency.value = 12; // Modulación (Garganta)
+                    const lfoGain = audioCtx.createGain(); lfoGain.gain.value = 150;
+                    lfoL.connect(lfoGain); lfoGain.connect(fL.frequency);
+                    rampGain(gainNode, 0, 0.8, 0.001, t, t + 0.1, t + beat*2);
+                    oscL.connect(fL); fL.connect(gainNode);
+                    oscL.start(t); oscL.stop(t + beat*2); lfoL.start(t); lfoL.stop(t + beat*2);
+                    break;
+
+                case 'beat-shaker':
+                    // 16 notas continuas rítmicas
+                    for(let i=0; i<16; i++) {
+                        const sT = t + (i * (beat / 4));
+                        const nSh = audioCtx.createBufferSource(); nSh.buffer = noiseBuffer;
+                        const fSh = audioCtx.createBiquadFilter(); fSh.type = 'bandpass'; fSh.frequency.value = 5000; fSh.Q.value = 1.5;
+                        const gSh = audioCtx.createGain();
+                        rampGain(gSh, 0, (i%4===0?0.4:0.15), 0.001, sT, sT + 0.02, sT + 0.1);
+                        nSh.connect(fSh); fSh.connect(gSh); gSh.connect(gainNode);
+                        nSh.start(sT); nSh.stop(sT + 0.15);
+                    }
+                    break;
+
+                // === GRUPO 2: EFFECTS ===
+                case 'fx-scratch':
+                    const oscSc = audioCtx.createOscillator(); oscSc.type = 'sine';
+                    oscSc.frequency.setValueAtTime(400, t);
+                    oscSc.frequency.exponentialRampToValueAtTime(1500, t + 0.1);
+                    oscSc.frequency.exponentialRampToValueAtTime(300, t + 0.2);
+                    oscSc.frequency.exponentialRampToValueAtTime(1200, t + 0.3);
+                    rampGain(gainNode, 0, 0.6, 0.001, t, t + 0.05, t + 0.4);
+                    oscSc.connect(gainNode); oscSc.start(t); oscSc.stop(t + 0.4);
+                    break;
+
+                case 'fx-bloop':
+                    const oscBl = audioCtx.createOscillator(); oscBl.type = 'sine';
+                    oscBl.frequency.setValueAtTime(300, t); oscBl.frequency.exponentialRampToValueAtTime(1800, t + 0.15);
+                    rampGain(gainNode, 0, 0.8, 0.001, t, t + 0.02, t + 0.2);
+                    oscBl.connect(gainNode); gainNode.connect(delayNode); oscBl.start(t); oscBl.stop(t + 0.2);
+                    break;
+
+                case 'fx-robot':
+                    const oscR1 = audioCtx.createOscillator(); oscR1.type = 'square'; oscR1.frequency.value = 110;
+                    const oscR2 = audioCtx.createOscillator(); oscR2.type = 'square'; oscR2.frequency.value = 112;
+                    const fR = audioCtx.createBiquadFilter(); fR.type = 'bandpass'; fR.Q.value = 5;
+                    fR.frequency.setValueAtTime(400, t); fR.frequency.linearRampToValueAtTime(2000, t + 0.1); fR.frequency.linearRampToValueAtTime(400, t + 0.3);
+                    rampGain(gainNode, 0, 0.5, 0.001, t, t + 0.05, t + 0.4);
+                    oscR1.connect(fR); oscR2.connect(fR); fR.connect(gainNode); gainNode.connect(delayNode);
+                    oscR1.start(t); oscR2.start(t); oscR1.stop(t + 0.4); oscR2.stop(t + 0.4);
+                    break;
+                
+                case 'fx-wind':
+                    const nW = audioCtx.createBufferSource(); nW.buffer = noiseBuffer;
+                    const fW = audioCtx.createBiquadFilter(); fW.type = 'bandpass'; fW.Q.value = 3;
+                    fW.frequency.setValueAtTime(300, t); fW.frequency.exponentialRampToValueAtTime(2500, t + beat*2); fW.frequency.exponentialRampToValueAtTime(300, t + beat*4);
+                    rampGain(gainNode, 0, 0.4, 0.001, t, t + beat*2, t + beat*4);
+                    nW.connect(fW); fW.connect(gainNode); gainNode.connect(delayNode);
+                    nW.start(t); nW.stop(t + beat*4);
+                    break;
+
+                case 'fx-zap':
+                    const oscZ = audioCtx.createOscillator(); oscZ.type = 'sawtooth'; oscZ.frequency.value = 150;
+                    const fZ = audioCtx.createBiquadFilter(); fZ.type = 'lowpass'; fZ.Q.value = 10;
+                    fZ.frequency.setValueAtTime(4000, t); fZ.frequency.exponentialRampToValueAtTime(100, t + 0.2);
+                    rampGain(gainNode, 0, 0.7, 0.001, t, t + 0.01, t + 0.25);
+                    oscZ.connect(fZ); fZ.connect(gainNode);
+                    oscZ.start(t); oscZ.stop(t + 0.25);
+                    break;
+
+                // === GRUPO 3: MELODIES (C Minor Pentatonic) ===
+                case 'mel-bass':
+                    // Línea de bajo gruesa
+                    const bassNotes = [nC2, 0, nEb2, nG2];
+                    bassNotes.forEach((f, i) => {
+                        if(f===0) return;
+                        const bt = t + (i * beat);
+                        const oscB = audioCtx.createOscillator(); oscB.type = 'triangle'; oscB.frequency.value = f;
+                        const fB = audioCtx.createBiquadFilter(); fB.type = 'lowpass'; fB.frequency.value = 400;
+                        const gB = audioCtx.createGain();
+                        rampGain(gB, 0, 0.8, 0.001, bt, bt + 0.05, bt + beat - 0.1);
+                        oscB.connect(fB); fB.connect(gB); gB.connect(gainNode);
+                        oscB.start(bt); oscB.stop(bt + beat);
+                    });
+                    break;
+
+                case 'mel-chords':
+                    // Acorde sostenido C Menor que se desvanece suavemente
+                    [nC4, nEb4, nG4].forEach(f => {
+                        const oscC = audioCtx.createOscillator(); oscC.type = 'sawtooth'; oscC.frequency.value = f;
+                        const fC = audioCtx.createBiquadFilter(); fC.type = 'lowpass'; fC.frequency.value = 800;
+                        const gC = audioCtx.createGain();
+                        rampGain(gC, 0, 0.2, 0.001, t, t + beat, t + beat*4);
+                        oscC.connect(fC); fC.connect(gC); gC.connect(gainNode); gainNode.connect(delayNode);
+                        oscC.start(t); oscC.stop(t + beat*4);
+                    });
+                    break;
+
+                case 'mel-arp':
+                    // Arpegio pentatónico rápido
+                    const arpNotes = [nC4, nEb4, nG4, nC5, nBb4, nG4, nEb4, nC4];
+                    arpNotes.forEach((f, i) => {
+                        const at = t + (i * (beat / 2));
+                        const oscA1 = audioCtx.createOscillator(); oscA1.type = 'sine'; oscA1.frequency.value = f;
+                        const oscA2 = audioCtx.createOscillator(); oscA2.type = 'triangle'; oscA2.frequency.value = f;
+                        const gA = audioCtx.createGain();
+                        rampGain(gA, 0, 0.3, 0.001, at, at + 0.02, at + (beat/2) - 0.02);
+                        oscA1.connect(gA); oscA2.connect(gA); gA.connect(gainNode); gainNode.connect(delayNode);
+                        oscA1.start(at); oscA2.start(at); oscA1.stop(at + 0.3); oscA2.stop(at + 0.3);
+                    });
+                    break;
+                
+                case 'mel-pluck':
+                    // Melodía sincopada de sintetizador Pluck
+                    const pluckNotes = [{f: nC5, d: 0}, {f: nG4, d: beat*1.5}, {f: nEb4, d: beat*2.5}];
+                    pluckNotes.forEach(note => {
+                        const pt = t + note.d;
+                        const oscP = audioCtx.createOscillator(); oscP.type = 'square'; oscP.frequency.value = note.f;
+                        const fP = audioCtx.createBiquadFilter(); fP.type = 'lowpass'; fP.Q.value = 5;
+                        fP.frequency.setValueAtTime(3000, pt); fP.frequency.exponentialRampToValueAtTime(200, pt + 0.2);
+                        const gP = audioCtx.createGain();
+                        rampGain(gP, 0, 0.4, 0.001, pt, pt + 0.01, pt + 0.3);
+                        oscP.connect(fP); fP.connect(gP); gP.connect(gainNode); gainNode.connect(delayNode);
+                        oscP.start(pt); oscP.stop(pt + 0.4);
+                    });
+                    break;
+
+                case 'mel-wood':
+                    // Estilo Marimba/Xilófono
+                    const woodNotes = [nC4, nEb4, nC4, nG3, nC4, nEb4, nC4, nF4];
+                    woodNotes.forEach((f, i) => {
+                        const wt = t + (i * (beat / 2));
+                        const oscW = audioCtx.createOscillator(); oscW.type = 'sine'; oscW.frequency.value = f;
+                        const gW = audioCtx.createGain();
+                        rampGain(gW, 0, 0.6, 0.001, wt, wt + 0.01, wt + 0.15);
+                        oscW.connect(gW); gW.connect(gainNode);
+                        oscW.start(wt); oscW.stop(wt + 0.2);
+                    });
+                    break;
+
+                // === GRUPO 4: VOICES (Coros Simualdos) ===
+                case 'voc-hum':
+                    // Coro grave tipo "Mmmm"
+                    const oscH1 = audioCtx.createOscillator(); oscH1.type = 'sawtooth'; oscH1.frequency.value = nC3;
+                    const oscH2 = audioCtx.createOscillator(); oscH2.type = 'sawtooth'; oscH2.frequency.value = nC3 * 1.01; // Detune (Chorus)
+                    const fHum = audioCtx.createBiquadFilter(); fHum.type = 'lowpass'; fHum.frequency.value = 350;
+                    rampGain(gainNode, 0, 0.5, 0.001, t, t + beat, t + beat*4);
+                    oscH1.connect(fHum); oscH2.connect(fHum); fHum.connect(gainNode);
+                    oscH1.start(t); oscH2.start(t); oscH1.stop(t + beat*4); oscH2.stop(t + beat*4);
+                    break;
+
+                case 'voc-ahh':
+                    // Coro "Ahhh" usando formantes duales
+                    const ahNotes = [nC4, nEb4, nG4];
+                    const fAh1 = audioCtx.createBiquadFilter(); fAh1.type = 'bandpass'; fAh1.frequency.value = 700; fAh1.Q.value = 2; // Formante 1
+                    const fAh2 = audioCtx.createBiquadFilter(); fAh2.type = 'bandpass'; fAh2.frequency.value = 1200; fAh2.Q.value = 2; // Formante 2
+                    ahNotes.forEach(f => {
+                        const oscV = audioCtx.createOscillator(); oscV.type = 'sawtooth'; oscV.frequency.value = f;
+                        oscV.connect(fAh1); oscV.connect(fAh2);
+                        oscV.start(t); oscV.stop(t + beat*4);
+                    });
+                    rampGain(gainNode, 0, 0.6, 0.001, t, t + beat, t + beat*4);
+                    fAh1.connect(gainNode); fAh2.connect(gainNode); gainNode.connect(delayNode);
+                    break;
+
+                case 'voc-ooo':
+                    // Coro suave "Ooooh"
+                    const ooNotes = [nG3, nC4];
+                    const fOo = audioCtx.createBiquadFilter(); fOo.type = 'bandpass'; fOo.frequency.value = 400; fOo.Q.value = 1.5;
+                    ooNotes.forEach(f => {
+                        const oscO = audioCtx.createOscillator(); oscO.type = 'triangle'; oscO.frequency.value = f;
+                        oscO.connect(fOo); oscO.start(t); oscO.stop(t + beat*4);
+                    });
+                    rampGain(gainNode, 0, 0.6, 0.001, t, t + beat, t + beat*4);
+                    fOo.connect(gainNode); gainNode.connect(delayNode);
+                    break;
+
+                case 'voc-yeah':
+                    // Filtro de formante móvil imitando voz robótica
+                    const oscY1 = audioCtx.createOscillator(); oscY1.type = 'sawtooth'; oscY1.frequency.value = nC4;
+                    const oscY2 = audioCtx.createOscillator(); oscY2.type = 'square'; oscY2.frequency.value = nC4;
+                    const fY = audioCtx.createBiquadFilter(); fY.type = 'bandpass'; fY.Q.value = 4;
+                    // Movimiento del formante para decir "Y-E-A-H"
+                    fY.frequency.setValueAtTime(300, t); 
+                    fY.frequency.exponentialRampToValueAtTime(1500, t + 0.15); 
+                    fY.frequency.exponentialRampToValueAtTime(800, t + 0.4);
+                    rampGain(gainNode, 0, 0.7, 0.001, t, t + 0.1, t + beat*2);
+                    oscY1.connect(fY); oscY2.connect(fY); fY.connect(gainNode); gainNode.connect(delayNode);
+                    oscY1.start(t); oscY2.start(t); oscY1.stop(t + beat*2); oscY2.stop(t + beat*2);
+                    break;
+
+                case 'voc-doo':
+                    // Sílaba percusiva vocal "Doo"
+                    [0, beat*2].forEach(d => {
+                        const dt = t + d;
+                        const oscD = audioCtx.createOscillator(); oscD.type = 'triangle'; 
+                        oscD.frequency.setValueAtTime(600, dt); oscD.frequency.exponentialRampToValueAtTime(nC4, dt + 0.05); // Golpe inicial
+                        const fD = audioCtx.createBiquadFilter(); fD.type = 'lowpass'; fD.frequency.value = 900;
+                        const gD = audioCtx.createGain();
+                        rampGain(gD, 0, 0.8, 0.001, dt, dt + 0.02, dt + beat - 0.1);
+                        oscD.connect(fD); fD.connect(gD); gD.connect(gainNode); gainNode.connect(delayNode);
+                        oscD.start(dt); oscD.stop(dt + beat);
+                    });
+                    break;
             }
         }
 
         function triggerSound(padId) {
             const padInfo = padsData.find(p => p.id === padId);
-            if(padInfo.type === 'drum') playDrum(padId); else if(padInfo.type === 'beatbox') playBeatbox(padId);
+            if(audioCtx) { 
+                const bpmInput = document.getElementById(`bpm-${padId}`);
+                const bpm = bpmInput ? parseInt(bpmInput.value) : 120;
+                const beatDuration = 60 / bpm; // 1 beat en segundos
+                const t = audioCtx.currentTime; 
+                const gainNode = audioCtx.createGain(); 
+                gainNode.connect(masterGain);
+                
+                playComplexSound(padId, t, beatDuration, gainNode); 
+            }
+            
             const btn = document.querySelector(`.pad-btn[data-sound="${padId}"]`);
-            if(btn) { btn.classList.add('active-hit'); setTimeout(() => btn.classList.remove('active-hit'), 100); }
+            if(btn) { 
+                btn.classList.add('active-hit'); 
+                // La animación se queda encendida un poco más para los loops largos
+                setTimeout(() => btn.classList.remove('active-hit'), 250); 
+            }
+            
             if (visualizer) {
                 const bars = visualizer.children;
                 for(let i=0; i<bars.length; i++) {
                     const randomHeight = Math.floor(Math.random() * 25) + 5;
                     bars[i].style.height = `${randomHeight}px`; bars[i].style.background = padInfo.color;
                 }
-                setTimeout(() => { for(let i=0; i<bars.length; i++) bars[i].style.height = '5px'; }, 150);
+                setTimeout(() => { for(let i=0; i<bars.length; i++) bars[i].style.height = '5px'; }, 200);
             }
         }
 
         function updatePadLoop(padId) {
             clearInterval(loopIntervals[padId]);
-            if(loopStates[padId]) { const bpm = document.getElementById(`bpm-${padId}`).value; const ms = 60000 / bpm; triggerSound(padId); loopIntervals[padId] = setInterval(() => triggerSound(padId), ms); }
+            if(loopStates[padId]) { 
+                const bpm = parseInt(document.getElementById(`bpm-${padId}`).value); 
+                // Cada loop estilo Incredibox dura 4 beats (un compás) para permitir melodías largas
+                const loopMs = (60000 / bpm) * 4; 
+                triggerSound(padId); 
+                loopIntervals[padId] = setInterval(() => triggerSound(padId), loopMs); 
+            }
         }
 
         document.querySelectorAll('.pad-btn').forEach(btn => { btn.addEventListener('pointerdown', (e) => { e.preventDefault(); triggerSound(btn.getAttribute('data-sound')); }); });
