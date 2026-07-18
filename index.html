@@ -125,12 +125,11 @@
         .launchpad { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 15px; background: #111; padding: 25px; border-radius: 25px; border: 2px solid #222; width: 100%; box-shadow: 0 20px 40px rgba(0,0,0,0.8), inset 0 0 20px rgba(0,0,0,1); }
         .pad-card { background: #0a0a0a; border: 1px solid #222; border-radius: 15px; padding: 12px; display: flex; flex-direction: column; gap: 10px; align-items: center; }
         
-        /* PARCHE MÓVIL: Previene zoom por doble toque y mejora respuesta táctil */
         .pad-btn { width: 100%; aspect-ratio: 1; border-radius: 12px; border: none; background: #1a1a1a; color: #ccc; font-size: 0.8rem; font-weight: 900; cursor: pointer; box-shadow: inset 0 5px 10px rgba(255,255,255,0.05), inset 0 -5px 15px rgba(0,0,0,0.8), 0 5px 10px rgba(0,0,0,0.5); transition: 0.1s; position: relative; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
-        
         .pad-btn::after { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: 12px; border: 2px solid var(--pad-color); opacity: 0.2; transition: 0.2s; }
         .pad-btn:active, .pad-btn.active-hit { transform: translateY(4px); background: var(--pad-color); color: #fff; box-shadow: inset 0 0 20px rgba(0,0,0,0.5), 0 0 20px var(--pad-color); }
         .pad-btn:active::after, .pad-btn.active-hit::after { opacity: 1; }
+        
         .controls-row { display: flex; flex-direction: column; width: 100%; gap: 8px; align-items: center; }
         .loop-toggle { background: #222; color: #888; border: 1px solid #444; padding: 6px; border-radius: 6px; font-size: 0.7rem; font-weight: bold; cursor: pointer; width: 100%; transition: 0.3s; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
         .loop-toggle.looping { background: var(--pad-color); color: #000; border-color: var(--pad-color); box-shadow: 0 0 10px var(--pad-color); }
@@ -414,6 +413,70 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         /* =========================================
+           MOTOR DE AUDIO PRO CON DESBLOQUEADOR GLOBAL (PARCHE IOS)
+           ========================================= */
+        let audioCtx, noiseBuffer;
+        let masterGain, delayNode, feedbackNode, compressor;
+        let isAudioUnlocked = false;
+        
+        function initAudioEngine() {
+            if (audioCtx) return; // Ya existe
+
+            window.AudioContext = window.AudioContext || window.webkitAudioContext;
+            audioCtx = new AudioContext();
+
+            compressor = audioCtx.createDynamicsCompressor();
+            compressor.threshold.value = -10;
+            compressor.knee.value = 30;
+            compressor.ratio.value = 12;
+            compressor.attack.value = 0.003;
+            compressor.release.value = 0.25;
+            compressor.connect(audioCtx.destination);
+
+            masterGain = audioCtx.createGain();
+            masterGain.gain.value = 0.8;
+            masterGain.connect(compressor);
+
+            delayNode = audioCtx.createDelay();
+            delayNode.delayTime.value = 0.25; 
+            feedbackNode = audioCtx.createGain();
+            feedbackNode.gain.value = 0.25; 
+            
+            delayNode.connect(feedbackNode);
+            feedbackNode.connect(delayNode);
+            delayNode.connect(masterGain);
+
+            const bufferSize = audioCtx.sampleRate * 2;
+            noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const output = noiseBuffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) output[i] = Math.random() * 2 - 1;
+        }
+
+        // --- EL DESBLOQUEADOR SUPREMO PARA IPHONE ---
+        function unlockAudio() {
+            if (!audioCtx) initAudioEngine();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+
+            if (!isAudioUnlocked) {
+                // Toca un silencio de 1 milisegundo para hackear a Safari
+                const buffer = audioCtx.createBuffer(1, 1, 22050);
+                const source = audioCtx.createBufferSource();
+                source.buffer = buffer;
+                source.connect(audioCtx.destination);
+                if (source.start) source.start(0); else source.noteOn(0);
+                
+                isAudioUnlocked = true;
+            }
+        }
+
+        // Atamos el desbloqueador a absolutamente cualquier toque o clic en la pantalla
+        document.addEventListener('touchstart', unlockAudio, { capture: true });
+        document.addEventListener('touchend', unlockAudio, { capture: true });
+        document.addEventListener('click', unlockAudio, { capture: true });
+        // ---------------------------------------------
+
+
+        /* =========================================
            CONTROL DE PANTALLAS Y TEXTOS
            ========================================= */
         const introScreen = document.getElementById('intro-screen');
@@ -421,7 +484,6 @@
         const mainApp = document.getElementById('main-app');
         
         let pendingGameType = '';
-        let audioInitialized = false;
 
         function showPurpose(type) {
             pendingGameType = type;
@@ -447,13 +509,7 @@
         }
 
         function startGame() {
-            if (!audioInitialized && (pendingGameType === 'music' || pendingGameType === 'makeup' || pendingGameType === 'games')) { 
-                initAudioEngine(); 
-                audioInitialized = true; 
-            } else if (audioCtx && audioCtx.state === 'suspended') {
-                // Forzar reanudación en móviles si ya estaba inicializado
-                audioCtx.resume();
-            }
+            unlockAudio(); // Forzamos el desbloqueo justo al entrar al juego
 
             purposeScreen.classList.add('hidden');
             mainApp.classList.remove('hidden');
@@ -578,68 +634,15 @@
         });
         renderPaletteMk(currentToolMk);
 
-        /* =========================================
-           NUEVO MOTOR DE AUDIO PRO (CON PARCHE MÓVIL)
-           ========================================= */
-        let audioCtx, noiseBuffer;
-        let masterGain, delayNode, feedbackNode, compressor;
-        
-        function initAudioEngine() {
-            window.AudioContext = window.AudioContext || window.webkitAudioContext;
-            audioCtx = new AudioContext();
-            
-            // --- PARCHE PARA MÓVILES (iOS / Android) ---
-            // Los navegadores móviles bloquean el audio hasta que el usuario interactúa.
-            // Esto reproduce un sonido vacío de 1ms para "despertar" permanentemente el motor.
-            const unlockBuffer = audioCtx.createBuffer(1, 1, 22050);
-            const unlockSource = audioCtx.createBufferSource();
-            unlockSource.buffer = unlockBuffer;
-            unlockSource.connect(audioCtx.destination);
-            if (unlockSource.start) {
-                unlockSource.start(0);
-            } else {
-                unlockSource.noteOn(0);
-            }
 
-            if (audioCtx.state === 'suspended') {
-                audioCtx.resume();
-            }
-            // ------------------------------------------
-
-            compressor = audioCtx.createDynamicsCompressor();
-            compressor.threshold.value = -10;
-            compressor.knee.value = 30;
-            compressor.ratio.value = 12;
-            compressor.attack.value = 0.003;
-            compressor.release.value = 0.25;
-            compressor.connect(audioCtx.destination);
-
-            masterGain = audioCtx.createGain();
-            masterGain.gain.value = 0.8;
-            masterGain.connect(compressor);
-
-            delayNode = audioCtx.createDelay();
-            delayNode.delayTime.value = 0.25; 
-            feedbackNode = audioCtx.createGain();
-            feedbackNode.gain.value = 0.25; 
-            
-            delayNode.connect(feedbackNode);
-            feedbackNode.connect(delayNode);
-            delayNode.connect(masterGain);
-
-            const bufferSize = audioCtx.sampleRate * 2;
-            noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-            const output = noiseBuffer.getChannelData(0);
-            for (let i = 0; i < bufferSize; i++) output[i] = Math.random() * 2 - 1;
-        }
-
+        // --- Música Fondo Maquillaje ---
         let makeupMusicInterval;
         const popMelody = [329.63, 392.00, 523.25, 659.25, 523.25, 392.00]; 
         let popStep = 0;
         
         function startMakeupMusic() {
             if(makeupMusicInterval) return;
-            if(audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+            unlockAudio();
 
             makeupMusicInterval = setInterval(() => {
                 if(!audioCtx) return;
@@ -658,7 +661,7 @@
         function stopMakeupMusic() { clearInterval(makeupMusicInterval); makeupMusicInterval = null; }
 
         /* =========================================
-           SISTEMA DJ (20 Pads expandidos)
+           SISTEMA DJ (20 Pads)
            ========================================= */
         const padsData = [
             // Batería Electrónica (Drums)
@@ -713,7 +716,6 @@
             djBoard.appendChild(card);
         });
 
-        // --- Generadores Sintéticos ---
         function playDrum(type) {
             if(!audioCtx) return;
             const t = audioCtx.currentTime;
@@ -744,7 +746,6 @@
             }
         }
 
-        // --- VOCES Y EFECTOS ESTILO INCREDIBOX ---
         function playBeatbox(type) {
             if(!audioCtx) return;
             const t = audioCtx.currentTime;
@@ -877,8 +878,7 @@
         }
 
         function triggerSound(padId) {
-            if(audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
-            
+            unlockAudio(); // Seguridad extra al tocar un botón
             const padInfo = padsData.find(p => p.id === padId);
             if(padInfo.type === 'drum') playDrum(padId);
             else if(padInfo.type === 'beatbox') playBeatbox(padId);
@@ -900,26 +900,22 @@
             }
         }
 
-        // --- MANEJO DE EVENTOS TÁCTILES MEJORADO ---
+        // --- MANEJO DE EVENTOS TÁCTILES (Optimizado para iOS) ---
         document.querySelectorAll('.pad-btn').forEach(btn => {
-            // Usamos touchstart para móviles, así la respuesta es instantánea
             btn.addEventListener('touchstart', (e) => {
                 e.preventDefault(); 
-                if(audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
                 triggerSound(btn.getAttribute('data-sound'));
             }, {passive: false});
 
-            // Mousedown para PC
             btn.addEventListener('mousedown', (e) => {
                 e.preventDefault();
-                if(audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
                 triggerSound(btn.getAttribute('data-sound'));
             });
         });
 
         document.querySelectorAll('.loop-toggle').forEach(btn => {
             btn.onclick = () => {
-                if(audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+                unlockAudio();
                 const padId = btn.getAttribute('data-loop');
                 loopStates[padId] = !loopStates[padId];
                 btn.classList.toggle('looping');
@@ -989,8 +985,8 @@
                         input.classList.add('fixed');
                     } else {
                         input.addEventListener('input', () => { 
+                            unlockAudio();
                             if(audioCtx) {
-                                if(audioCtx.state === 'suspended') audioCtx.resume();
                                 const osc = audioCtx.createOscillator();
                                 osc.frequency.value = 800;
                                 osc.connect(masterGain);
@@ -1071,8 +1067,8 @@
         function flipCard(card) {
             if (card.classList.contains('flipped') || card.classList.contains('matched') || flippedCards.length >= 2) { return; }
 
+            unlockAudio();
             if(audioCtx) {
-                if(audioCtx.state === 'suspended') audioCtx.resume();
                 const osc = audioCtx.createOscillator();
                 osc.frequency.value = 600;
                 osc.connect(masterGain);
@@ -1096,7 +1092,6 @@
                 matchedPairs++;
                 
                 if(audioCtx) {
-                    if(audioCtx.state === 'suspended') audioCtx.resume();
                     const osc = audioCtx.createOscillator();
                     osc.frequency.value = 1200;
                     osc.connect(masterGain);
